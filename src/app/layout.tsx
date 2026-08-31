@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+import { TanstackProviders } from "@/providers/TanstackProviders";
+import { Header, Footer } from "@/components";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner"
+import { SonnerListenerProvider } from "@/providers/sonner-listener-provider"
+import { GlobalTrailerModal } from "@/components/shared";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +23,24 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const logoFont = localFont({
+  variable: "--font-logo",
+  src: "../../public/fonts/Rationale-Regular.woff",
+  display: "swap",
+});
+
+const popinsFont = localFont({
+  variable: "--font-popins",
+  src: "../../public/fonts/Poppins-Regular.woff2",
+  display: "swap",
+});
+
+const tekturFont = localFont({
+  variable: "--font-tektur",
+  src: "../../public/fonts/Tektur-Regular.woff2",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +56,44 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        logoFont.variable,
+        popinsFont.variable,
+        tekturFont.variable,
+        inter.variable,
+      )}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <ClerkProvider>
+          <NuqsAdapter>
+            <TanstackProviders>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                 <SonnerListenerProvider>
+                <TooltipProvider delayDuration={200}>
+                  <Header />
+                    <main className="flex-1">
+                      {children} 
+                      <GlobalTrailerModal />
+                    </main>
+                    <Toaster closeButton richColors position="bottom-right" />
+                  <Footer />
+                  </TooltipProvider>
+                 </SonnerListenerProvider>
+              </ThemeProvider>
+            </TanstackProviders>
+          </NuqsAdapter>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
