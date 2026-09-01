@@ -62,7 +62,7 @@ export function SearchClient({
       response = await trendingService.getTrending('all', 'day', page)
       const results = response.results || []
       return {
-        results: transformSearchResults(results, type),
+        results: transformSearchResults(results),
         total_pages: response.total_pages || 0,
       }
     }
@@ -91,7 +91,7 @@ export function SearchClient({
     const results = response.results || []
     
     return {
-      results: transformSearchResults(results, type),
+      results: transformSearchResults(results),
       total_pages: response.total_pages || 0,
     }
   }, [query, type, includeAdult, language, targetYear])

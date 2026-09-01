@@ -107,7 +107,7 @@ export function useTVFilters(initialFilters: TVFilters = {}) {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['tv', 'discover', filters],
     queryFn: () => tvService.getDiscover(filters),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   })
 
   return {

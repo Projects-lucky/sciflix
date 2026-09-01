@@ -13,6 +13,7 @@ import { InfiniteScrollProvider } from '@/providers/InfiniteScrollProvider'
 import { InfiniteScrollWrapper } from '@/components/shared/InfiniteScrollWrapper'
 import { MediaGrid } from '@/components/shared/MediaGrid'
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
+import type{ NormalizedMediaItem } from '@/components/shared/MediaCard'
 
 interface TVClientProps {
   initialItems: Array<{
@@ -86,7 +87,7 @@ export function TVClient({
           emptyMessage={`No TV shows found${includeAdult ? ' with adult content' : ''}`}
         >
           {(items) => (
-            <MediaGrid items={items} />
+            <MediaGrid items={items as NormalizedMediaItem[]} />
           )}
         </InfiniteScrollWrapper>
       </InfiniteScrollProvider>

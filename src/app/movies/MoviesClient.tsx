@@ -14,6 +14,7 @@ import { InfiniteScrollWrapper } from '@/components/shared/InfiniteScrollWrapper
 import { MediaGrid } from '@/components/shared/MediaGrid'
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { trackRequest } from '@/lib/toast-events'
+import type{ NormalizedMediaItem } from '@/components/shared/MediaCard'
 
 interface MoviesClientProps {
   initialItems: Array<{
@@ -86,7 +87,7 @@ export function MoviesClient({
           emptyMessage={`No movies found${includeAdult ? ' with adult content' : ''}`}
         >
           {(items) => (
-            <MediaGrid items={items} />
+            <MediaGrid items={items as NormalizedMediaItem[]} />
           )}
         </InfiniteScrollWrapper>
       </InfiniteScrollProvider>

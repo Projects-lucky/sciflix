@@ -64,7 +64,10 @@ export function SonnerListenerProvider({ children }: SonnerListenerProviderProps
       }
     });
 
-    return () => unsubscribe();
+    // Cleanup function that doesn't return the boolean
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return <>{children}</>;

@@ -1,0 +1,30 @@
+name: sciflix CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm' # <- Fast Feedback: Automatically caches your node_modules
+
+      - name: Install Project Dependencies
+        run: npm ci # <- Smart: 'npm ci' ensures clean, deterministic security installs
+
+      - name: Run TypeScript Type Check & Build
+        run: npm run build
+
+      - name: Run Automated Unit Tests
+        run: npm run test

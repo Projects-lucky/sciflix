@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
+    "type-check": "tsc --noEmit",
     "format": "biome format --write",
     "postinstall": "prisma skills sync || exit 0",
     "contract:emit": "prisma contract emit"

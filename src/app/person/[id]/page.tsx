@@ -9,6 +9,7 @@
 import { personService } from '@/services/tmdb/person.service'
 import { notFound } from 'next/navigation'
 import { PersonDetail } from '@/components/person/PersonDetail'
+import { PersonDetails } from '@/types'
 
 interface PersonDetailPageProps {
   params: Promise<{ id: string }>
@@ -67,19 +68,6 @@ export default async function PersonDetailPage({ params }: PersonDetailPageProps
     notFound()
   }
 
-  // Map person data to component props
-  const personData = {
-    id: person.id,
-    name: person.name,
-    biography: person.biography,
-    birthday: person.birthday,
-    deathday: person.deathday,
-    placeOfBirth: person.place_of_birth,
-    profile: person.profile_path,
-    department: person.known_for_department,
-    popularity: person.popularity,
-  }
-
   // Combine cast and crew credits into a single filmography list
   const filmography = [
     ...credits.cast.map((c: any) => ({
@@ -99,6 +87,33 @@ export default async function PersonDetailPage({ params }: PersonDetailPageProps
       mediaType: c.media_type,
     })),
   ]
+  
+  // Map person data to component props
+  const personData: PersonDetails = {
+    id: person.id,
+    name: person.name,
+    biography: person.biography,
+    birthday: person.birthday,
+    deathday: person.deathday,
+    place_of_birth: person.place_of_birth,
+    profile: person.profile_path,
+    department: person.known_for_department,
+    popularity: person.popularity,
+    also_known_as: person.also_known_as || [],
+    imdb_id: person.imdb_id || null,
+    homepage: person.homepage || null,
+    filmography: filmography || [],
+    // These come from the Person base type:
+    adult: person.adult || false,
+    original_name: person.original_name || person.name,
+    media_type: person.media_type || 'person',
+    gender: person.gender || 0,
+    known_for_department: person.known_for_department || '',
+    profile_path: person.profile_path || null,
+    known_for: person.known_for || [],
+  }
+
+
 
   return (
     <section className="person-detail-page min-h-screen bg-gray-50 dark:bg-gray-950">
