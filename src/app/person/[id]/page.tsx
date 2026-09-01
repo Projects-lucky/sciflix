@@ -1,6 +1,6 @@
 /**
  * Person Detail Page
- * 
+ *
  * Server component that displays detailed information about a person (actor/crew).
  * Fetches person details and combined credits (cast and crew) in parallel.
  * Supports static generation for the first 10 popular people.
@@ -11,14 +11,17 @@ import { notFound } from 'next/navigation'
 import { PersonDetail } from '@/components/person/PersonDetail'
 import { PersonDetails } from '@/types'
 
+
+
 interface PersonDetailPageProps {
   params: Promise<{ id: string }>
 }
 
+
 /**
  * Generates static paths for the first 10 popular people.
  * Pre-renders these pages at build time for improved performance.
- * 
+ *
  * @returns Array of parameter objects containing person IDs
  */
 export async function generateStaticParams() {
@@ -30,7 +33,7 @@ export async function generateStaticParams() {
 
 /**
  * Generates metadata for SEO.
- * 
+ *
  * @param params - Contains the person ID from the URL
  * @returns Page metadata including title and description
  */
@@ -46,7 +49,7 @@ export async function generateMetadata({ params }: PersonDetailPageProps) {
 
 /**
  * Person Detail Page Component
- * 
+ *
  * Fetches person details and combined credits concurrently.
  * Returns 404 if the person is not found or the ID is invalid.
  */
@@ -87,7 +90,7 @@ export default async function PersonDetailPage({ params }: PersonDetailPageProps
       mediaType: c.media_type,
     })),
   ]
-  
+
   // Map person data to component props
   const personData: PersonDetails = {
     id: person.id,
