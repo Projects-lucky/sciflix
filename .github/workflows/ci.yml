@@ -28,5 +28,5 @@ jobs:
       - name: Run TypeScript Type Check & Build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          API_URL: http://localhost:3000 
+          SKIP_BUILD_STATIC_GENERATION: true
         run: pnpm run build
