@@ -1,6 +1,6 @@
 /**
  * TV Show Detail Page
- * 
+ *
  * Server component that displays detailed information about a TV show.
  * Fetches show details, cast/crew credits, and similar shows in parallel.
  * Supports static generation for the first 10 popular TV shows.
@@ -17,7 +17,7 @@ interface TVDetailPageProps {
 /**
  * Generates static paths for the first 10 popular TV shows.
  * Pre-renders these pages at build time for improved performance.
- * 
+ *
  * @returns Array of parameter objects containing TV show IDs
  */
 export async function generateStaticParams() {
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 
 /**
  * Generates metadata for SEO.
- * 
+ *
  * @param params - Contains the TV show ID from the URL
  * @returns Page metadata including title and description
  */
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: TVDetailPageProps) {
 
 /**
  * TV Show Detail Page Component
- * 
+ *
  * Fetches show details, similar shows, and credits concurrently.
  * Returns 404 if the show is not found or the ID is invalid.
  */

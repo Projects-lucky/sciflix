@@ -28,5 +28,4 @@ jobs:
       - name: Run TypeScript Type Check & Build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NEXT_SKIP_VALIDATION: "true"
-        run: pnpm run build -- --skip-static-generation
+        run: pnpm run build
