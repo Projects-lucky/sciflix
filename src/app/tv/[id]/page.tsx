@@ -3,7 +3,7 @@
  *
  * Server component that displays detailed information about a TV show.
  * Fetches show details, cast/crew credits, and similar shows in parallel.
- * Supports static generation for the first 10 popular TV shows.
+ * Uses on-demand ISR instead of static generation to avoid build-time fetch errors in CI.
  */
 
 import { tvService } from '@/services/tmdb/tv.service'
@@ -15,17 +15,14 @@ interface TVDetailPageProps {
 }
 
 /**
- * Generates static paths for the first 10 popular TV shows.
- * Pre-renders these pages at build time for improved performance.
- *
- * @returns Array of parameter objects containing TV show IDs
+ * Disable static generation at build time.
+ * Pages are generated on-demand when users request them.
  */
 export async function generateStaticParams() {
-  const popular = await tvService.getPopular(1)
-  return popular.results.slice(0, 10).map((show) => ({
-    id: String(show.id),
-  }))
+  return []
 }
+
+export const dynamicParams = true
 
 /**
  * Generates metadata for SEO.

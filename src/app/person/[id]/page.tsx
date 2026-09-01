@@ -3,7 +3,7 @@
  *
  * Server component that displays detailed information about a person (actor/crew).
  * Fetches person details and combined credits (cast and crew) in parallel.
- * Supports static generation for the first 10 popular people.
+ * Uses on-demand ISR instead of static generation to avoid build-time fetch errors in CI.
  */
 
 import { personService } from '@/services/tmdb/person.service'
@@ -19,17 +19,14 @@ interface PersonDetailPageProps {
 
 
 /**
- * Generates static paths for the first 10 popular people.
- * Pre-renders these pages at build time for improved performance.
- *
- * @returns Array of parameter objects containing person IDs
+ * Disable static generation at build time.
+ * Pages are generated on-demand when users request them.
  */
 export async function generateStaticParams() {
-  const popular = await personService.getPopular(1)
-  return popular.results.slice(0, 10).map((person) => ({
-    id: String(person.id),
-  }))
+  return []
 }
+
+export const dynamicParams = true
 
 /**
  * Generates metadata for SEO.
