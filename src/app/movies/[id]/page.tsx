@@ -4,14 +4,17 @@
  * Renders detailed information for a specific movie using TMDB data.
  * Includes movie details, cast/crew credits, and similar movie recommendations.
  * 
- * Supports static generation for the first 10 popular movies.
+ * Uses on-demand ISR instead of static generation to avoid build-time fetch errors in CI.
  */
 
 import { moviesService } from '@/services/tmdb/movies.service'
 import { notFound } from 'next/navigation'
 import { MediaDetail } from '@/components/media/MediaDetail'
 
+
+
 export const dynamic = 'force-dynamic'
+
 
 
 interface MovieDetailPageProps {
@@ -19,13 +22,11 @@ interface MovieDetailPageProps {
 }
 
 /**
- * Generates static paths for the first 10 popular movies.
- * Improves performance by pre-rendering these pages at build time.
- * 
- * @returns Array of parameter objects containing movie IDs
+ * Disable static generation at build time.
+ * Pages are generated on-demand when users request them.
+ * This avoids ECONNREFUSED errors during CI builds.
  */
 export async function generateStaticParams() {
-<<<<<<< HEAD
   return []
 }
 
@@ -35,14 +36,6 @@ export async function generateStaticParams() {
  */
 export const dynamicParams = true
 
-=======
-  const popular = await moviesService.getPopular(1)
-  return popular.results.slice(0, 10).map((movie) => ({
-    id: String(movie.id),
-  }))
-}
-
->>>>>>> d6424eb (Build successful: ready for deployment)
 /**
  * Generates metadata for SEO.
  * 
