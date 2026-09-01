@@ -27,11 +27,3 @@ jobs:
 
       - name: Run TypeScript Type Check & Build
         run: pnpm run build
-        env:
-          DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
-          TMDB_ACCESS_TOKEN: dummy
-          TMDB_API_READ_ACCESS_TOKEN: dummy
-          NEXT_PUBLIC_TMDB_API_BASE_URL: https://api.themoviedb.org/3
-          NEXT_PUBLIC_TMDB_IMAGE_BASE_URL: https://image.tmdb.org/t/p
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: dummy
-          CLERK_SECRET_KEY: dummy
