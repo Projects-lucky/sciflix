@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation'
 import { PersonDetail } from '@/components/person/PersonDetail'
 import { PersonDetails } from '@/types'
 
+export const dynamic = 'force-dynamic'
 
 
 interface PersonDetailPageProps {

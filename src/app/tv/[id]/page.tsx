@@ -10,6 +10,8 @@ import { tvService } from '@/services/tmdb/tv.service'
 import { notFound } from 'next/navigation'
 import { MediaDetail } from '@/components/media/MediaDetail'
 
+export const dynamic = 'force-dynamic'
+
 interface TVDetailPageProps {
   params: Promise<{ id: string }>
 }
