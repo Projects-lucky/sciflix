@@ -21,8 +21,14 @@ interface MovieDetailPageProps {
  * This avoids ECONNREFUSED errors during CI builds.
  */
 export async function generateStaticParams() {
+<<<<<<< Updated upstream
   return []
+=======
+  return [] // Don't pre-render any movies
+>>>>>>> Stashed changes
 }
+
+export const dynamicParams = true // Generate pages on-demand instead
 
 /**
  * Enable dynamic rendering for all movie IDs.
