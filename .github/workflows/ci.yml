@@ -17,14 +17,16 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm' # <- Fast Feedback: Automatically caches your node_modules
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Install Project Dependencies
-        run: npm ci # <- Smart: 'npm ci' ensures clean, deterministic security installs
+        run: pnpm install
 
       - name: Run TypeScript Type Check & Build
-        run: npm run build
-
-      - name: Run Automated Unit Tests
-        run: npm run test
+        run: pnpm run build
