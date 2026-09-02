@@ -8,6 +8,8 @@
 import { personService } from '@/services/tmdb/person.service'
 import { PeopleClient } from './PeopleClient'
 
+export const dynamic = 'force-dynamic'
+
 export const revalidate = 3600
 
 export const metadata = {

@@ -13,6 +13,8 @@ import { db } from '@/db'
 import { watchlists } from '@/db/schema'
 import { eq, desc } from 'drizzle-orm'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'My Watchlist',
   description: 'Movies and TV shows you want to watch later.',
