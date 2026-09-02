@@ -16,7 +16,7 @@ export class ApiClient {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = TMDB_CONFIG.BASE_URL;
+    this.baseURL = "api/xyz";
   }
 
   /**
