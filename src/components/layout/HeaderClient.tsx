@@ -104,13 +104,6 @@ export function HeaderClient() {
                 >
                   Watchlist
                 </Link>
-                <Link
-                  href="/profile"
-                  onClick={closeMenu}
-                  className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Profile
-                </Link>
               </Show>
 
               <Show when="signed-out">

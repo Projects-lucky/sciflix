@@ -44,11 +44,10 @@ export function Footer() {
           </div>
 
           {/* Account Navigation */}
-          <div>
+          <div className='ac-nav'>
             <h3 className="font-semibold mb-3">Account</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/watchlist" className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">Watchlist</Link></li>
-              <li><Link href="/profile" className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">Profile</Link></li>
             </ul>
           </div>
 
