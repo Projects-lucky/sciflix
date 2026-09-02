@@ -49,7 +49,11 @@ interface MoviesPageProps {
  * @returns Rendered movies page with filters and content
  */
 export default async function MoviesPage({ searchParams }: MoviesPageProps) {
+  // ===== DEBUG LOG 1 =====
+  console.log("🔍 [MoviesPage] 1. Page started rendering");
+
   const params = await searchParams
+  console.log("🔍 [MoviesPage] 2. Search params received:", params);
   
   // Parse and validate filter values from URL parameters
   const genre = params.genre || ''
@@ -62,11 +66,13 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
   const includeAdult = params.includeAdult === 'true'
 
   // Fetch genre options for filter dropdown
+  console.log("🔍 [MoviesPage] 3. Fetching movie genres...");
   const genres = await genresService.getMovieGenres()
   const genreOptions = genres.map((g) => ({
     value: String(g.id),
     label: g.name,
   }))
+  console.log("🔍 [MoviesPage] 4. Genres fetched:", genreOptions.length);
 
   // Build filter object for TMDB API request
   const filters: any = {
@@ -79,9 +85,14 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
     ...(runtime && { 'with_runtime.gte': runtime }),
     include_adult: includeAdult,
   }
+  console.log("🔍 [MoviesPage] 5. Filters built:", filters);
 
   // Fetch first page of movie data
+  console.log("🔍 [MoviesPage] 6. Calling moviesService.getDiscover...");
   const initialData = await moviesService.getDiscover({ ...filters, page: 1 })
+  console.log("🔍 [MoviesPage] 7. Data received:", initialData ? "YES" : "NO");
+  console.log("🔍 [MoviesPage] 8. Total results:", initialData?.total_results || 0);
+  console.log("🔍 [MoviesPage] 9. Results count:", initialData?.results?.length || 0);
 
   // Transform API response to match component expectations
   const initialItems = initialData.results.map((item) => ({
@@ -92,6 +103,8 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
     rating: item.vote_average,
     year: item.release_date?.split('-')[0] || 'N/A',
   }))
+  console.log("🔍 [MoviesPage] 10. Transformed initialItems count:", initialItems.length);
+  console.log("🔍 [MoviesPage] 11. First item (sample):", initialItems[0]?.title || "None");
 
   return (
     <SidebarProvider>

@@ -10,6 +10,8 @@ import { Suspense } from 'react'
 import { GenreShowcase } from "@/components"
 import { HeroSection, CelebritiesSection } from '@/components/home/AsyncSections'
 
+export const dynamic = 'force-dynamic'
+
 export const revalidate = 3600
 
 /**
