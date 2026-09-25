@@ -184,6 +184,7 @@ PersonCard.Image = function PersonCardImage({
         fill
         className={cn('object-cover pointer-events-none select-none', className)}
         priority={priority}
+        loading="eager"
         sizes={sizes}
       />
     );

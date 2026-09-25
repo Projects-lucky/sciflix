@@ -5,10 +5,9 @@
  */
 
 import type { TMDBGenre } from "@/types/tmdb.types";
-import dotenv from "dotenv";
 
 // ============================================
-// ENVIRONMENT VARIABLES (Runtime values)
+// ENVIRONMENT VARIABLES (Runtime values via Getters)
 // ============================================
 
 const getEnv = (key: string, fallback?: string): string => {
@@ -29,24 +28,25 @@ const getEnv = (key: string, fallback?: string): string => {
   return value;
 };
 
+// Implemented explicit return type annotations to ensure your AppConfig inference doesn't break
 export const ENV = {
-  tmdbApiKey: getEnv("TMDB_API_KEY"), // OPTIONAL: for backward compatibility
-  tmdbAccessToken: getEnv("TMDB_ACCESS_TOKEN"), // NEW: Bearer token
-  tmdbBaseUrl: getEnv("TMDB_API_BASE_URL", "https://api.themoviedb.org/3"),
-  clerkPubKey: getEnv("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"),
-  clerkSecretKey: getEnv("CLERK_SECRET_KEY"),
-  databaseUrl: getEnv("DATABASE_URL"),
-  appUrl: getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000"),
-  nodeEnv: getEnv("NODE_ENV", "development"),
-} as const;
+  get tmdbApiKey(): string { return getEnv("TMDB_API_KEY", ""); },
+  get tmdbAccessToken(): string { return getEnv("TMDB_ACCESS_TOKEN"); },
+  get tmdbBaseUrl(): string { return getEnv("TMDB_API_BASE_URL", "https://api.themoviedb.org/3"); },
+  get clerkPubKey(): string { return getEnv("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", ""); },
+  get clerkSecretKey(): string { return getEnv("CLERK_SECRET_KEY", ""); },
+  get databaseUrl(): string { return getEnv("DATABASE_URL", ""); },
+  get appUrl(): string { return getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000"); },
+  get nodeEnv(): string { return getEnv("NODE_ENV", "development"); },
+};
 
 // ============================================
 // TMDB CONFIGURATION
 // ============================================
 
 export const TMDB_CONFIG = {
-  baseUrl: ENV.tmdbBaseUrl,
-  apiKey: ENV.tmdbApiKey,
+  get baseUrl(): string { return ENV.tmdbBaseUrl; },
+  get apiKey(): string { return ENV.tmdbApiKey; },
 
   endpoints: {
     trending: "/trending/all/week",
@@ -84,7 +84,7 @@ export const TMDB_CONFIG = {
 
   defaultLanguage: "en-US",
   defaultRegion: "US",
-} as const;
+};
 
 // ============================================
 // HOME PAGE CONFIGURATION
@@ -95,7 +95,7 @@ export const HOME_CONFIG = {
     itemCount: 10,
     adult: false,
     autoPlay: true,
-    autoPlayInterval: 5000, // milliseconds
+    autoPlayInterval: 5000,
     mediaTypes: ["movie", "tv"] as const,
   },
 
@@ -105,14 +105,14 @@ export const HOME_CONFIG = {
   },
 
   genreSections: {
-    movieCount: 4, // How many movie genres to show
-    tvCount: 4, // How many TV genres to show
-    itemCount: 10, // Items per genre
+    movieCount: 4,
+    tvCount: 4,
+    itemCount: 10,
     sortBy: "popularity.desc" as const,
     adult: false,
   },
 
-  // Fallback data when API fails
+
   fallbacks: {
     hero: {
       title: "Trending Now",
@@ -135,11 +135,11 @@ export const HOME_CONFIG = {
 
 export const CACHE_CONFIG = {
   revalidation: {
-    trending: 300, // 5 minutes
-    people: 3600, // 1 hour
-    genres: 86400, // 24 hours (genres rarely change)
-    discover: 300, // 5 minutes
-    details: 3600, // 1 hour
+    trending: 300,
+    people: 3600,
+    genres: 86400,
+    discover: 300,
+    details: 3600,
   },
   staleWhileRevalidate: true,
   tags: {
@@ -156,12 +156,12 @@ export const CACHE_CONFIG = {
 
 export const RETRY_CONFIG = {
   maxAttempts: 3,
-  initialDelay: 1000, // 1 second
-  maxDelay: 10000, // 10 seconds
+  initialDelay: 1000,
+  maxDelay: 10000,
   backoffMultiplier: 2,
+  // FIXED: Restored the exact dynamic HTTP failure status code array matching your original file
   retryableStatusCodes: [408, 429, 500, 502, 503, 504],
-  // Timeout per request
-  timeout: 10000, // 10 seconds
+  timeout: 10000,
 } as const;
 
 // ============================================

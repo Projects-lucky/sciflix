@@ -129,6 +129,7 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
               className="object-cover"
               priority
               sizes="100vw"
+              loading="eager"
               unoptimized
             />
           </div>
@@ -146,6 +147,7 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
                     className="object-cover"
                     priority
                     sizes="256px"
+                    loading="eager"
                     unoptimized
                   />
                 </div>
@@ -360,6 +362,7 @@ function SeasonCard({ season }: SeasonCardProps) {
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            loading="eager"
             unoptimized
           />
         ) : (

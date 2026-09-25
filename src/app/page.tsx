@@ -2,6 +2,7 @@
  * Home Page - Server Component
  * Orchestrates data fetching from genres + discover services
  */
+export const dynamic = 'force-dynamic';
 
 import { HomePage } from '@/components/pages/home-page';
 import {
@@ -16,6 +17,7 @@ import type { TMDBGenre } from '@/types/tmdb.types';
 import type { TMDBPerson } from '@/types/person.types';
 import type { TMDBMovie } from '@/types/movie.types';
 import type { TMDBTV } from '@/types/tv.types';
+
 
 // ============================================
 // TYPES

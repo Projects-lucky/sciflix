@@ -145,6 +145,7 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
               className="object-cover scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out z-0 filter contrast-[1.05] brightness-[0.75] md:brightness-[0.85]"
               priority={priority}
               sizes="100vw"
+              loading="eager"
               unoptimized
             />
           ) : (

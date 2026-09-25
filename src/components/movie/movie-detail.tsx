@@ -131,6 +131,7 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
               className="object-cover"
               priority
               sizes="100vw"
+              loading="eager"
               unoptimized
             />
           </div>
@@ -149,6 +150,7 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
                     className="object-cover"
                     priority
                     sizes="256px"
+                    loading="eager"
                     unoptimized
                   />
                 </div>

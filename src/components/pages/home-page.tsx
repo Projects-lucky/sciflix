@@ -119,37 +119,6 @@ export function HomePage({ data, className }: HomePageProps) {
           ))}
         </section>
       )}
-
-      {/* Debug Footer (dev only) */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="container mx-auto px-4 py-4 text-xs text-gray-600 border-t border-gray-800 mt-8">
-          <div className="flex flex-wrap gap-4">
-            <span>Hero: {hero?.items?.length || 0}</span>
-            <span>People: {people?.items?.length || 0}</span>
-            <span>
-              Movies:{' '}
-              {movieGenreSections?.reduce(
-                (acc, s) => acc + (s.movies?.length || 0),
-                0
-              ) || 0}
-            </span>
-            <span>
-              TV:{' '}
-              {tvGenreSections?.reduce(
-                (acc, s) => acc + (s.shows?.length || 0),
-                0
-              ) || 0}
-            </span>
-            <span>Total: {metadata?.totalItems || 0}</span>
-            <span className="text-gray-700">
-              Loaded:{' '}
-              {Object.values(metadata?.sectionsLoaded || {}).filter(Boolean)
-                .length}
-              /6 sections
-            </span>
-          </div>
-        </div>
-      )}
     </main>
   );
 }
