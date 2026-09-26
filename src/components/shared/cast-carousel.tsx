@@ -4,12 +4,12 @@
  * Reuses CarouselWrapper + PersonCard
  */
 
-'use client';
+"use client";
 
-import { CarouselWrapper } from './carousel-wrapper';
-import { PersonCard } from '../person/person-card-context';
-import type { TMDBCastMember } from '@/types/tmdb.types';
-import { CastCard, PersonGridCard } from '../person/PersonCardPresets';
+import type { TMDBCastMember } from "@/types/tmdb.types";
+import { CastCard, PersonGridCard } from "../person/PersonCardPresets";
+import { PersonCard } from "../person/person-card-context";
+import { CarouselWrapper } from "./carousel-wrapper";
 
 // ============================================
 // TYPES
@@ -28,7 +28,7 @@ export interface CastCarouselProps {
 
 export function CastCarousel({
   cast,
-  title = 'Cast',
+  title = "Cast",
   limit = 20,
   className,
 }: CastCarouselProps) {
@@ -55,7 +55,7 @@ export function CastCarousel({
             character: member.character,
             known_for: [],
           }}
-          className='w-48 h-78'
+          className="w-48 h-78"
         />
       )}
       renderKey={(member) => member.id}

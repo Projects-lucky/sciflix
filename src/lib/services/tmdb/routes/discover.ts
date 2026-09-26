@@ -1,23 +1,23 @@
 /**
  * Discover Endpoint Service
  * /discover/movie, /discover/tv
- * 
+ *
  * Official Docs: https://developers.themoviedb.org/3/discover/movie-discover
- * 
+ *
  * Flexible discover endpoint with all TMDB parameters supported
  * Genre filtering, sorting, pagination, and advanced filters
  */
 
-import { tmdbClient } from '../client';
-import { CACHE_CONFIG, HOME_CONFIG } from '@/lib/config/app.config';
+import { CACHE_CONFIG, HOME_CONFIG } from "@/lib/config/app.config";
 import type {
   DiscoverMovieParams,
-  DiscoverTVParams,
   DiscoverMovieResponse,
+  DiscoverTVParams,
   DiscoverTVResponse,
-} from '@/types/discover.types';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
+} from "@/types/discover.types";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { tmdbClient } from "../client";
 
 // ============================================
 // MAIN FETCH FUNCTIONS
@@ -25,7 +25,7 @@ import type { TMDBTV } from '@/types/tv.types';
 
 /**
  * Discover movies with flexible filtering
- * 
+ *
  * @param params - Discover parameters (all optional)
  * @param params.with_genres - Comma-separated genre IDs (e.g., '28,35')
  * @param params.sort_by - Sort order (default: 'popularity.desc')
@@ -47,16 +47,16 @@ import type { TMDBTV } from '@/types/tv.types';
  * @param params['vote_count.gte'] - Minimum vote count
  * @param params['vote_count.lte'] - Maximum vote count
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns Movie results or null if fails
- * 
+ *
  * @example
  * ```ts
  * // Get action movies
  * const movies = await discoverMovies({
  *   with_genres: '28'
  * });
- * 
+ *
  * // Get top 10 action movies from 2023 with high ratings
  * const movies = await discoverMovies({
  *   with_genres: '28',
@@ -64,7 +64,7 @@ import type { TMDBTV } from '@/types/tv.types';
  *   sort_by: 'vote_average.desc',
  *   'vote_count.gte': 100
  * }, { limit: 10 });
- * 
+ *
  * // Get movies with specific cast
  * const movies = await discoverMovies({
  *   with_cast: '287,1245' // Brad Pitt, Tom Cruise
@@ -78,29 +78,29 @@ export async function discoverMovies(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<TMDBMovie[] | null> {
   try {
     const { limit, cache, retryAttempts, timeout } = options;
 
     const response = await tmdbClient.fetch<DiscoverMovieResponse>(
-      '/discover/movie',
+      "/discover/movie",
       {
         sort_by: params.sort_by ?? HOME_CONFIG.genreSections.sortBy,
         page: params.page ?? 1,
-        language: params.language ?? 'en-US',
+        language: params.language ?? "en-US",
         adult: params.adult ?? HOME_CONFIG.genreSections.adult,
         ...params,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.discover,
-          tags: [`discover-${params.with_genres || 'all'}`],
+          tags: [`discover-${params.with_genres || "all"}`],
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -111,14 +111,14 @@ export async function discoverMovies(
 
     return results;
   } catch (error) {
-    console.error('[TMDB] Failed to discover movies:', error);
+    console.error("[TMDB] Failed to discover movies:", error);
     return null;
   }
 }
 
 /**
  * Discover TV shows with flexible filtering
- * 
+ *
  * @param params - Discover parameters (all optional)
  * @param params.with_genres - Comma-separated genre IDs
  * @param params.sort_by - Sort order (default: 'popularity.desc')
@@ -136,16 +136,16 @@ export async function discoverMovies(
  * @param params['vote_count.gte'] - Minimum vote count
  * @param params['vote_count.lte'] - Maximum vote count
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns TV results or null if fails
- * 
+ *
  * @example
  * ```ts
  * // Get comedy TV shows
  * const shows = await discoverTV({
  *   with_genres: '35'
  * });
- * 
+ *
  * // Get top 5 drama shows from 2022 with high ratings
  * const shows = await discoverTV({
  *   with_genres: '18',
@@ -161,29 +161,29 @@ export async function discoverTV(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<TMDBTV[] | null> {
   try {
     const { limit, cache, retryAttempts, timeout } = options;
 
     const response = await tmdbClient.fetch<DiscoverTVResponse>(
-      '/discover/tv',
+      "/discover/tv",
       {
         sort_by: params.sort_by ?? HOME_CONFIG.genreSections.sortBy,
         page: params.page ?? 1,
-        language: params.language ?? 'en-US',
+        language: params.language ?? "en-US",
         adult: params.adult ?? HOME_CONFIG.genreSections.adult,
         ...params,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.discover,
-          tags: [`discover-tv-${params.with_genres || 'all'}`],
+          tags: [`discover-tv-${params.with_genres || "all"}`],
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -194,7 +194,7 @@ export async function discoverTV(
 
     return results;
   } catch (error) {
-    console.error('[TMDB] Failed to discover TV shows:', error);
+    console.error("[TMDB] Failed to discover TV shows:", error);
     return null;
   }
 }
@@ -212,14 +212,14 @@ export async function discoverTV(
 export async function getMoviesByGenre(
   genreId: number,
   limit: number = HOME_CONFIG.genreSections.itemCount,
-  adult: boolean = HOME_CONFIG.genreSections.adult
+  adult: boolean = HOME_CONFIG.genreSections.adult,
 ): Promise<TMDBMovie[] | null> {
   return discoverMovies(
     {
       with_genres: String(genreId),
       adult,
     },
-    { limit }
+    { limit },
   );
 }
 
@@ -230,13 +230,13 @@ export async function getMoviesByGenre(
  */
 export async function getMoviesByGenres(
   genreIds: number[],
-  limit: number = HOME_CONFIG.genreSections.itemCount
+  limit: number = HOME_CONFIG.genreSections.itemCount,
 ): Promise<TMDBMovie[] | null> {
   return discoverMovies(
     {
-      with_genres: genreIds.join(','),
+      with_genres: genreIds.join(","),
     },
-    { limit }
+    { limit },
   );
 }
 
@@ -246,14 +246,14 @@ export async function getMoviesByGenres(
 export async function getTVByGenre(
   genreId: number,
   limit: number = HOME_CONFIG.genreSections.itemCount,
-  adult: boolean = HOME_CONFIG.genreSections.adult
+  adult: boolean = HOME_CONFIG.genreSections.adult,
 ): Promise<TMDBTV[] | null> {
   return discoverTV(
     {
       with_genres: String(genreId),
       adult,
     },
-    { limit }
+    { limit },
   );
 }
 
@@ -261,13 +261,13 @@ export async function getTVByGenre(
  * Get latest movies (sorted by release date)
  */
 export async function getLatestMovies(
-  limit: number = 10
+  limit: number = 10,
 ): Promise<TMDBMovie[] | null> {
   return discoverMovies(
     {
-      sort_by: 'release_date.desc',
+      sort_by: "release_date.desc",
     },
-    { limit }
+    { limit },
   );
 }
 
@@ -275,14 +275,14 @@ export async function getLatestMovies(
  * Get top rated movies (minimum 100 votes for quality)
  */
 export async function getTopRatedMovies(
-  limit: number = 10
+  limit: number = 10,
 ): Promise<TMDBMovie[] | null> {
   return discoverMovies(
     {
-      sort_by: 'vote_average.desc',
-      'vote_count.gte': 100,
+      sort_by: "vote_average.desc",
+      "vote_count.gte": 100,
     },
-    { limit }
+    { limit },
   );
 }
 
@@ -298,7 +298,7 @@ export async function getTopRatedMovies(
  */
 export async function getGenreSections(
   genreIds: number[],
-  limit: number = HOME_CONFIG.genreSections.itemCount
+  limit: number = HOME_CONFIG.genreSections.itemCount,
 ): Promise<Array<{ genreId: number; movies: TMDBMovie[] }>> {
   try {
     const results = await Promise.allSettled(
@@ -307,17 +307,17 @@ export async function getGenreSections(
           {
             with_genres: String(genreId),
           },
-          { limit }
-        )
-      )
+          { limit },
+        ),
+      ),
     );
 
     return results.map((result, index) => ({
       genreId: genreIds[index],
-      movies: result.status === 'fulfilled' && result.value ? result.value : [],
+      movies: result.status === "fulfilled" && result.value ? result.value : [],
     }));
   } catch (error) {
-    console.error('[TMDB] Failed to fetch genre sections:', error);
+    console.error("[TMDB] Failed to fetch genre sections:", error);
     return genreIds.map((genreId) => ({ genreId, movies: [] }));
   }
 }

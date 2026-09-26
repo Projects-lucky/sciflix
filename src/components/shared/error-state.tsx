@@ -9,12 +9,12 @@
  *   - ...and every other route's error boundary
  */
 
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { AlertTriangle } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -33,7 +33,7 @@ export interface ErrorStateProps {
 // ============================================
 
 export function ErrorState({
-  title = 'Something went wrong',
+  title = "Something went wrong",
   description = "We couldn't load this page. Please try again or go back home.",
   error,
   onReset,
@@ -42,8 +42,8 @@ export function ErrorState({
   return (
     <div
       className={cn(
-        'min-h-[60vh] flex items-center justify-center px-4 py-16',
-        className
+        "min-h-[60vh] flex items-center justify-center px-4 py-16",
+        className,
       )}
     >
       <div className="max-w-md text-center space-y-4">
@@ -71,14 +71,14 @@ export function ErrorState({
         </div>
 
         {/* Dev-only error details */}
-        {process.env.NODE_ENV === 'development' && error && (
+        {process.env.NODE_ENV === "development" && error && (
           <details className="mt-6 text-left text-xs text-muted-foreground border border-border rounded-lg overflow-hidden">
             <summary className="cursor-pointer px-3 py-2 hover:bg-muted/50">
               Error details (dev only)
             </summary>
             <pre className="p-3 bg-muted/30 overflow-auto whitespace-pre-wrap break-words">
               {error.message}
-              {error.digest ? `\n\nDigest: ${error.digest}` : ''}
+              {error.digest ? `\n\nDigest: ${error.digest}` : ""}
             </pre>
           </details>
         )}

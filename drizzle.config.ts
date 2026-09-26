@@ -1,17 +1,17 @@
-import { config } from 'dotenv';
-config({ path: '.env.local' });
-import { defineConfig } from 'drizzle-kit';
+import { config } from "dotenv";
+
+config({ path: ".env.local" });
+
+import { defineConfig } from "drizzle-kit";
 
 if (!process.env.DATABASE_URL_UNPOOLED) {
-  throw new Error('DATABASE_URL_UNPOOLED is not set in .env.local');
+  throw new Error("DATABASE_URL_UNPOOLED is not set in .env.local");
 }
 
-
-
 export default defineConfig({
-  out: './src/db/migrations',
-  schema: './src/db/schema.ts', // Drizzle uses TypeScript schemas
-  dialect: 'postgresql',
+  out: "./src/db/migrations",
+  schema: "./src/db/schema.ts", // Drizzle uses TypeScript schemas
+  dialect: "postgresql",
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },

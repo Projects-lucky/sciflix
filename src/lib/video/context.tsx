@@ -8,18 +8,18 @@
  * - Global modal state lives here
  */
 
-'use client';
+"use client";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   createContext,
-  useContext,
+  type ReactNode,
   useCallback,
+  useContext,
   useMemo,
   useState,
-  type ReactNode,
-} from 'react';
-import { useQuery } from '@tanstack/react-query';
-import type { MediaType } from '@/db/schema';
+} from "react";
+import type { MediaType } from "@/db/schema";
 
 // ============================================
 // TYPES
@@ -56,11 +56,11 @@ const VideoContext = createContext<VideoContextValue | null>(null);
 
 async function fetchTrailerKey(
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<string | null> {
   try {
     const res = await fetch(`/api/tmdb/${mediaType}/${tmdbId}/videos`, {
-      headers: { Accept: 'application/json' },
+      headers: { Accept: "application/json" },
     });
     if (!res.ok) return null;
 
@@ -69,10 +69,10 @@ async function fetchTrailerKey(
 
     const trailer =
       videos.find(
-        (v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official
+        (v) => v.site === "YouTube" && v.type === "Trailer" && v.official,
       ) ||
-      videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ||
-      videos.find((v) => v.site === 'YouTube');
+      videos.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
+      videos.find((v) => v.site === "YouTube");
 
     return trailer?.key ?? null;
   } catch {
@@ -88,7 +88,7 @@ export function VideoProvider({ children }: { children: ReactNode }) {
   const [modalState, setModalState] = useState<TrailerModalState>({
     open: false,
     videoKey: null,
-    title: '',
+    title: "",
   });
 
   const playTrailer = useCallback((videoKey: string, title: string) => {
@@ -96,12 +96,12 @@ export function VideoProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const closeTrailer = useCallback(() => {
-    setModalState({ open: false, videoKey: null, title: '' });
+    setModalState({ open: false, videoKey: null, title: "" });
   }, []);
 
   const value = useMemo<VideoContextValue>(
     () => ({ playTrailer, closeTrailer, modalState }),
-    [playTrailer, closeTrailer, modalState]
+    [playTrailer, closeTrailer, modalState],
   );
 
   return (
@@ -116,7 +116,7 @@ export function VideoProvider({ children }: { children: ReactNode }) {
 function useVideoContext(): VideoContextValue {
   const ctx = useContext(VideoContext);
   if (!ctx) {
-    throw new Error('useVideoContext must be used inside <VideoProvider>');
+    throw new Error("useVideoContext must be used inside <VideoProvider>");
   }
   return ctx;
 }
@@ -130,7 +130,7 @@ function useVideoContext(): VideoContextValue {
  */
 export function useTrailer(tmdbId: number, mediaType: MediaType) {
   const query = useQuery({
-    queryKey: ['trailer-key', mediaType, tmdbId],
+    queryKey: ["trailer-key", mediaType, tmdbId],
     queryFn: () => fetchTrailerKey(tmdbId, mediaType),
     staleTime: 30 * 60 * 1000,
     gcTime: 60 * 60 * 1000,

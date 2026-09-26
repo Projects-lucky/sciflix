@@ -3,13 +3,14 @@
  * ...existing header...
  */
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { TMDB_CONFIG } from '@/lib/config/app.config';
-import type { TMDBPerson } from '@/types/person.types';
-import type { TrendingPerson } from '@/types/trending.types';
-import React, { createContext, useContext } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import type React from "react";
+import { createContext, useContext } from "react";
+import { TMDB_CONFIG } from "@/lib/config/app.config";
+import { cn } from "@/lib/utils";
+import type { TMDBPerson } from "@/types/person.types";
+import type { TrendingPerson } from "@/types/trending.types";
 
 // ============================================
 // TYPES
@@ -24,7 +25,7 @@ interface PersonCardContextType {
   detailUrl: string;
   knownFor: string;
   knownForTitle: string;
-  character?: string;       
+  character?: string;
 }
 
 const PersonCardContext = createContext<PersonCardContextType | null>(null);
@@ -34,7 +35,7 @@ const PersonCardContext = createContext<PersonCardContextType | null>(null);
 // ============================================
 
 function getPersonName(person: PersonCardItem): string {
-  return person.name || 'Unknown';
+  return person.name || "Unknown";
 }
 
 function getProfilePath(person: PersonCardItem): string | null {
@@ -42,20 +43,24 @@ function getProfilePath(person: PersonCardItem): string | null {
 }
 
 function getKnownFor(person: PersonCardItem): string {
-  if ('known_for_department' in person) {
-    return person.known_for_department || 'Actor';
+  if ("known_for_department" in person) {
+    return person.known_for_department || "Actor";
   }
-  return 'Actor';
+  return "Actor";
 }
 
 function getKnownForTitle(person: PersonCardItem): string {
-  if (!('known_for' in person) || !person.known_for || person.known_for.length === 0) {
-    return '';
+  if (
+    !("known_for" in person) ||
+    !person.known_for ||
+    person.known_for.length === 0
+  ) {
+    return "";
   }
   const item = person.known_for[0];
-  if ('title' in item) return item.title || '';
-  if ('name' in item) return item.name || '';
-  return '';
+  if ("title" in item) return item.title || "";
+  if ("name" in item) return item.name || "";
+  return "";
 }
 
 function getDetailUrl(person: PersonCardItem): string {
@@ -64,7 +69,7 @@ function getDetailUrl(person: PersonCardItem): string {
 
 //  NEW — safely extract the character name if present
 function getCharacter(person: PersonCardItem): string | undefined {
-  if ('character' in person && typeof person.character === 'string') {
+  if ("character" in person && typeof person.character === "string") {
     return person.character;
   }
   return undefined;
@@ -88,12 +93,12 @@ export function PersonCard({
   className?: string;
   prefetch?: boolean;
   onClick?: () => void;
-} & React.ComponentPropsWithoutRef<'a'>) {
+} & React.ComponentPropsWithoutRef<"a">) {
   const name = getPersonName(person);
   const profilePath = getProfilePath(person);
   const knownFor = getKnownFor(person);
   const knownForTitle = getKnownForTitle(person);
-  const character = getCharacter(person);   //  NEW
+  const character = getCharacter(person); //  NEW
   const detailUrl = getDetailUrl(person);
 
   const imageUrl = profilePath
@@ -107,7 +112,7 @@ export function PersonCard({
     detailUrl,
     knownFor,
     knownForTitle,
-    character,   //  NEW
+    character, //  NEW
   };
 
   return (
@@ -115,7 +120,7 @@ export function PersonCard({
       <Link
         href={detailUrl}
         prefetch={prefetch}
-        className={cn('block group no-underline min-w-0', className)}
+        className={cn("block group no-underline min-w-0", className)}
         onClick={onClick}
         {...props}
       >
@@ -134,8 +139,8 @@ PersonCard.Container = function PersonCardContainer({
   return (
     <div
       className={cn(
-        'group relative select-none transition-all duration-200',
-        className
+        "group relative select-none transition-all duration-200",
+        className,
       )}
       {...props}
     >
@@ -152,7 +157,7 @@ PersonCard.ImageWrapper = function PersonCardImageWrapper({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('relative overflow-hidden bg-neutral-900', className)}
+      className={cn("relative overflow-hidden bg-neutral-900", className)}
       {...props}
     >
       {children}
@@ -163,17 +168,17 @@ PersonCard.ImageWrapper = function PersonCardImageWrapper({
 // 4. IMAGE
 type PersonCardImageProps = Omit<
   React.ComponentPropsWithoutRef<typeof Image>,
-  'src' | 'alt'
+  "src" | "alt"
 >;
 
 PersonCard.Image = function PersonCardImage({
   className,
   priority = false,
-  sizes = '200px',
+  sizes = "200px",
   ...props
 }: PersonCardImageProps) {
   const ctx = useContext(PersonCardContext);
-  if (!ctx) throw new Error('PersonCard.Image must be used within PersonCard');
+  if (!ctx) throw new Error("PersonCard.Image must be used within PersonCard");
 
   if (ctx.imageUrl) {
     return (
@@ -182,7 +187,10 @@ PersonCard.Image = function PersonCardImage({
         src={ctx.imageUrl}
         alt={ctx.name}
         fill
-        className={cn('object-cover pointer-events-none select-none', className)}
+        className={cn(
+          "object-cover pointer-events-none select-none",
+          className,
+        )}
         priority={priority}
         loading="eager"
         sizes={sizes}
@@ -193,8 +201,8 @@ PersonCard.Image = function PersonCardImage({
   return (
     <div
       className={cn(
-        'flex h-full w-full items-center justify-center bg-neutral-800 text-neutral-400 font-bold',
-        className 
+        "flex h-full w-full items-center justify-center bg-neutral-800 text-neutral-400 font-bold",
+        className,
       )}
     >
       <span className="text-2xl">{ctx.name.charAt(0).toUpperCase()}</span>
@@ -209,15 +217,15 @@ PersonCard.Badge = function PersonCardBadge({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const ctx = useContext(PersonCardContext);
-  if (!ctx) throw new Error('PersonCard.Badge must be used within PersonCard');
+  if (!ctx) throw new Error("PersonCard.Badge must be used within PersonCard");
 
   const content = children || ctx.knownFor;
 
   return (
     <div
       className={cn(
-        'absolute z-10 rounded-md font-semibold shadow-sm backdrop-blur-sm',
-        className
+        "absolute z-10 rounded-md font-semibold shadow-sm backdrop-blur-sm",
+        className,
       )}
       {...props}
     >
@@ -233,7 +241,7 @@ PersonCard.Info = function PersonCardInfo({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex flex-col min-w-0 flex-1', className)} {...props}>
+    <div className={cn("flex flex-col min-w-0 flex-1", className)} {...props}>
       {children}
     </div>
   );
@@ -245,11 +253,11 @@ PersonCard.Name = function PersonCardName({
   ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   const ctx = useContext(PersonCardContext);
-  if (!ctx) throw new Error('PersonCard.Name must be used within PersonCard');
+  if (!ctx) throw new Error("PersonCard.Name must be used within PersonCard");
 
   return (
     <h3
-      className={cn('truncate line-clamp-1', className)}
+      className={cn("truncate line-clamp-1", className)}
       title={ctx.name}
       {...props}
     >
@@ -264,12 +272,13 @@ PersonCard.KnownFor = function PersonCardKnownFor({
   ...props
 }: React.HTMLAttributes<HTMLSpanElement>) {
   const ctx = useContext(PersonCardContext);
-  if (!ctx) throw new Error('PersonCard.KnownFor must be used within PersonCard');
+  if (!ctx)
+    throw new Error("PersonCard.KnownFor must be used within PersonCard");
   if (!ctx.knownForTitle) return null;
 
   return (
-    <span className={cn('truncate w-full text-xs', className)} {...props}>
-      Known for:{' '}
+    <span className={cn("truncate w-full text-xs", className)} {...props}>
+      Known for:{" "}
       <span className="text-neutral-400 group-hover:text-neutral-300 transition-colors">
         {ctx.knownForTitle}
       </span>
@@ -280,16 +289,17 @@ PersonCard.KnownFor = function PersonCardKnownFor({
 // 9. CHARACTER —  NEW
 PersonCard.Character = function PersonCardCharacter({
   className,
-  prefix = '',
+  prefix = "",
   ...props
 }: React.HTMLAttributes<HTMLSpanElement> & { prefix?: string }) {
   const ctx = useContext(PersonCardContext);
-  if (!ctx) throw new Error('PersonCard.Character must be used within PersonCard');
+  if (!ctx)
+    throw new Error("PersonCard.Character must be used within PersonCard");
   if (!ctx.character) return null;
 
   return (
     <span
-      className={cn('truncate w-full text-xs', className)}
+      className={cn("truncate w-full text-xs", className)}
       title={ctx.character}
       {...props}
     >

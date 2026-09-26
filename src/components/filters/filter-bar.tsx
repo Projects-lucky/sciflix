@@ -11,20 +11,20 @@
  * - Desktop: filters inline
  */
 
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { SlidersHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { GenreFilter } from './genre-filter';
-import { SortFilter } from './sort-filter';
-import { LanguageFilter } from './language-filter';
-import { AdultFilter } from './adult-filter';
-import { ResetFiltersButton } from './reset-filters-button';
-import { FilterDialog } from './filter-dialog';
-import { useActiveFilterCount } from './use-active-filter-count';
-import type { MediaType } from '@/lib/config/filters.config';
-import { cn } from '@/lib/utils';
+import { SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import type { MediaType } from "@/lib/config/filters.config";
+import { cn } from "@/lib/utils";
+import { AdultFilter } from "./adult-filter";
+import { FilterDialog } from "./filter-dialog";
+import { GenreFilter } from "./genre-filter";
+import { LanguageFilter } from "./language-filter";
+import { ResetFiltersButton } from "./reset-filters-button";
+import { SortFilter } from "./sort-filter";
+import { useActiveFilterCount } from "./use-active-filter-count";
 
 // ============================================
 // TYPES
@@ -44,7 +44,7 @@ export function FilterBar({ type, className }: FilterBarProps) {
   const activeCount = useActiveFilterCount();
 
   // Filters shown inline (not in dialog)
-  const PRIMARY_COUNT = 4; // Genre, Sort, Language, Adult
+  // const PRIMARY_COUNT = 4; // Genre, Sort, Language, Adult
   // Filters hidden in dialog = total active - active in primaries
   // (simple heuristic — the dialog shows all filters anyway)
   const advancedActiveCount = Math.max(0, activeCount);
@@ -53,9 +53,9 @@ export function FilterBar({ type, className }: FilterBarProps) {
     <>
       <div
         className={cn(
-          'flex flex-col gap-3 p-4 rounded-lg',
-          'md:flex-row md:flex-wrap md:items-center md:gap-3',
-          className
+          "flex flex-col gap-3 p-4 rounded-lg",
+          "md:flex-row md:flex-wrap md:items-center md:gap-3",
+          className,
         )}
       >
         {/* Primary filters — stack on mobile, inline on desktop */}

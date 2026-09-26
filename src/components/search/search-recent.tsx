@@ -4,11 +4,11 @@
  * Only renders when there are stored searches
  */
 
-'use client';
+"use client";
 
-import { Clock, X, Trash2 } from 'lucide-react';
-import { useQueryState } from 'nuqs';
-import { useSearchStore } from '@/stores/search-store';
+import { Clock, Trash2, X } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useSearchStore } from "@/stores/search-store";
 
 // ============================================
 // COMPONENT
@@ -17,7 +17,7 @@ import { useSearchStore } from '@/stores/search-store';
 export function SearchRecent() {
   const { recentSearches, removeRecentSearch, clearRecentSearches } =
     useSearchStore();
-  const [, setQuery] = useQueryState('q');
+  const [, setQuery] = useQueryState("q");
 
   // Nothing to show
   if (!recentSearches || recentSearches.length === 0) {

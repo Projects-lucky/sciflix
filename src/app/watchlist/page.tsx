@@ -8,35 +8,34 @@
  * - Renders <WatchlistClient /> for the interactive tabs
  */
 
-import { redirect } from 'next/navigation';
-import { auth } from '@clerk/nextjs/server';
-import { Bookmark } from 'lucide-react';
-import { getWatchlist } from '@/db/queries';
-import { WatchlistClient } from './watchlist-client';
-import type { Metadata } from 'next';
+import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { getWatchlist } from "@/db/queries";
+import { WatchlistClient } from "./watchlist-client";
 
 // ============================================
 // METADATA (SEO + OpenGraph)
 // ============================================
 
 export const metadata: Metadata = {
-  title: 'My Watchlist',
+  title: "My Watchlist",
   description:
-    'Your personal collection of movies and TV shows — save for later, track what you have watched.',
+    "Your personal collection of movies and TV shows — save for later, track what you have watched.",
 
   openGraph: {
-    type: 'website',
-    title: 'My Watchlist',
+    type: "website",
+    title: "My Watchlist",
     description:
-      'Your personal collection of movies and TV shows — save for later, track what you have watched.',
-    url: '/watchlist',
+      "Your personal collection of movies and TV shows — save for later, track what you have watched.",
+    url: "/watchlist",
   },
 
   twitter: {
-    card: 'summary',
-    title: 'My Watchlist',
+    card: "summary",
+    title: "My Watchlist",
     description:
-      'Your personal collection of movies and TV shows — save for later, track what you have watched.',
+      "Your personal collection of movies and TV shows — save for later, track what you have watched.",
   },
 
   // Private page — do not index
@@ -46,7 +45,7 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: '/watchlist',
+    canonical: "/watchlist",
   },
 };
 // ============================================
@@ -57,7 +56,7 @@ export default async function WatchlistPage() {
   // Require auth — redirect to sign-in if not signed in
   const { userId } = await auth();
   if (!userId) {
-    redirect('/sign-in');
+    redirect("/sign-in");
   }
 
   // Fetch the user's watchlist (empty array if none)
@@ -75,8 +74,8 @@ export default async function WatchlistPage() {
           </div>
           <p className="text-lg text-muted-foreground font-poppins">
             {items.length === 0
-              ? 'Your watchlist is empty. Add movies and TV shows to get started.'
-              : `${items.length} ${items.length === 1 ? 'item' : 'items'} saved`}
+              ? "Your watchlist is empty. Add movies and TV shows to get started."
+              : `${items.length} ${items.length === 1 ? "item" : "items"} saved`}
           </p>
         </div>
 

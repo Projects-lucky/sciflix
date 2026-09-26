@@ -3,9 +3,6 @@
  * All configurable values centralized here
  * Update once, propagate everywhere
  */
-
-import type { TMDBGenre } from "@/types/tmdb.types";
-
 // ============================================
 // ENVIRONMENT VARIABLES (Runtime values via Getters)
 // ============================================
@@ -30,14 +27,30 @@ const getEnv = (key: string, fallback?: string): string => {
 
 // Implemented explicit return type annotations to ensure your AppConfig inference doesn't break
 export const ENV = {
-  get tmdbApiKey(): string { return getEnv("TMDB_API_KEY", ""); },
-  get tmdbAccessToken(): string { return getEnv("TMDB_ACCESS_TOKEN"); },
-  get tmdbBaseUrl(): string { return getEnv("TMDB_API_BASE_URL", "https://api.themoviedb.org/3"); },
-  get clerkPubKey(): string { return getEnv("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", ""); },
-  get clerkSecretKey(): string { return getEnv("CLERK_SECRET_KEY", ""); },
-  get databaseUrl(): string { return getEnv("DATABASE_URL", ""); },
-  get appUrl(): string { return getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000"); },
-  get nodeEnv(): string { return getEnv("NODE_ENV", "development"); },
+  get tmdbApiKey(): string {
+    return getEnv("TMDB_API_KEY", "");
+  },
+  get tmdbAccessToken(): string {
+    return getEnv("TMDB_ACCESS_TOKEN");
+  },
+  get tmdbBaseUrl(): string {
+    return getEnv("TMDB_API_BASE_URL", "https://api.themoviedb.org/3");
+  },
+  get clerkPubKey(): string {
+    return getEnv("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "");
+  },
+  get clerkSecretKey(): string {
+    return getEnv("CLERK_SECRET_KEY", "");
+  },
+  get databaseUrl(): string {
+    return getEnv("DATABASE_URL", "");
+  },
+  get appUrl(): string {
+    return getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
+  },
+  get nodeEnv(): string {
+    return getEnv("NODE_ENV", "development");
+  },
 };
 
 // ============================================
@@ -45,8 +58,12 @@ export const ENV = {
 // ============================================
 
 export const TMDB_CONFIG = {
-  get baseUrl(): string { return ENV.tmdbBaseUrl; },
-  get apiKey(): string { return ENV.tmdbApiKey; },
+  get baseUrl(): string {
+    return ENV.tmdbBaseUrl;
+  },
+  get apiKey(): string {
+    return ENV.tmdbApiKey;
+  },
 
   endpoints: {
     trending: "/trending/all/week",
@@ -111,7 +128,6 @@ export const HOME_CONFIG = {
     sortBy: "popularity.desc" as const,
     adult: false,
   },
-
 
   fallbacks: {
     hero: {

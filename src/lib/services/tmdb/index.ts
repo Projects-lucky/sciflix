@@ -1,9 +1,9 @@
 /**
  * TMDB Services - Unified Exports
- * 
+ *
  * Central entry point for all TMDB API services
  * Import from this file to access all TMDB functionality
- * 
+ *
  * @example
  * ```ts
  * import { getTrending, discoverMovies, getMovieDetails } from '@/lib/services/tmdb';
@@ -14,23 +14,23 @@
 // CLIENT
 // ============================================
 
-export { tmdbClient, tmdbFetch, TMDBServiceError } from './client';
-export type { TMDBClientOptions } from './client';
+export type { TMDBClientOptions } from "./client";
+export { TMDBServiceError, tmdbClient, tmdbFetch } from "./client";
 
 // ============================================
 // ROUTES - TRENDING
 // ============================================
 
 export {
+  getHeroTrending,
   getTrending,
   getTrendingMovies,
-  getTrendingTV,
   getTrendingPeople,
-  getHeroTrending,
+  getTrendingTV,
   isTrendingMovie,
-  isTrendingTV,
   isTrendingPerson,
-} from './routes/trending';
+  isTrendingTV,
+} from "./routes/trending";
 
 // ============================================
 // ROUTES - DISCOVER
@@ -39,72 +39,76 @@ export {
 export {
   discoverMovies,
   discoverTV,
+  getGenreSections,
+  getLatestMovies,
   getMoviesByGenre,
   getMoviesByGenres,
-  getTVByGenre,
-  getLatestMovies,
   getTopRatedMovies,
-  getGenreSections,
-} from './routes/discover';
+  getTVByGenre,
+} from "./routes/discover";
 
 // ============================================
 // ROUTES - GENRES
 // ============================================
 
 export {
-  getMovieGenres,
-  getTVGenres,
-  getHomeGenres,
+  FALLBACK_GENRES,
   getGenreNameById,
   getGenreNamesByIds,
+  getHomeGenres,
+  getMovieGenres,
+  getTVGenres,
   mapGenreIdsToObjects,
-  FALLBACK_GENRES,
-} from './routes/genres';
+} from "./routes/genres";
 
 // ============================================
 // ROUTES - DETAILS
 // ============================================
 
 export {
-  getMovieDetails,
   getMovieCredits,
+  getMovieDetails,
   getMovieWithCredits,
-  getTVDetails,
-  getTVCredits,
-  getTVWithCredits,
+  getMultipleMovieDetails,
   getPersonDetails,
   getPersonWithCredits,
-  getMultipleMovieDetails,
-} from './routes/details';
+  getTVCredits,
+  getTVDetails,
+  getTVWithCredits,
+} from "./routes/details";
 
 // ============================================
 // ROUTES - SEARCH
 // ============================================
 
 export {
-  searchMulti,
-  searchMovies,
-  searchTV,
-  searchPeople,
+  isSearchMovie,
+  isSearchPerson,
+  isSearchTV,
   searchAll,
   searchMedia,
-  isSearchMovie,
-  isSearchTV,
-  isSearchPerson,
-} from './routes/search';
+  searchMovies,
+  searchMulti,
+  searchPeople,
+  searchTV,
+} from "./routes/search";
 
 // ============================================
 // ROUTES - MULTI/FIND
 // ============================================
 
+export type {
+  FindExternalSource,
+  FindParams,
+  FindResponse,
+} from "./routes/multi";
 export {
   findByExternalId,
-  findMovieByImdb,
-  findTVByImdb,
-  findPersonByImdb,
-  findByTVDB,
   findByFacebook,
   findByInstagram,
+  findByTVDB,
   findByTwitter,
-} from './routes/multi';
-export type { FindExternalSource, FindResponse, FindParams } from './routes/multi';
+  findMovieByImdb,
+  findPersonByImdb,
+  findTVByImdb,
+} from "./routes/multi";

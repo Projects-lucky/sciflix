@@ -4,19 +4,19 @@
  * Self-contained: reads/writes URL directly via nuqs
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import { searchParsers, NUQS_OPTIONS } from '@/lib/search/nuqs-parsers';
-import { SEARCH_TYPE_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { SEARCH_TYPE_OPTIONS } from "@/lib/config/filters.config";
+import { NUQS_OPTIONS, searchParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -31,21 +31,18 @@ export interface TypeFilterProps {
 // COMPONENT
 // ============================================
 
-export function TypeFilter({
-  className,
-  label = 'Type',
-}: TypeFilterProps) {
+export function TypeFilter({ className, label = "Type" }: TypeFilterProps) {
   const [{ type }, setFilters] = useQueryStates(searchParsers, NUQS_OPTIONS);
 
   const handleChange = (value: string) => {
     setFilters({
-      type: value as 'multi' | 'movie' | 'tv' | 'person',
+      type: value as "multi" | "movie" | "tv" | "person",
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor="type-filter"
         className="text-xs text-gray-400 uppercase tracking-wider whitespace-nowrap"

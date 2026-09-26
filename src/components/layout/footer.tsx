@@ -6,13 +6,9 @@
  * - Copyright bar
  */
 
-import Link from 'next/link';
-import { Film } from 'lucide-react';
-import {
-  APP_META,
-  FOOTER_SECTIONS,
-} from '@/lib/config/nav.config';
-import { cn } from '@/lib/utils';
+import Link from "next/link";
+import { APP_META, FOOTER_SECTIONS } from "@/lib/config/nav.config";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -30,9 +26,9 @@ export function Footer({ className }: FooterProps) {
   return (
     <footer
       className={cn(
-        'border-t border-border',
-        'bg-background/60 backdrop-blur-sm',
-        className
+        "border-t border-border",
+        "bg-background/60 backdrop-blur-sm",
+        className,
       )}
     >
       <div className="container mx-auto px-4 py-12">
@@ -45,7 +41,7 @@ export function Footer({ className }: FooterProps) {
               className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
               aria-label={`${APP_META.name} home`}
             >
-              <span className="text-3xl font-logo font-bold tracking-wider text-amber-700 border border-orange-700 p-1 rounded-sm">
+              <span className="text-3xl font-logo font-bold tracking-wider text-amber-700 border  border-orange-700 p-1 rounded-sm">
                 {APP_META.name}
               </span>
             </Link>
@@ -87,7 +83,7 @@ export function Footer({ className }: FooterProps) {
             © {APP_META.year} {APP_META.name}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Powered by{' '}
+            Powered by{" "}
             <a
               href="https://www.themoviedb.org"
               target="_blank"

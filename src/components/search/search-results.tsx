@@ -6,23 +6,23 @@
  * Works with /search/multi union type OR typed results
  */
 
-'use client';
+"use client";
 
-import { MovieCard } from '../movie/movie-card';
-import { PersonCard } from '../person/person-card-context';
-import { SearchEmpty } from './search-empty';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
-import type { TMDBPerson } from '@/types/person.types';
-import type { SearchType } from '@/lib/config/filters.config';
-import { PersonGridCard } from '../person/PersonCardPresets';
+import type { SearchType } from "@/lib/config/filters.config";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBPerson } from "@/types/person.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { MovieCard } from "../movie/movie-card";
+import { PersonGridCard } from "../person/PersonCardPresets";
+import { PersonCard } from "../person/person-card-context";
+import { SearchEmpty } from "./search-empty";
 
 // ============================================
 // TYPES
 // ============================================
 
 type SearchResultItem = (TMDBMovie | TMDBTV | TMDBPerson) & {
-  media_type?: 'movie' | 'tv' | 'person';
+  media_type?: "movie" | "tv" | "person";
 };
 
 interface SearchResultsProps {
@@ -36,16 +36,20 @@ interface SearchResultsProps {
 // HELPERS
 // ============================================
 
-function isMovie(item: SearchResultItem): item is TMDBMovie & { media_type: 'movie' } {
-  return 'title' in item && 'release_date' in item;
+function isMovie(
+  item: SearchResultItem,
+): item is TMDBMovie & { media_type: "movie" } {
+  return "title" in item && "release_date" in item;
 }
 
-function isTV(item: SearchResultItem): item is TMDBTV & { media_type: 'tv' } {
-  return 'name' in item && 'first_air_date' in item;
+function isTV(item: SearchResultItem): item is TMDBTV & { media_type: "tv" } {
+  return "name" in item && "first_air_date" in item;
 }
 
-function isPerson(item: SearchResultItem): item is TMDBPerson & { media_type: 'person' } {
-  return 'known_for' in item;
+function isPerson(
+  item: SearchResultItem,
+): item is TMDBPerson & { media_type: "person" } {
+  return "known_for" in item;
 }
 
 // ============================================
@@ -64,7 +68,7 @@ export function SearchResults({
   }
 
   // Person-only search
-  if (type === 'person') {
+  if (type === "person") {
     const people = results.filter(isPerson);
     if (people.length === 0) {
       return <SearchEmpty variant="no-results" query={query} />;
@@ -78,7 +82,7 @@ export function SearchResults({
   }
 
   // Movie-only search
-  if (type === 'movie') {
+  if (type === "movie") {
     const movies = results.filter(isMovie);
     if (movies.length === 0) {
       return <SearchEmpty variant="no-results" query={query} />;
@@ -92,7 +96,7 @@ export function SearchResults({
   }
 
   // TV-only search
-  if (type === 'tv') {
+  if (type === "tv") {
     const shows = results.filter(isTV);
     if (shows.length === 0) {
       return <SearchEmpty variant="no-results" query={query} />;
@@ -156,29 +160,19 @@ function ResultsHeader({
 }) {
   return (
     <div className="mb-4">
-      <h2 className="text-xl md:text-2xl font-semibold text-white">
-        {label}
-      </h2>
+      <h2 className="text-xl md:text-2xl font-semibold text-white">{label}</h2>
       <p className="text-sm text-gray-400 mt-1">
-        {count} {count === 1 ? 'result' : 'results'} for "{query}"
+        {count} {count === 1 ? "result" : "results"} for "{query}"
       </p>
     </div>
   );
 }
 
-function MediaGrid({
-  items,
-}: {
-  items: (TMDBMovie | TMDBTV)[];
-}) {
+function MediaGrid({ items }: { items: (TMDBMovie | TMDBTV)[] }) {
   return (
     <div className="m-grid  bg-amber-300">
       {items.map((item) => (
-        <MovieCard
-          key={`media-${item.id}`}
-          item={item}
-          className='w-56 h-92'
-        />
+        <MovieCard key={`media-${item.id}`} item={item} className="w-56 h-92" />
       ))}
     </div>
   );
@@ -188,7 +182,11 @@ function PeopleGrid({ people }: { people: TMDBPerson[] }) {
   return (
     <div className="p-grid gap-4">
       {people.map((person) => (
-        <PersonGridCard className="w-58 h-99 border-none" key={`person-${person.id}`} person={person} />
+        <PersonGridCard
+          className="w-58 h-99 border-none"
+          key={`person-${person.id}`}
+          person={person}
+        />
       ))}
     </div>
   );

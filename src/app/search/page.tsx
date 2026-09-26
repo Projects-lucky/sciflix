@@ -3,11 +3,11 @@
  * Route: /search?q=...&type=...&language=...&adult=...
  */
 
-import { searchParamsCache } from '@/lib/search/nuqs-parsers';
-import { validateSearchParams } from '@/lib/search/validate-search-params';
-import { SearchClient } from './search-client';
-import type { SearchType } from '@/hooks/use-infinite-search';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import type { SearchType } from "@/hooks/use-infinite-search";
+import { searchParamsCache } from "@/lib/search/nuqs-parsers";
+import { validateSearchParams } from "@/lib/search/validate-search-params";
+import { SearchClient } from "./search-client";
 
 // ============================================
 // TYPES
@@ -43,31 +43,33 @@ export default async function SearchPage({ searchParams }: PageProps) {
 // METADATA (SEO + OpenGraph)
 // ============================================
 
-export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
   const raw = searchParamsCache.parse(await searchParams);
   const { q } = validateSearchParams(raw);
 
   const query = q.trim();
   const isSearchable = query.length >= 2;
 
-  const title = isSearchable ? `Search: ${query}` : 'Search';
+  const title = isSearchable ? `Search: ${query}` : "Search";
   const description = isSearchable
     ? `Search results for "${query}" — movies, TV shows, and people.`
-    : 'Search movies, TV shows, and people.';
+    : "Search movies, TV shows, and people.";
 
   return {
     title,
     description,
 
     openGraph: {
-      type: 'website',
+      type: "website",
       title,
       description,
-      url: isSearchable ? `/search?q=${encodeURIComponent(query)}` : '/search',
+      url: isSearchable ? `/search?q=${encodeURIComponent(query)}` : "/search",
     },
 
     twitter: {
-      card: 'summary',
+      card: "summary",
       title,
       description,
     },
@@ -81,7 +83,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     alternates: {
       canonical: isSearchable
         ? `/search?q=${encodeURIComponent(query)}`
-        : '/search',
+        : "/search",
     },
   };
 }

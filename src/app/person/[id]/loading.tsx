@@ -3,6 +3,27 @@
  * Shows skeleton UI while person details are fetching
  */
 
+// Define static keys outside the component to satisfy the linter
+const BIO_KEYS = ["bio-1", "bio-2", "bio-3", "bio-4", "bio-5"];
+const KNOWN_FOR_KEYS = [
+  "known-1",
+  "known-2",
+  "known-3",
+  "known-4",
+  "known-5",
+  "known-6",
+];
+const FILM_KEYS = [
+  "film-1",
+  "film-2",
+  "film-3",
+  "film-4",
+  "film-5",
+  "film-6",
+  "film-7",
+  "film-8",
+];
+
 export default function Loading() {
   return (
     <div className="min-h-screen bg-black animate-pulse">
@@ -39,8 +60,8 @@ export default function Loading() {
         <section>
           <div className="h-8 w-32 bg-neutral-800 rounded mb-4" />
           <div className="space-y-2 max-w-4xl">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-4 bg-neutral-800 rounded w-full" />
+            {BIO_KEYS.map((key) => (
+              <div key={key} className="h-4 bg-neutral-800 rounded w-full" />
             ))}
             <div className="h-4 bg-neutral-800 rounded w-2/3" />
           </div>
@@ -50,8 +71,8 @@ export default function Loading() {
         <section>
           <div className="h-8 w-40 bg-neutral-800 rounded mb-4" />
           <div className="flex gap-4 overflow-hidden">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="shrink-0 w-40">
+            {KNOWN_FOR_KEYS.map((key) => (
+              <div key={key} className="shrink-0 w-40">
                 <div className="w-40 aspect-2/3 bg-neutral-800 rounded-lg mb-2" />
                 <div className="h-4 bg-neutral-800 rounded w-3/4 mb-1" />
                 <div className="h-3 bg-neutral-800 rounded w-1/2" />
@@ -64,8 +85,11 @@ export default function Loading() {
         <section>
           <div className="h-8 w-40 bg-neutral-800 rounded mb-4" />
           <div className="space-y-3">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="flex gap-4 p-3 bg-neutral-900 rounded-lg">
+            {FILM_KEYS.map((key) => (
+              <div
+                key={key}
+                className="flex gap-4 p-3 bg-neutral-900 rounded-lg"
+              >
                 <div className="w-16 h-24 bg-neutral-800 rounded shrink-0" />
                 <div className="flex-1 space-y-2 py-1">
                   <div className="h-4 bg-neutral-800 rounded w-1/3" />

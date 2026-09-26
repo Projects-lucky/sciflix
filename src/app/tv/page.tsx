@@ -8,10 +8,10 @@
  * - Pass clean params to client wrapper
  */
 
-import { discoverParamsCache } from '@/lib/search/nuqs-parsers';
-import { validateDiscoverParams } from '@/lib/search/validate-search-params';
-import { TVClient } from './tv-client';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import { discoverParamsCache } from "@/lib/search/nuqs-parsers";
+import { validateDiscoverParams } from "@/lib/search/validate-search-params";
+import { TVClient } from "./tv-client";
 
 // ============================================
 // TYPES
@@ -26,8 +26,8 @@ interface PageProps {
 // ============================================
 
 export const metadata: Metadata = {
-  title: 'TV Shows',
-  description: 'Browse TV shows by genre, sort, and filters',
+  title: "TV Shows",
+  description: "Browse TV shows by genre, sort, and filters",
 };
 
 // ============================================
@@ -39,7 +39,7 @@ export default async function TVPage({ searchParams }: PageProps) {
   const raw = discoverParamsCache.parse(await searchParams);
 
   // Validate as TV — uses firstAirDateYear instead of year
-  const params = validateDiscoverParams(raw, 'tv');
+  const params = validateDiscoverParams(raw, "tv");
 
   return (
     <div className="min-h-screen pt-3.5 pb-16">

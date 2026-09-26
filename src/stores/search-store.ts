@@ -1,23 +1,23 @@
 /**
  * Search Store (Zustand)
  * Ephemeral client-only state for search UX
- * 
+ *
  * What lives here:
  *   - Recent searches (persisted to localStorage)
  *   - Pending/loading indicators
  *   - Client-side UI flags
- * 
+ *
  * What does NOT live here:
  *   - Search filters (q, type, language, adult, page) → nuqs URL state
  *   - Server data (results, trending) → Server Components
- * 
+ *
  * Why the split?
  *   - URL state = shareable, bookmarkable, back-button friendly
  *   - Zustand = client-only, ephemeral, cross-component
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 // ============================================
 // TYPES
@@ -75,7 +75,7 @@ export const useSearchStore = create<SearchState>()(
 
         // Deduplicate (move to top if exists)
         const filtered = current.filter(
-          (q) => q.toLowerCase() !== trimmed.toLowerCase()
+          (q) => q.toLowerCase() !== trimmed.toLowerCase(),
         );
 
         // Prepend and cap
@@ -102,13 +102,13 @@ export const useSearchStore = create<SearchState>()(
       reset: () => set(initialState),
     }),
     {
-      name: 'search-storage',
+      name: "search-storage",
       // Only persist recent searches — UI state is ephemeral
       partialize: (state) => ({
         recentSearches: state.recentSearches,
       }),
       // Skip hydration on SSR
       skipHydration: true,
-    }
-  )
+    },
+  ),
 );

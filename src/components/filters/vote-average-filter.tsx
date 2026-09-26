@@ -5,25 +5,22 @@
  * Works on both movie and TV discover endpoints
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import {
-  VOTE_AVERAGE_MIN_OPTIONS,
-  VOTE_AVERAGE_MAX_OPTIONS,
-} from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import {
+  VOTE_AVERAGE_MAX_OPTIONS,
+  VOTE_AVERAGE_MIN_OPTIONS,
+} from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -40,38 +37,38 @@ export interface VoteAverageFilterProps {
 
 export function VoteAverageFilter({
   className,
-  label = 'Rating',
+  label = "Rating",
 }: VoteAverageFilterProps) {
   const [{ voteAverageGte, voteAverageLte }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   // Default to "any" when unset
-  const minValue = voteAverageGte !== undefined ? String(voteAverageGte) : 'any';
-  const maxValue = voteAverageLte !== undefined ? String(voteAverageLte) : 'any';
+  const minValue =
+    voteAverageGte !== undefined ? String(voteAverageGte) : "any";
+  const maxValue =
+    voteAverageLte !== undefined ? String(voteAverageLte) : "any";
 
   const handleMinChange = (value: string) => {
     setFilters({
-      voteAverageGte: value === 'any' ? null : Number(value),
+      voteAverageGte: value === "any" ? null : Number(value),
       page: 1,
     });
   };
 
   const handleMaxChange = (value: string) => {
     setFilters({
-      voteAverageLte: value === 'any' ? null : Number(value),
+      voteAverageLte: value === "any" ? null : Number(value),
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      <label
-        className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"
-      >
+    <div className={cn("flex items-center gap-2", className)}>
+      <span className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap">
         {label}
-      </label>
+      </span>
 
       <div className="flex items-center gap-1.5">
         {/* Min */}
@@ -85,7 +82,7 @@ export function VoteAverageFilter({
           <SelectContent>
             {VOTE_AVERAGE_MIN_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={String(opt.value)}>
-                {opt.value === 0 ? 'Any' : opt.label}
+                {opt.value === 0 ? "Any" : opt.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -104,7 +101,7 @@ export function VoteAverageFilter({
           <SelectContent>
             {VOTE_AVERAGE_MAX_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={String(opt.value)}>
-                {opt.value === 10 ? 'Any' : opt.label}
+                {opt.value === 10 ? "Any" : opt.label}
               </SelectItem>
             ))}
           </SelectContent>

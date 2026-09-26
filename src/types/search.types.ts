@@ -3,9 +3,9 @@
  * /search/multi, /search/movie, /search/tv, /search/person
  */
 
-import type { TMDBMovie } from './movie.types';
-import type { TMDBTV } from './tv.types';
-import type { TMDBPerson } from './person.types';
+import type { TMDBMovie } from "./movie.types";
+import type { TMDBPerson } from "./person.types";
+import type { TMDBTV } from "./tv.types";
 
 // ============================================
 // SEARCH REQUEST PARAMETERS
@@ -52,7 +52,7 @@ export interface SearchPersonResponse {
 // ============================================
 
 export type SearchMultiItem = (TMDBMovie | TMDBTV | TMDBPerson) & {
-  media_type: 'movie' | 'tv' | 'person';
+  media_type: "movie" | "tv" | "person";
 };
 
 export interface SearchMultiResponse {

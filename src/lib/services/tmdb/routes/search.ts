@@ -1,41 +1,47 @@
 /**
  * Search Endpoint Service
  * /search/multi, /search/movie, /search/tv, /search/person
- * 
+ *
  * Official Docs: https://developers.themoviedb.org/3/search
- * 
+ *
  * Flexible search across movies, TV shows, and people
  * Multi-search returns combined results with media_type discriminator
  */
 
-import { tmdbClient } from '../client';
-import { CACHE_CONFIG, VALIDATION_CONFIG } from '@/lib/config/app.config';
+import { CACHE_CONFIG, VALIDATION_CONFIG } from "@/lib/config/app.config";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBPerson } from "@/types/person.types";
 import type {
-  SearchParams,
   SearchMovieResponse,
-  SearchTVResponse,
-  SearchPersonResponse,
-  SearchMultiResponse,
   SearchMultiItem,
-} from '@/types/search.types';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
-import type { TMDBPerson } from '@/types/person.types';
+  SearchMultiResponse,
+  SearchParams,
+  SearchPersonResponse,
+  SearchTVResponse,
+} from "@/types/search.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { tmdbClient } from "../client";
 
 // ============================================
 // TYPE GUARDS (re-exported for convenience)
 // ============================================
 
-export function isSearchMovie(item: SearchMultiItem): item is SearchMultiItem & { media_type: 'movie' } {
-  return item.media_type === 'movie';
+export function isSearchMovie(
+  item: SearchMultiItem,
+): item is SearchMultiItem & { media_type: "movie" } {
+  return item.media_type === "movie";
 }
 
-export function isSearchTV(item: SearchMultiItem): item is SearchMultiItem & { media_type: 'tv' } {
-  return item.media_type === 'tv';
+export function isSearchTV(
+  item: SearchMultiItem,
+): item is SearchMultiItem & { media_type: "tv" } {
+  return item.media_type === "tv";
 }
 
-export function isSearchPerson(item: SearchMultiItem): item is SearchMultiItem & { media_type: 'person' } {
-  return item.media_type === 'person';
+export function isSearchPerson(
+  item: SearchMultiItem,
+): item is SearchMultiItem & { media_type: "person" } {
+  return item.media_type === "person";
 }
 
 // ============================================
@@ -44,7 +50,7 @@ export function isSearchPerson(item: SearchMultiItem): item is SearchMultiItem &
 
 /**
  * Multi-search across movies, TV, and people
- * 
+ *
  * @param params - Search parameters (query is required)
  * @param params.query - Search query string (min 2 chars)
  * @param params.page - Page number (default: 1)
@@ -52,18 +58,18 @@ export function isSearchPerson(item: SearchMultiItem): item is SearchMultiItem &
  * @param params.region - Region code (default: 'US')
  * @param params.adult - Include adult content (default: false)
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns Array of search results with media_type discriminator
  * @returns null if query is too short or request fails
- * 
+ *
  * @example
  * ```ts
  * // Search for "star wars" across all media
  * const results = await searchMulti({ query: 'star wars' });
- * 
+ *
  * // Search with limit of 5 results
  * const results = await searchMulti({ query: 'batman' }, { limit: 5 });
- * 
+ *
  * // Filter to only movies from results
  * const movies = results?.filter(item => item.media_type === 'movie');
  * ```
@@ -75,20 +81,29 @@ export async function searchMulti(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<SearchMultiItem[] | null> {
   try {
-    const { query, page = 1, language = 'en-US', region = 'US', adult = false } = params;
+    const {
+      query,
+      page = 1,
+      language = "en-US",
+      region = "US",
+      adult = false,
+    } = params;
     const { limit, cache, retryAttempts, timeout } = options;
 
     // Validate query length
-    if (!query || query.trim().length < VALIDATION_CONFIG.search.minQueryLength) {
-      console.warn('[TMDB] Search query too short');
+    if (
+      !query ||
+      query.trim().length < VALIDATION_CONFIG.search.minQueryLength
+    ) {
+      console.warn("[TMDB] Search query too short");
       return null;
     }
 
     const response = await tmdbClient.fetch<SearchMultiResponse>(
-      '/search/multi',
+      "/search/multi",
       {
         query: query.trim(),
         page,
@@ -97,13 +112,13 @@ export async function searchMulti(
         adult,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.trending,
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -121,20 +136,20 @@ export async function searchMulti(
 
 /**
  * Search movies only
- * 
+ *
  * @param params - Search parameters (query is required)
  * @param params.query - Search query string (min 2 chars)
  * @param params.year - Filter by release year
  * @param params.primary_release_year - Filter by primary release year
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns Array of movies or null if fails
- * 
+ *
  * @example
  * ```ts
  * // Search for "inception"
  * const movies = await searchMovies({ query: 'inception' });
- * 
+ *
  * // Search for "the dark knight" from 2008
  * const movies = await searchMovies({
  *   query: 'the dark knight',
@@ -149,19 +164,30 @@ export async function searchMovies(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<TMDBMovie[] | null> {
   try {
-    const { query, page = 1, language = 'en-US', region = 'US', adult = false, year, primary_release_year } = params;
+    const {
+      query,
+      page = 1,
+      language = "en-US",
+      region = "US",
+      adult = false,
+      year,
+      primary_release_year,
+    } = params;
     const { limit, cache, retryAttempts, timeout } = options;
 
-    if (!query || query.trim().length < VALIDATION_CONFIG.search.minQueryLength) {
-      console.warn('[TMDB] Search query too short');
+    if (
+      !query ||
+      query.trim().length < VALIDATION_CONFIG.search.minQueryLength
+    ) {
+      console.warn("[TMDB] Search query too short");
       return null;
     }
 
     const response = await tmdbClient.fetch<SearchMovieResponse>(
-      '/search/movie',
+      "/search/movie",
       {
         query: query.trim(),
         page,
@@ -172,13 +198,13 @@ export async function searchMovies(
         primary_release_year,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.trending,
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -189,26 +215,29 @@ export async function searchMovies(
 
     return results;
   } catch (error) {
-    console.error(`[TMDB] Failed to search movies for "${params.query}":`, error);
+    console.error(
+      `[TMDB] Failed to search movies for "${params.query}":`,
+      error,
+    );
     return null;
   }
 }
 
 /**
  * Search TV shows only
- * 
+ *
  * @param params - Search parameters (query is required)
  * @param params.query - Search query string (min 2 chars)
  * @param params.first_air_date_year - Filter by first air date year
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns Array of TV shows or null if fails
- * 
+ *
  * @example
  * ```ts
  * // Search for "breaking bad"
  * const shows = await searchTV({ query: 'breaking bad' });
- * 
+ *
  * // Search for "game of thrones" from 2011
  * const shows = await searchTV({
  *   query: 'game of thrones',
@@ -223,19 +252,29 @@ export async function searchTV(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<TMDBTV[] | null> {
   try {
-    const { query, page = 1, language = 'en-US', region = 'US', adult = false, first_air_date_year } = params;
+    const {
+      query,
+      page = 1,
+      language = "en-US",
+      region = "US",
+      adult = false,
+      first_air_date_year,
+    } = params;
     const { limit, cache, retryAttempts, timeout } = options;
 
-    if (!query || query.trim().length < VALIDATION_CONFIG.search.minQueryLength) {
-      console.warn('[TMDB] Search query too short');
+    if (
+      !query ||
+      query.trim().length < VALIDATION_CONFIG.search.minQueryLength
+    ) {
+      console.warn("[TMDB] Search query too short");
       return null;
     }
 
     const response = await tmdbClient.fetch<SearchTVResponse>(
-      '/search/tv',
+      "/search/tv",
       {
         query: query.trim(),
         page,
@@ -245,13 +284,13 @@ export async function searchTV(
         first_air_date_year,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.trending,
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -269,13 +308,13 @@ export async function searchTV(
 
 /**
  * Search people only
- * 
+ *
  * @param params - Search parameters (query is required)
  * @param params.query - Search query string (min 2 chars)
  * @param options - Client options (limit, cache, retry, timeout)
- * 
+ *
  * @returns Array of people or null if fails
- * 
+ *
  * @example
  * ```ts
  * // Search for "leonardo dicaprio"
@@ -289,19 +328,28 @@ export async function searchPeople(
     cache?: RequestCache;
     retryAttempts?: number;
     timeout?: number;
-  } = {}
+  } = {},
 ): Promise<TMDBPerson[] | null> {
   try {
-    const { query, page = 1, language = 'en-US', region = 'US', adult = false } = params;
+    const {
+      query,
+      page = 1,
+      language = "en-US",
+      region = "US",
+      adult = false,
+    } = params;
     const { limit, cache, retryAttempts, timeout } = options;
 
-    if (!query || query.trim().length < VALIDATION_CONFIG.search.minQueryLength) {
-      console.warn('[TMDB] Search query too short');
+    if (
+      !query ||
+      query.trim().length < VALIDATION_CONFIG.search.minQueryLength
+    ) {
+      console.warn("[TMDB] Search query too short");
       return null;
     }
 
     const response = await tmdbClient.fetch<SearchPersonResponse>(
-      '/search/person',
+      "/search/person",
       {
         query: query.trim(),
         page,
@@ -310,13 +358,13 @@ export async function searchPeople(
         adult,
       },
       {
-        cache: cache ?? 'force-cache',
+        cache: cache ?? "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.trending,
         },
         retryAttempts,
         timeout,
-      }
+      },
     );
 
     let results = response.results;
@@ -327,7 +375,10 @@ export async function searchPeople(
 
     return results;
   } catch (error) {
-    console.error(`[TMDB] Failed to search people for "${params.query}":`, error);
+    console.error(
+      `[TMDB] Failed to search people for "${params.query}":`,
+      error,
+    );
     return null;
   }
 }
@@ -343,7 +394,7 @@ export async function searchPeople(
 export async function searchAll(
   query: string,
   limit: number = 10,
-  adult: boolean = false
+  adult: boolean = false,
 ): Promise<{
   movies: TMDBMovie[] | null;
   tv: TMDBTV[] | null;
@@ -364,7 +415,7 @@ export async function searchAll(
 export async function searchMedia(
   query: string,
   limit: number = 20,
-  adult: boolean = false
+  adult: boolean = false,
 ): Promise<SearchMultiItem[] | null> {
   return searchMulti({ query, adult }, { limit });
 }

@@ -4,10 +4,10 @@
  * Used by Known For and Filmography sections on the person detail page.
  */
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Calendar, Play, Tv } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Calendar, Play, Tv } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 export interface MediaListItemData {
   id: number;
   title: string;
-  mediaType: 'movie' | 'tv';
+  mediaType: "movie" | "tv";
   year: string | null;
   posterUrl: string | null;
   /** Optional — shown in Filmography (e.g., "as Tyler Durden") */
@@ -34,16 +34,16 @@ export interface MediaListItemProps {
 
 export function MediaListItem({ item, className }: MediaListItemProps) {
   const href =
-    item.mediaType === 'movie' ? `/movie/${item.id}` : `/tv/${item.id}`;
+    item.mediaType === "movie" ? `/movie/${item.id}` : `/tv/${item.id}`;
 
   return (
     <Link
       href={href}
       className={cn(
-        'flex flex-row items-stretch gap-3 rounded-xl p-2',
-        'transition-colors duration-200',
-        'hover:bg-accent/60',
-        className
+        "flex flex-row items-stretch gap-3 rounded-xl p-2",
+        "transition-colors duration-200",
+        "hover:bg-accent/60",
+        className,
       )}
     >
       {/* Poster — 9:11 aspect */}
@@ -84,17 +84,17 @@ export function MediaListItem({ item, className }: MediaListItemProps) {
           {/* Media type badge */}
           <span
             className={cn(
-              'inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium tracking-wide border',
-              item.mediaType === 'movie'
-                ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
-                : 'bg-sky-500/10 text-sky-400 border-sky-500/20'
+              "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium tracking-wide border",
+              item.mediaType === "movie"
+                ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                : "bg-sky-500/10 text-sky-400 border-sky-500/20",
             )}
           >
-            {item.mediaType === 'movie' ? 'Movie' : 'TV'}
+            {item.mediaType === "movie" ? "Movie" : "TV"}
           </span>
 
           {/* Icon */}
-          {item.mediaType === 'movie' ? (
+          {item.mediaType === "movie" ? (
             <Play className="w-3 h-3 text-indigo-400 fill-indigo-400/20" />
           ) : (
             <Tv className="w-3 h-3 text-sky-400" />

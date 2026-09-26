@@ -3,24 +3,24 @@
  * Full TV show detail presentation: hero, seasons, metadata, overview
  */
 
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { TMDB_CONFIG } from '@/lib/config/app.config';
-import { CastCarousel } from '../shared/cast-carousel';
-import { SimilarCarousel } from '../shared/similar-carousel';
-import { WatchlistButton } from '@/components/watchlist/watchlist-button';
-import type { TMDBTVDetail, TMDBTV } from '@/types/tv.types';
-import type { TMDBCredits, TMDBVideosResponse } from '@/types/tmdb.types';
-import { Play, Star, Vote } from 'lucide-react';
-import { useTrailer, usePlayTrailer } from '@/lib/video/context';
+import { Play, Star, Vote } from "lucide-react";
+import Image from "next/image";
+import { WatchlistButton } from "@/components/watchlist/watchlist-button";
+import { TMDB_CONFIG } from "@/lib/config/app.config";
+import { cn } from "@/lib/utils";
+import { usePlayTrailer, useTrailer } from "@/lib/video/context";
+import type { TMDBCredits, TMDBVideosResponse } from "@/types/tmdb.types";
+import type { TMDBTV, TMDBTVDetail } from "@/types/tv.types";
+import { CastCarousel } from "../shared/cast-carousel";
+import { SimilarCarousel } from "../shared/similar-carousel";
 
 // ============================================
 // TYPES
 // ============================================
 
-type TVDetailWithExtras = Omit<TMDBTVDetail, 'credits'> & {
+type TVDetailWithExtras = Omit<TMDBTVDetail, "credits"> & {
   credits?: TMDBCredits;
   videos?: TMDBVideosResponse;
   similar?: {
@@ -42,16 +42,16 @@ function formatDate(dateStr: string | null | undefined): string | null {
   if (!dateStr) return null;
   const date = new Date(dateStr);
   if (isNaN(date.getTime())) return null;
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
 function getCreator(tv: TMDBTVDetail): string | null {
   if (!tv.created_by || tv.created_by.length === 0) return null;
-  return tv.created_by.map((c) => c.name).join(', ');
+  return tv.created_by.map((c) => c.name).join(", ");
 }
 
 function getTrailerKey(videos?: TMDBVideosResponse): string | null {
@@ -59,10 +59,10 @@ function getTrailerKey(videos?: TMDBVideosResponse): string | null {
 
   const trailer =
     videos.results.find(
-      (v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official
+      (v) => v.site === "YouTube" && v.type === "Trailer" && v.official,
     ) ||
-    videos.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ||
-    videos.results.find((v) => v.site === 'YouTube');
+    videos.results.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
+    videos.results.find((v) => v.site === "YouTube");
 
   return trailer?.key || null;
 }
@@ -72,10 +72,9 @@ function getTrailerKey(videos?: TMDBVideosResponse): string | null {
 // ============================================
 
 export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
-
   const title = tv.name;
-  const firstYear = tv.first_air_date?.split('-')[0] || null;
-  const lastYear = tv.last_air_date?.split('-')[0] || null;
+  const firstYear = tv.first_air_date?.split("-")[0] || null;
+  const lastYear = tv.last_air_date?.split("-")[0] || null;
   const rating = tv.vote_average;
   const voteCount = tv.vote_count;
   const genres = tv.genres || [];
@@ -96,12 +95,10 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
 
   const ratingColor =
     rating >= 7
-      ? 'text-green-400'
+      ? "text-green-400"
       : rating >= 5
-        ? 'text-yellow-400'
-        : 'text-red-400';
-
-
+        ? "text-yellow-400"
+        : "text-red-400";
 
   const mediaType = "tv";
   const { videoKey } = useTrailer(Number(TvShowID), mediaType);
@@ -115,7 +112,7 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
     if (videoKey) playTrailer(videoKey, `${title} — Trailer`);
   };
   return (
-    <div className={cn('min-h-screen', className)}>
+    <div className={cn("min-h-screen", className)}>
       {/* ============================================
           HERO SECTION
           ============================================ */}
@@ -166,14 +163,16 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
               )}
 
               <div className="flex flex-wrap items-center gap-3 text-sm md:text-base">
-                {yearRange && <span className="text-gray-300">{yearRange}</span>}
+                {yearRange && (
+                  <span className="text-gray-300">{yearRange}</span>
+                )}
 
                 {tv.number_of_seasons > 0 && (
                   <>
                     <span className="text-gray-500">·</span>
                     <span className="text-gray-300">
-                      {tv.number_of_seasons}{' '}
-                      {tv.number_of_seasons === 1 ? 'Season' : 'Seasons'}
+                      {tv.number_of_seasons}{" "}
+                      {tv.number_of_seasons === 1 ? "Season" : "Seasons"}
                     </span>
                   </>
                 )}
@@ -188,13 +187,19 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
                 )}
 
                 <span className="text-gray-500">·</span>
-                <span className={cn('flex flex-row items-center gap-1 font-medium', ratingColor)}>
-                  <Star className='size-4'/> {rating.toFixed(1)}
+                <span
+                  className={cn(
+                    "flex flex-row items-center gap-1 font-medium",
+                    ratingColor,
+                  )}
+                >
+                  <Star className="size-4" /> {rating.toFixed(1)}
                 </span>
 
                 {voteCount > 0 && (
                   <span className="flex flex-row items-center gap-1 text-gray-400 text-sm">
-                    <Vote className='size-4 text-green-500' />{voteCount.toLocaleString()} votes
+                    <Vote className="size-4 text-green-500" />
+                    {voteCount.toLocaleString()} votes
                   </span>
                 )}
               </div>
@@ -220,7 +225,7 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
 
               {creator && (
                 <p className="text-sm text-gray-400">
-                  <span className="text-gray-200">Created by:</span>{' '}
+                  <span className="text-gray-200">Created by:</span>{" "}
                   <span className="text-white">{creator}</span>
                 </p>
               )}
@@ -234,7 +239,7 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
                     onClick={handlePlayClick}
                     className="inline-flex text-2xl font-poppins capitalize items-center gap-2 px-6 py-3 font-medium bg-transparent backdrop-blur-sm rounded-lg transition-colors"
                   >
-                    <Play className='size-9'/>
+                    <Play className="size-9" />
                     Play Trailer
                   </button>
                 )}
@@ -245,8 +250,8 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
                   title={tv.name}
                   posterPath={tv.poster_path}
                   releaseYear={firstYear}
-                  iconClassName='size-8'
-                  className='text-2xl font-poppins px-6 py-3 h-full capitalize flex flex-row items-center bg-transparent backdrop-blur-sm'
+                  iconClassName="size-8"
+                  className="text-2xl font-poppins px-6 py-3 h-full capitalize flex flex-row items-center bg-transparent backdrop-blur-sm"
                 />
               </div>
             </div>
@@ -277,14 +282,18 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
           DETAILS GRID
           ============================================ */}
       <div className="mx-auto px-4 md:px-8 py-12 bg-linear-to-t from-blue-700/0 via-blue-700/60/0 to-amber-700/70">
-        <h2 className="text-2xl md:text-3xl font-poppins mb-6">
-          Details
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-poppins mb-6">Details</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <DetailItem label="Status" value={tv.status} />
-          <DetailItem label="First Air Date" value={formatDate(tv.first_air_date)} />
-          <DetailItem label="Last Air Date" value={formatDate(tv.last_air_date)} />
+          <DetailItem
+            label="First Air Date"
+            value={formatDate(tv.first_air_date)}
+          />
+          <DetailItem
+            label="Last Air Date"
+            value={formatDate(tv.last_air_date)}
+          />
           <DetailItem
             label="Original Language"
             value={tv.original_language?.toUpperCase()}
@@ -292,15 +301,15 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
           <DetailItem label="Type" value={tv.type} />
           <DetailItem
             label="Networks"
-            value={tv.networks?.map((n) => n.name).join(', ')}
+            value={tv.networks?.map((n) => n.name).join(", ")}
           />
           <DetailItem
             label="Production Countries"
-            value={tv.production_countries?.map((c) => c.name).join(', ')}
+            value={tv.production_countries?.map((c) => c.name).join(", ")}
           />
           <DetailItem
             label="Spoken Languages"
-            value={tv.spoken_languages?.map((l) => l.english_name).join(', ')}
+            value={tv.spoken_languages?.map((l) => l.english_name).join(", ")}
           />
         </div>
       </div>
@@ -316,7 +325,9 @@ export function TVDetail({ tv, TvShowID, className }: TVDetailProps) {
       {/* Similar TV Shows */}
       {tv.similar?.results && tv.similar.results.length > 0 && (
         <div className=" mx-auto px-4 md:px-8 pb-12">
-          <span className="text-2xl font-semibold mb-4 capitalize">Similar shows</span>
+          <span className="text-2xl font-semibold mb-4 capitalize">
+            Similar shows
+          </span>
           <SimilarCarousel
             items={tv.similar.results}
             mediaType="tv"
@@ -350,7 +361,7 @@ function SeasonCard({ season }: SeasonCardProps) {
     ? `${TMDB_CONFIG.image.baseUrl}/w342${season.poster_path}`
     : null;
 
-  const airYear = season.air_date?.split('-')[0] || null;
+  const airYear = season.air_date?.split("-")[0] || null;
 
   return (
     <div className="group">
@@ -377,7 +388,9 @@ function SeasonCard({ season }: SeasonCardProps) {
       </div>
 
       <div className="mt-2">
-        <h3 className="text-lg font-medium font-poppins truncate line-clamp-1">{season.name}</h3>
+        <h3 className="text-lg font-medium font-poppins truncate line-clamp-1">
+          {season.name}
+        </h3>
         <p className="text-sm text-gray-300 font-poppins truncate line-clamp-1">
           {season.episode_count} Episodes
           {airYear && ` · ${airYear}`}
@@ -391,7 +404,13 @@ function SeasonCard({ season }: SeasonCardProps) {
 // DETAIL ITEM SUB-COMPONENT
 // ============================================
 
-function DetailItem({ label, value }: { label: string; value?: string | null }) {
+function DetailItem({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | null;
+}) {
   if (!value) return null;
 
   return (

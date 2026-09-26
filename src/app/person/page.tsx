@@ -5,11 +5,9 @@
  * Lists popular people (actors, directors, etc.) with infinite scroll.
  * No filters — TMDB's /person/popular endpoint doesn't support them.
  */
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
-import { Users } from "lucide-react";
 import { PersonClient } from "./person-client";
 
 // ============================================

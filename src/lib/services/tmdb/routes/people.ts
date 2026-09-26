@@ -5,10 +5,10 @@
  * Docs: https://developers.themoviedb.org/3/people
  */
 
-import { tmdbClient } from '../client';
-import { CACHE_CONFIG } from '@/lib/config/app.config';
-import type { TMDBPerson, TMDBPersonDetail } from '@/types/person.types';
-import type { TMDBApiResponse } from '@/types/tmdb.types';
+import { CACHE_CONFIG } from "@/lib/config/app.config";
+import type { TMDBPerson, TMDBPersonDetail } from "@/types/person.types";
+import type { TMDBApiResponse } from "@/types/tmdb.types";
+import { tmdbClient } from "../client";
 
 // ============================================
 // POPULAR PEOPLE
@@ -23,24 +23,24 @@ import type { TMDBApiResponse } from '@/types/tmdb.types';
  */
 export async function getPopularPeople(
   page: number = 1,
-  language: string = 'en-US'
+  language: string = "en-US",
 ): Promise<TMDBApiResponse<TMDBPerson> | null> {
   try {
     const response = await tmdbClient.fetch<TMDBApiResponse<TMDBPerson>>(
-      '/person/popular',
+      "/person/popular",
       { page, language },
       {
-        cache: 'force-cache',
+        cache: "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.trending,
-          tags: ['people-popular'],
+          tags: ["people-popular"],
         },
-      }
+      },
     );
 
     return response;
   } catch (error) {
-    console.error('[TMDB] Failed to fetch popular people:', error);
+    console.error("[TMDB] Failed to fetch popular people:", error);
     return null;
   }
 }
@@ -54,22 +54,22 @@ export async function getPopularPeople(
  */
 export async function getPersonWithCredits(
   id: number,
-  language: string = 'en-US'
+  language: string = "en-US",
 ): Promise<TMDBPersonDetail | null> {
   try {
     const response = await tmdbClient.fetch<TMDBPersonDetail>(
       `/person/${id}`,
       {
         language,
-        append_to_response: 'movie_credits,tv_credits,external_ids',
+        append_to_response: "movie_credits,tv_credits,external_ids",
       },
       {
-        cache: 'force-cache',
+        cache: "force-cache",
         next: {
           revalidate: CACHE_CONFIG.revalidation.details,
           tags: [`person-${id}`],
         },
-      }
+      },
     );
 
     return response;

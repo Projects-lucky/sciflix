@@ -48,7 +48,7 @@ export interface TMDBConfigurationResponse {
 // MEDIA TYPE DISCRIMINATOR (Common)
 // ============================================
 
-export type TMDBMediaType = 'movie' | 'tv' | 'person';
+export type TMDBMediaType = "movie" | "tv" | "person";
 
 // ============================================
 // GENRE (Common)

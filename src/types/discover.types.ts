@@ -3,8 +3,8 @@
  * /discover/movie, /discover/tv
  */
 
-import type { TMDBMovie } from './movie.types';
-import type { TMDBTV } from './tv.types';
+import type { TMDBMovie } from "./movie.types";
+import type { TMDBTV } from "./tv.types";
 
 // ============================================
 // DISCOVER MOVIE PARAMETERS (FULL TMDB SUPPORT)
@@ -18,35 +18,36 @@ export interface DiscoverMovieParams {
 
   // Filtering
   adult?: boolean;
-  with_genres?: string;  year?: number;
+  with_genres?: string;
+  year?: number;
   primary_release_year?: number;
-  'primary_release_date.gte'?: string;
-  'primary_release_date.lte'?: string;
-  'release_date.gte'?: string;
-  'release_date.lte'?: string;
+  "primary_release_date.gte"?: string;
+  "primary_release_date.lte"?: string;
+  "release_date.gte"?: string;
+  "release_date.lte"?: string;
 
   // Vote & Rating Filters
-  'vote_average.gte'?: number;
-  'vote_average.lte'?: number;
-  'vote_count.gte'?: number;
-  'vote_count.lte'?: number;
+  "vote_average.gte"?: number;
+  "vote_average.lte"?: number;
+  "vote_count.gte"?: number;
+  "vote_count.lte"?: number;
 
   // Sorting
   sort_by?:
-    | 'popularity.desc'
-    | 'popularity.asc'
-    | 'vote_average.desc'
-    | 'vote_average.asc'
-    | 'vote_count.desc'
-    | 'vote_count.asc'
-    | 'release_date.desc'
-    | 'release_date.asc'
-    | 'revenue.desc'
-    | 'revenue.asc'
-    | 'primary_release_date.desc'
-    | 'primary_release_date.asc'
-    | 'original_title.desc'
-    | 'original_title.asc';
+    | "popularity.desc"
+    | "popularity.asc"
+    | "vote_average.desc"
+    | "vote_average.asc"
+    | "vote_count.desc"
+    | "vote_count.asc"
+    | "release_date.desc"
+    | "release_date.asc"
+    | "revenue.desc"
+    | "revenue.asc"
+    | "primary_release_date.desc"
+    | "primary_release_date.asc"
+    | "original_title.desc"
+    | "original_title.asc";
 
   // Additional filters
   with_cast?: string;
@@ -80,29 +81,29 @@ export interface DiscoverTVParams {
   with_genres?: string;
   without_genres?: string;
   first_air_date_year?: number;
-  'first_air_date.gte'?: string;
-  'first_air_date.lte'?: string;
-  'air_date.gte'?: string;
-  'air_date.lte'?: string;
+  "first_air_date.gte"?: string;
+  "first_air_date.lte"?: string;
+  "air_date.gte"?: string;
+  "air_date.lte"?: string;
 
   // Vote & Rating Filters
-  'vote_average.gte'?: number;
-  'vote_average.lte'?: number;
-  'vote_count.gte'?: number;
-  'vote_count.lte'?: number;
+  "vote_average.gte"?: number;
+  "vote_average.lte"?: number;
+  "vote_count.gte"?: number;
+  "vote_count.lte"?: number;
 
   // Sorting
   sort_by?:
-    | 'popularity.desc'
-    | 'popularity.asc'
-    | 'vote_average.desc'
-    | 'vote_average.asc'
-    | 'vote_count.desc'
-    | 'vote_count.asc'
-    | 'first_air_date.desc'
-    | 'first_air_date.asc'
-    | 'original_name.desc'
-    | 'original_name.asc';
+    | "popularity.desc"
+    | "popularity.asc"
+    | "vote_average.desc"
+    | "vote_average.asc"
+    | "vote_count.desc"
+    | "vote_count.asc"
+    | "first_air_date.desc"
+    | "first_air_date.asc"
+    | "original_name.desc"
+    | "original_name.asc";
 
   // Additional filters
   with_networks?: string;

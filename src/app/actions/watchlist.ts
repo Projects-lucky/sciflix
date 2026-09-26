@@ -9,22 +9,18 @@
  * via form actions or direct invocation.
  */
 
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { auth } from '@clerk/nextjs/server';
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import {
   addToWatchlist,
-  removeFromWatchlist,
-  updateWatchlistStatus,
   getWatchlist,
   isInWatchlist,
-} from '@/db/queries';
-import type {
-  WatchlistItem,
-  WatchlistStatus,
-  MediaType,
-} from '@/db/schema';
+  removeFromWatchlist,
+  updateWatchlistStatus,
+} from "@/db/queries";
+import type { MediaType, WatchlistItem, WatchlistStatus } from "@/db/schema";
 
 // ============================================
 // TYPES
@@ -55,7 +51,7 @@ export interface ActionResult<T = void> {
 async function requireUserId(): Promise<string> {
   const { userId } = await auth();
   if (!userId) {
-    throw new Error('Unauthorized');
+    throw new Error("Unauthorized");
   }
   return userId;
 }
@@ -64,9 +60,9 @@ async function requireUserId(): Promise<string> {
  * Revalidate all paths affected by watchlist changes
  */
 function revalidateWatchlistPaths() {
-  revalidatePath('/watchlist');
-  revalidatePath('/movie', 'layout');
-  revalidatePath('/tv', 'layout');
+  revalidatePath("/watchlist");
+  revalidatePath("/movie", "layout");
+  revalidatePath("/tv", "layout");
 }
 
 // ============================================
@@ -78,7 +74,7 @@ function revalidateWatchlistPaths() {
  * Idempotent — adding the same item twice is safe.
  */
 export async function addToWatchlistAction(
-  input: AddToWatchlistInput
+  input: AddToWatchlistInput,
 ): Promise<ActionResult<WatchlistItem>> {
   try {
     const userId = await requireUserId();
@@ -90,18 +86,18 @@ export async function addToWatchlistAction(
       title: input.title,
       posterPath: input.posterPath ?? null,
       releaseYear: input.releaseYear ?? null,
-      status: 'want_to_watch',
+      status: "want_to_watch",
     });
 
     if (!item) {
-      return { success: false, error: 'Failed to add to watchlist' };
+      return { success: false, error: "Failed to add to watchlist" };
     }
 
     revalidateWatchlistPaths();
     return { success: true, data: item };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('[addToWatchlistAction]', message);
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[addToWatchlistAction]", message);
     return { success: false, error: message };
   }
 }
@@ -111,7 +107,7 @@ export async function addToWatchlistAction(
  */
 export async function removeFromWatchlistAction(
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<ActionResult> {
   try {
     const userId = await requireUserId();
@@ -119,14 +115,14 @@ export async function removeFromWatchlistAction(
     const removed = await removeFromWatchlist(userId, tmdbId, mediaType);
 
     if (!removed) {
-      return { success: false, error: 'Item not in watchlist' };
+      return { success: false, error: "Item not in watchlist" };
     }
 
     revalidateWatchlistPaths();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('[removeFromWatchlistAction]', message);
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[removeFromWatchlistAction]", message);
     return { success: false, error: message };
   }
 }
@@ -137,7 +133,7 @@ export async function removeFromWatchlistAction(
  */
 export async function toggleWatchlistStatusAction(
   id: string,
-  newStatus: WatchlistStatus
+  newStatus: WatchlistStatus,
 ): Promise<ActionResult<WatchlistItem>> {
   try {
     const userId = await requireUserId();
@@ -145,14 +141,14 @@ export async function toggleWatchlistStatusAction(
     const updated = await updateWatchlistStatus(id, userId, newStatus);
 
     if (!updated) {
-      return { success: false, error: 'Item not found or access denied' };
+      return { success: false, error: "Item not found or access denied" };
     }
 
     revalidateWatchlistPaths();
     return { success: true, data: updated };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('[toggleWatchlistStatusAction]', message);
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[toggleWatchlistStatusAction]", message);
     return { success: false, error: message };
   }
 }
@@ -166,7 +162,7 @@ export async function getWatchlistAction(): Promise<WatchlistItem[]> {
     const userId = await requireUserId();
     return getWatchlist(userId);
   } catch (err) {
-    console.error('[getWatchlistAction]', err);
+    console.error("[getWatchlistAction]", err);
     return [];
   }
 }
@@ -177,7 +173,7 @@ export async function getWatchlistAction(): Promise<WatchlistItem[]> {
  */
 export async function isInWatchlistAction(
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<boolean> {
   try {
     const { userId } = await auth();
@@ -185,7 +181,7 @@ export async function isInWatchlistAction(
 
     return isInWatchlist(userId, tmdbId, mediaType);
   } catch (err) {
-    console.error('[isInWatchlistAction]', err);
+    console.error("[isInWatchlistAction]", err);
     return false;
   }
 }

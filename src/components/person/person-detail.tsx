@@ -10,12 +10,12 @@
  * - Uses purely semantic shadcn/ui Tailwind tokens for perfect light/dark mode compatibility
  */
 
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { MediaListItem } from '@/components/shared/media-list-item';
+import Image from "next/image";
+import { MediaListItem } from "@/components/shared/media-list-item";
+import { cn } from "@/lib/utils";
+
 // ============================================
 // TYPES
 // ============================================
@@ -26,7 +26,7 @@ interface FilmographyItem {
   year: string | null;
   character: string | null;
   posterUrl: string | null;
-  mediaType: 'movie' | 'tv';
+  mediaType: "movie" | "tv";
   popularity: number;
 }
 
@@ -61,19 +61,24 @@ function formatDate(dateStr: string | null): string | null {
   const date = new Date(dateStr);
   if (isNaN(date.getTime())) return null;
 
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
-function getAge(birthday: string | null, deathday: string | null): number | null {
+function getAge(
+  birthday: string | null,
+  deathday: string | null,
+): number | null {
   if (!birthday) return null;
 
   const birth = new Date(birthday);
   const end = deathday ? new Date(deathday) : new Date();
-  const age = Math.floor((end.getTime() - birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+  const age = Math.floor(
+    (end.getTime() - birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000),
+  );
 
   return age > 0 ? age : null;
 }
@@ -102,7 +107,7 @@ function SectionHeading({
         <h2 className="text-2xl font-semibold font-poppins tracking-wide capitalize text-foreground sm:text-3xl">
           {title}
         </h2>
-        {typeof count === 'number' && (
+        {typeof count === "number" && (
           <span className="mb-1 rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
             {count}
           </span>
@@ -149,10 +154,7 @@ function ExternalLink({
 // COMPONENT
 // ============================================
 
-export function PersonDetail({
-  person,
-  className,
-}: PersonDetailProps) {
+export function PersonDetail({ person, className }: PersonDetailProps) {
   const age = getAge(person.birthday, person.deathday);
   const birthday = formatDate(person.birthday);
   const deathday = formatDate(person.deathday);
@@ -162,18 +164,15 @@ export function PersonDetail({
   // ─────────────────────────────────────────
   const uniqueFilmography = Array.from(
     new Map(
-      person.filmography.map((item) => [
-        `${item.mediaType}-${item.id}`,
-        item,
-      ])
-    ).values()
+      person.filmography.map((item) => [`${item.mediaType}-${item.id}`, item]),
+    ).values(),
   );
-  
+
   // Known For: top 10 by popularity
   const knownFor = [...uniqueFilmography]
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, 10);
-  
+
   // Filmography: top 10 by year desc
   const sortedFilmography = [...uniqueFilmography]
     .sort((a, b) => {
@@ -186,10 +185,7 @@ export function PersonDetail({
 
   return (
     <main
-      className={cn(
-        'min-h-screen bg-background text-foreground',
-        className,
-      )}
+      className={cn("min-h-screen bg-background text-foreground", className)}
     >
       {/* ==========================================
           HERO
@@ -207,7 +203,6 @@ export function PersonDetail({
 
         <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 md:pt-36 lg:px-8">
           <div className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
-            
             {/* PROFILE IMAGE */}
             <div className="mx-auto w-full max-w-55 md:mx-0 lg:max-w-70">
               <div className="group relative aspect-2/3 overflow-hidden rounded-2xl border border-border bg-muted shadow-xl ring-1 ring-foreground/5 transition-all duration-500 hover:shadow-2xl hover:ring-foreground/10">
@@ -352,7 +347,6 @@ export function PersonDetail({
       <section className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
-      
             {/* ─────────────────────────────────────
                 KNOWN FOR (top 10 by popularity)
             ───────────────────────────────────── */}
@@ -363,7 +357,7 @@ export function PersonDetail({
                   title="Known For"
                   count={knownFor.length}
                 />
-      
+
                 <div className="flex flex-col gap-2">
                   {knownFor.map((item) => (
                     <MediaListItem
@@ -382,7 +376,7 @@ export function PersonDetail({
                 </div>
               </div>
             )}
-      
+
             {/* ─────────────────────────────────────
                 FILMOGRAPHY (top 10 by year desc, with character)
             ───────────────────────────────────── */}
@@ -393,11 +387,11 @@ export function PersonDetail({
                   title="Filmography"
                   count={sortedFilmography.length}
                 />
-      
+
                 <div className="flex flex-col gap-2">
                   {sortedFilmography.map((item) => (
                     <MediaListItem
-                      key={`film-${item.mediaType}-${item.id}-${item.character ?? ''}`}
+                      key={`film-${item.mediaType}-${item.id}-${item.character ?? ""}`}
                       item={{
                         id: item.id,
                         title: item.title,
@@ -412,11 +406,9 @@ export function PersonDetail({
                 </div>
               </div>
             )}
-      
           </div>
         </div>
       </section>
-     
     </main>
   );
 }

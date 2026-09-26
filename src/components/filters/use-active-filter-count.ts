@@ -6,18 +6,18 @@
  * Used to display a badge on the "More Filters" button.
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import { discoverParsers } from '@/lib/search/nuqs-parsers';
+import { useQueryStates } from "nuqs";
+import { discoverParsers } from "@/lib/search/nuqs-parsers";
 
 // ============================================
 // DEFAULTS (must match parser defaults)
 // ============================================
 
 const DEFAULTS = {
-  sortBy: 'popularity.desc',
-  language: 'en-US',
+  sortBy: "popularity.desc",
+  language: "en-US",
   adult: false,
   page: 1,
   minVoteCount: 0,
@@ -37,7 +37,11 @@ export function useActiveFilterCount(): number {
   if (filters.sortBy && filters.sortBy !== DEFAULTS.sortBy) count++;
   if (filters.language && filters.language !== DEFAULTS.language) count++;
   if (filters.adult === true) count++;
-  if (typeof filters.minVoteCount === 'number' && filters.minVoteCount > DEFAULTS.minVoteCount) count++;
+  if (
+    typeof filters.minVoteCount === "number" &&
+    filters.minVoteCount > DEFAULTS.minVoteCount
+  )
+    count++;
   if (filters.runtime) count++;
 
   // Country + Original Language
@@ -50,14 +54,14 @@ export function useActiveFilterCount(): number {
 
   // Vote average
   if (
-    typeof filters.voteAverageGte === 'number' ||
-    typeof filters.voteAverageLte === 'number'
+    typeof filters.voteAverageGte === "number" ||
+    typeof filters.voteAverageLte === "number"
   ) {
     count++;
   }
 
   // Network (TV only)
-  if (typeof filters.withNetworks === 'number') count++;
+  if (typeof filters.withNetworks === "number") count++;
 
   // Certification (movie only)
   if (filters.certification) count++;

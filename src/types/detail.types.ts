@@ -13,6 +13,6 @@ export interface DetailParams {
 }
 
 // Re-export actual detail types from their respective files
-export type { TMDBMovieDetail as MovieDetail } from './movie.types';
-export type { TMDBTVDetail as TVDetail } from './tv.types';
-export type { TMDBPersonDetail as PersonDetail } from './person.types';
+export type { TMDBMovieDetail as MovieDetail } from "./movie.types";
+export type { TMDBPersonDetail as PersonDetail } from "./person.types";
+export type { TMDBTVDetail as TVDetail } from "./tv.types";

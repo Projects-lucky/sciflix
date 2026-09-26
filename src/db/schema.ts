@@ -4,64 +4,64 @@
  */
 
 import {
-  pgTable,
-  uuid,
-  text,
+  index,
   integer,
+  pgTable,
+  text,
   timestamp,
   uniqueIndex,
-  index,
-} from 'drizzle-orm/pg-core';
+  uuid,
+} from "drizzle-orm/pg-core";
 
 // ============================================
 // TYPES
 // ============================================
 
-export type MediaType = 'movie' | 'tv';
-export type WatchlistStatus = 'want_to_watch' | 'watched';
+export type MediaType = "movie" | "tv";
+export type WatchlistStatus = "want_to_watch" | "watched";
 
 // ============================================
 // WATCHLIST ITEMS
 // ============================================
 
 export const watchlistItems = pgTable(
-  'watchlist_items',
+  "watchlist_items",
   {
-    id: uuid('id').primaryKey().defaultRandom(),
-    userId: text('user_id').notNull(),
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id").notNull(),
 
-    tmdbId: integer('tmdb_id').notNull(),
-    mediaType: text('media_type').$type<MediaType>().notNull(),
+    tmdbId: integer("tmdb_id").notNull(),
+    mediaType: text("media_type").$type<MediaType>().notNull(),
 
     // Snapshot data (avoids TMDB calls on watchlist page)
-    title: text('title').notNull(),
-    posterPath: text('poster_path'),
-    releaseYear: text('release_year'),
+    title: text("title").notNull(),
+    posterPath: text("poster_path"),
+    releaseYear: text("release_year"),
 
     // Status
-    status: text('status')
+    status: text("status")
       .$type<WatchlistStatus>()
       .notNull()
-      .default('want_to_watch'),
+      .default("want_to_watch"),
 
     // Timestamps
-    addedAt: timestamp('added_at', { withTimezone: true })
+    addedAt: timestamp("added_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
-    watchedAt: timestamp('watched_at', { withTimezone: true }),
+    watchedAt: timestamp("watched_at", { withTimezone: true }),
   },
   (table) => ({
-    userTmdbUnique: uniqueIndex('watchlist_user_tmdb_unique').on(
+    userTmdbUnique: uniqueIndex("watchlist_user_tmdb_unique").on(
       table.userId,
       table.tmdbId,
-      table.mediaType
+      table.mediaType,
     ),
-    userIdx: index('watchlist_user_idx').on(table.userId),
-    userStatusIdx: index('watchlist_user_status_idx').on(
+    userIdx: index("watchlist_user_idx").on(table.userId),
+    userStatusIdx: index("watchlist_user_status_idx").on(
       table.userId,
-      table.status
+      table.status,
     ),
-  })
+  }),
 );
 
 // ============================================

@@ -5,22 +5,22 @@
 
 "use client";
 
-import { SearchBar } from "./search-bar";
-import { LanguageFilter } from "@/components/filters/language-filter";
-import { TypeFilter } from "@/components/filters/type-filter";
 import { AdultFilter } from "@/components/filters/adult-filter";
+import { LanguageFilter } from "@/components/filters/language-filter";
 import { ResetFiltersButton } from "@/components/filters/reset-filters-button";
-import { SearchEmpty } from "@/components/search/search-empty";
+import { TypeFilter } from "@/components/filters/type-filter";
 import { MovieCard } from "@/components/movie/movie-card";
-import {
-  InfiniteScroll,
-  type InfinitePage,
-} from "@/components/shared/infinite-scroll";
-import type { SearchType, SearchResultItem } from "@/hooks/use-infinite-search";
-import type { TMDBMovie } from "@/types/movie.types";
-import type { TMDBTV } from "@/types/tv.types";
-import type { TMDBPerson } from "@/types/person.types";
 import { PersonGridCard } from "@/components/person/PersonCardPresets";
+import { SearchEmpty } from "@/components/search/search-empty";
+import {
+  type InfinitePage,
+  InfiniteScroll,
+} from "@/components/shared/infinite-scroll";
+import type { SearchResultItem, SearchType } from "@/hooks/use-infinite-search";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBPerson } from "@/types/person.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { SearchBar } from "./search-bar";
 
 // ============================================
 // TYPES
@@ -121,7 +121,7 @@ export function SearchClient({
         <LanguageFilter />
         <AdultFilter />
         <div className="ml-auto">
-          <ResetFiltersButton  className="border"/>
+          <ResetFiltersButton className="border" />
         </div>
       </div>
 
@@ -130,25 +130,37 @@ export function SearchClient({
         <SearchEmpty variant="no-query" />
       ) : (
         <div className="mt-6">
-          <InfiniteScroll <SearchResultItem>
+          <InfiniteScroll<SearchResultItem>
             queryKey={["search", query, type, language, adult]}
             fetchFn={(page) =>
               fetchSearchPage(query, type, language, adult, page)
             }
             getItemKey={(item, index) => {
-              if (!item || typeof item !== 'object' || !('id' in item)) {
+              if (!item || typeof item !== "object" || !("id" in item)) {
                 return `unknown-${index}`;
               }
-              const mediaType = item.media_type ?? (isMovie(item) ? 'movie' : 'tv');
+              const mediaType =
+                item.media_type ?? (isMovie(item) ? "movie" : "tv");
               return `${mediaType}-${item.id}`;
             }}
             renderItem={(item) => {
               if (isPerson(item)) {
-                return <PersonGridCard className="w-58 h-98" key={item.id} person={item} />;
+                return (
+                  <PersonGridCard
+                    className="w-58 h-98"
+                    key={item.id}
+                    person={item}
+                  />
+                );
               }
 
-              const mediaType = getMediaType(item);
-              return <MovieCard className="w-58 h-98" item={item as TMDBMovie | TMDBTV} />;
+              // const mediaType = getMediaType(item);
+              return (
+                <MovieCard
+                  className="w-58 h-98"
+                  item={item as TMDBMovie | TMDBTV}
+                />
+              );
             }}
             emptyState={<SearchEmpty variant="no-results" query={query} />}
             className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-items-center items-stretch auto-rows-85 sm:auto-rows-90 md:auto-rows-105 gap-x-4 gap-y-14 md:gap-y-10 md:gap-x-9 w-full"

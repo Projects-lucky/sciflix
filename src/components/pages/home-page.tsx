@@ -3,11 +3,11 @@
  * Combines all home page sections: Hero, People, Movies, and TV Shows
  */
 
-import { cn } from '@/lib/utils';
-import type { HomePageData } from '@/app/page';
-import { GenreSection } from '../shared/genre-section';
-import { PeopleCarousel } from '../person/people-carousel-wrapper';
-import { HeroCarousel } from '../shared/hero-carousel';
+import type { HomePageData } from "@/app/page";
+import { cn } from "@/lib/utils";
+import { PeopleCarousel } from "../person/people-carousel-wrapper";
+import { GenreSection } from "../shared/genre-section";
+import { HeroCarousel } from "../shared/hero-carousel";
 
 export interface HomePageProps {
   data: HomePageData;
@@ -15,29 +15,23 @@ export interface HomePageProps {
 }
 
 export function HomePage({ data, className }: HomePageProps) {
-  const {
-    hero,
-    people,
-    movieGenreSections,
-    tvGenreSections,
-    metadata,
-  } = data;
+  const { hero, people, movieGenreSections, tvGenreSections, metadata } = data;
 
   const hasHero = hero?.items?.length > 0;
   const hasPeople = people?.items?.length > 0;
   const hasMovieSections = movieGenreSections?.some(
-    (section) => section?.movies?.length > 0
+    (section) => section?.movies?.length > 0,
   );
   const hasTVSections = tvGenreSections?.some(
-    (section) => section?.shows?.length > 0
+    (section) => section?.shows?.length > 0,
   );
 
   if (!hasHero && !hasPeople && !hasMovieSections && !hasTVSections) {
     return (
       <div
         className={cn(
-          'flex items-center justify-center min-h-[60vh]',
-          className
+          "flex items-center justify-center min-h-[60vh]",
+          className,
         )}
       >
         <div className="text-center">
@@ -53,7 +47,7 @@ export function HomePage({ data, className }: HomePageProps) {
   }
 
   return (
-    <main className={cn('min-h-screen', className)}>
+    <main className={cn("min-h-screen", className)}>
       {/* Hero */}
       {hasHero && (
         <section className="relative">

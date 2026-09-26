@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import { discoverParsers, DISCOVER_OPTIONS } from '@/lib/search/nuqs-parsers';
-import { getSortOptionsFor, type MediaType } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { getSortOptionsFor, type MediaType } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 export interface SortFilterProps {
   type: MediaType;
@@ -21,16 +21,16 @@ export interface SortFilterProps {
 export function SortFilter({
   type,
   className,
-  label = 'Sort',
+  label = "Sort",
 }: SortFilterProps) {
   // ✅ Pass DISCOVER_OPTIONS so shallow: false triggers server re-render
   const [{ sortBy }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   const options = getSortOptionsFor(type);
-  const currentValue = sortBy || 'popularity.desc';
+  const currentValue = sortBy || "popularity.desc";
 
   const handleChange = (value: string) => {
     setFilters({
@@ -40,7 +40,7 @@ export function SortFilter({
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor={`sort-filter-${type}`}
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

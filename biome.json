@@ -12,17 +12,37 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "ignore": [
+          "node_modules/**",
+          "dist/**",
+          "build/**",
+          ".next/**",
+          "coverage/**"
+        ]
   },
   "css": {
     "parser": {
+      "cssModules": false,
       "tailwindDirectives": true
     }
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noExplicitAny": "off",
+        "noShadowRestrictedNames": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": "warn"
+      }
     },
     "domains": {
       "next": "recommended",

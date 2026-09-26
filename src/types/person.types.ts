@@ -3,8 +3,8 @@
  * /person/{id}, /trending/person, /search/person
  */
 
-import type { TMDBMovie } from './movie.types';
-import type { TMDBTV } from './tv.types';
+import type { TMDBMovie } from "./movie.types";
+import type { TMDBTV } from "./tv.types";
 
 // ============================================
 // PERSON (CORE)

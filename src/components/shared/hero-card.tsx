@@ -8,22 +8,22 @@
  * - "Info" button navigates to the detail page
  */
 
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { TMDB_CONFIG } from '@/lib/config/app.config';
-import { getGenreNameById } from '@/lib/services/tmdb/routes/genres';
+import { Info, Play, Star } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { WatchlistButton } from "@/components/watchlist/watchlist-button";
+import { TMDB_CONFIG } from "@/lib/config/app.config";
+import { getGenreNameById } from "@/lib/services/tmdb/routes/genres";
+import { cn } from "@/lib/utils";
+import { usePlayTrailer, useTrailer } from "@/lib/video/context";
 import {
   isTrendingMovie,
   isTrendingTV,
   type TrendingItem,
-} from '@/types/trending.types';
-import { Info, Play, Star } from 'lucide-react';
-import { WatchlistButton } from '@/components/watchlist/watchlist-button';
-import { useTrailer, usePlayTrailer } from '@/lib/video/context';
+} from "@/types/trending.types";
 
 // ============================================
 // TYPES
@@ -43,12 +43,12 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
   const router = useRouter();
 
   // Hooks must be called unconditionally
-  const mediaType: 'movie' | 'tv' =
+  const mediaType: "movie" | "tv" =
     item && (isTrendingMovie(item) || isTrendingTV(item))
       ? isTrendingMovie(item)
-        ? 'movie'
-        : 'tv'
-      : 'movie';
+        ? "movie"
+        : "tv"
+      : "movie";
   const itemId = item?.id ?? 0;
 
   const { videoKey } = useTrailer(itemId, mediaType);
@@ -75,14 +75,12 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
 
   const title = isTrendingMovie(item) ? item.title : item.name;
   const year = isTrendingMovie(item)
-    ? item.release_date?.split('-')[0]
-    : item.first_air_date?.split('-')[0];
+    ? item.release_date?.split("-")[0]
+    : item.first_air_date?.split("-")[0];
 
-  const href = isTrendingMovie(item)
-    ? `/movie/${item.id}`
-    : `/tv/${item.id}`;
+  const href = isTrendingMovie(item) ? `/movie/${item.id}` : `/tv/${item.id}`;
 
-  const mediaTypeLabel = isTrendingMovie(item) ? 'MOVIE' : 'SERIES';
+  const mediaTypeLabel = isTrendingMovie(item) ? "MOVIE" : "SERIES";
 
   const backdropUrl = item.backdrop_path
     ? `${TMDB_CONFIG.image.baseUrl}/original${item.backdrop_path}`
@@ -100,10 +98,10 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
 
   const ratingGlowColor =
     rating >= 7
-      ? 'from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/30 shadow-emerald-500/10'
+      ? "from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/30 shadow-emerald-500/10"
       : rating >= 5
-        ? 'from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/30 shadow-amber-500/10'
-        : 'from-rose-500/20 to-red-500/20 text-rose-400 border-rose-500/30 shadow-rose-500/10';
+        ? "from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/30 shadow-amber-500/10"
+        : "from-rose-500/20 to-red-500/20 text-rose-400 border-rose-500/30 shadow-rose-500/10";
 
   // ============================================
   // HANDLERS
@@ -130,8 +128,8 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
   return (
     <div
       className={cn(
-        'hero-card-cnt flex w-full h-full group select-none relative overflow-hidden',
-        className
+        "hero-card-cnt flex w-full h-full group select-none relative overflow-hidden",
+        className,
       )}
     >
       <div className="relative w-full flex items-center h-150">
@@ -166,8 +164,8 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
                 {rating > 0 && (
                   <span
                     className={cn(
-                      'flex items-center gap-1.5 px-3 font-tektur',
-                      ratingGlowColor
+                      "flex items-center gap-1.5 px-3 font-tektur",
+                      ratingGlowColor,
                     )}
                   >
                     <Star className="w-4 h-4" />
@@ -175,9 +173,7 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
                   </span>
                 )}
 
-                {year && (
-                  <span className="px-3 py-1 font-tektur">{year}</span>
-                )}
+                {year && <span className="px-3 py-1 font-tektur">{year}</span>}
               </div>
 
               {/* Title + Overview — clickable to detail page */}
@@ -251,7 +247,7 @@ export function HeroCard({ item, className, priority = false }: HeroCardProps) {
                 <span className="trailor flex items-center gap-2 border p-2">
                   <WatchlistButton
                     tmdbId={item.id}
-                    mediaType={isTrendingMovie(item) ? 'movie' : 'tv'}
+                    mediaType={isTrendingMovie(item) ? "movie" : "tv"}
                     title={title}
                     posterPath={item.poster_path}
                     releaseYear={year}

@@ -4,11 +4,11 @@
  * Fetches TV details with credits, videos, and similar shows
  */
 
-import { notFound } from 'next/navigation';
-import { TVDetail } from '@/components/tv/tv-detail';
-import { getTVDetails } from '@/lib/services/tmdb';
-import { TMDB_CONFIG } from '@/lib/config/app.config';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { TVDetail } from "@/components/tv/tv-detail";
+import { TMDB_CONFIG } from "@/lib/config/app.config";
+import { getTVDetails } from "@/lib/services/tmdb";
 
 // ============================================
 // TYPES
@@ -33,7 +33,7 @@ export default async function TVPage({ params }: PageProps) {
 
   // Fetch TV with credits, videos, and similar in one call
   const tv = await getTVDetails(tvId, {
-    append_to_response: 'credits,videos,similar',
+    append_to_response: "credits,videos,similar",
   });
 
   // If API fails or TV doesn't exist, show 404
@@ -48,21 +48,23 @@ export default async function TVPage({ params }: PageProps) {
 // METADATA (SEO + OpenGraph)
 // ============================================
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const tvId = Number(id);
 
   if (!Number.isInteger(tvId) || tvId <= 0) {
-    return { title: 'Not Found' };
+    return { title: "Not Found" };
   }
 
   const tv = await getTVDetails(tvId);
 
   if (!tv) {
-    return { title: 'TV Show Not Found' };
+    return { title: "TV Show Not Found" };
   }
 
-  const firstYear = tv.first_air_date?.split('-')[0] || '';
+  const firstYear = tv.first_air_date?.split("-")[0] || "";
   const title = firstYear ? `${tv.name} (${firstYear})` : tv.name;
 
   const description = tv.overview
@@ -82,7 +84,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
 
     openGraph: {
-      type: 'video.tv_show',
+      type: "video.tv_show",
       title,
       description,
       url: `/tv/${tvId}`,
@@ -90,7 +92,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
 
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: ogImage ? [ogImage] : undefined,

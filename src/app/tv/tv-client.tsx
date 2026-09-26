@@ -5,16 +5,16 @@
  * - Infinite scroll grid of MovieCard (with mediaType="tv")
  */
 
-'use client';
+"use client";
 
-import { FilterBar } from '@/components/filters/filter-bar';
+import { FilterBar } from "@/components/filters/filter-bar";
+import { MovieCard } from "@/components/movie/movie-card";
+import { SearchEmpty } from "@/components/search/search-empty";
 import {
-  InfiniteScroll,
   type InfinitePage,
-} from '@/components/shared/infinite-scroll';
-import { MovieCard } from '@/components/movie/movie-card';
-import { SearchEmpty } from '@/components/search/search-empty';
-import type { TMDBTV } from '@/types/tv.types';
+  InfiniteScroll,
+} from "@/components/shared/infinite-scroll";
+import type { TMDBTV } from "@/types/tv.types";
 
 // ============================================
 // TYPES
@@ -47,64 +47,63 @@ export interface TVClientProps {
 
 async function fetchDiscoverTV(
   params: TVClientParams,
-  page: number
+  page: number,
 ): Promise<InfinitePage<TMDBTV>> {
   const query = new URLSearchParams();
 
   // Core filters
-  if (params.withGenres) query.set('with_genres', params.withGenres);
-  if (params.sortBy) query.set('sort_by', params.sortBy);
+  if (params.withGenres) query.set("with_genres", params.withGenres);
+  if (params.sortBy) query.set("sort_by", params.sortBy);
   if (params.minVoteCount && params.minVoteCount > 0) {
-    query.set('vote_count.gte', String(params.minVoteCount));
+    query.set("vote_count.gte", String(params.minVoteCount));
   }
 
   // Common
-  if (params.language) query.set('language', params.language);
-  if (typeof params.adult === 'boolean') {
-    query.set('include_adult', String(params.adult));
+  if (params.language) query.set("language", params.language);
+  if (typeof params.adult === "boolean") {
+    query.set("include_adult", String(params.adult));
   }
 
   // New: Country + Original Language
   if (params.withOriginCountry) {
-    query.set('with_origin_country', params.withOriginCountry);
+    query.set("with_origin_country", params.withOriginCountry);
   }
   if (params.withOriginalLanguage) {
-    query.set('with_original_language', params.withOriginalLanguage);
+    query.set("with_original_language", params.withOriginalLanguage);
   }
 
   // New: First air date range (dot notation)
   if (params.firstAirDateGte) {
-    query.set('first_air_date.gte', params.firstAirDateGte);
+    query.set("first_air_date.gte", params.firstAirDateGte);
   }
   if (params.firstAirDateLte) {
-    query.set('first_air_date.lte', params.firstAirDateLte);
+    query.set("first_air_date.lte", params.firstAirDateLte);
   }
 
   // Legacy: single year
   if (params.firstAirDateYear) {
-    query.set('first_air_date_year', String(params.firstAirDateYear));
+    query.set("first_air_date_year", String(params.firstAirDateYear));
   }
 
   // New: Vote average range (dot notation)
-  if (typeof params.voteAverageGte === 'number') {
-    query.set('vote_average.gte', String(params.voteAverageGte));
+  if (typeof params.voteAverageGte === "number") {
+    query.set("vote_average.gte", String(params.voteAverageGte));
   }
-  if (typeof params.voteAverageLte === 'number') {
-    query.set('vote_average.lte', String(params.voteAverageLte));
+  if (typeof params.voteAverageLte === "number") {
+    query.set("vote_average.lte", String(params.voteAverageLte));
   }
 
   // New: Networks (TV only)
-  if (typeof params.withNetworks === 'number') {
-    query.set('with_networks', String(params.withNetworks));
+  if (typeof params.withNetworks === "number") {
+    query.set("with_networks", String(params.withNetworks));
   }
 
   // Pagination
-  query.set('page', String(page));
+  query.set("page", String(page));
 
-  const response = await fetch(
-    `/api/tmdb/discover/tv?${query.toString()}`,
-    { headers: { Accept: 'application/json' } }
-  );
+  const response = await fetch(`/api/tmdb/discover/tv?${query.toString()}`, {
+    headers: { Accept: "application/json" },
+  });
 
   if (!response.ok) {
     throw new Error(`Discover failed: ${response.status}`);
@@ -138,11 +137,14 @@ export function TVClient({ params }: TVClientProps) {
       {/* Infinite Grid */}
       <div className="mt-6">
         <InfiniteScroll<TMDBTV>
-          queryKey={['discover-tv', params]}
+          queryKey={["discover-tv", params]}
           fetchFn={(page) => fetchDiscoverTV(params, page)}
           getItemKey={(show) => `tv-${show.id}`}
           renderItem={(show) => (
-            <MovieCard item={show} className='min-w-0 min-h-0 items-stretch justify-items-stretch' />
+            <MovieCard
+              item={show}
+              className="min-w-0 min-h-0 items-stretch justify-items-stretch"
+            />
           )}
           emptyState={
             <SearchEmpty variant="no-results" query="these filters" />

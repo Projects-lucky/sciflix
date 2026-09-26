@@ -5,22 +5,19 @@
  * TV only — movies don't have networks
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { NETWORK_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { NETWORK_OPTIONS } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -37,25 +34,25 @@ export interface NetworkFilterProps {
 
 export function NetworkFilter({
   className,
-  label = 'Network',
+  label = "Network",
 }: NetworkFilterProps) {
   const [{ withNetworks }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   const currentValue =
-    withNetworks !== undefined ? String(withNetworks) : 'all';
+    withNetworks !== undefined ? String(withNetworks) : "all";
 
   const handleChange = (value: string) => {
     setFilters({
-      withNetworks: value === 'all' ? null : Number(value),
+      withNetworks: value === "all" ? null : Number(value),
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor="network-filter"
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

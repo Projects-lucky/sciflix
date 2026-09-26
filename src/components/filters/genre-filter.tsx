@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import { discoverParsers, DISCOVER_OPTIONS } from '@/lib/search/nuqs-parsers';
-import { getGenresFor, type MediaType } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { getGenresFor, type MediaType } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 export interface GenreFilterProps {
   type: MediaType;
@@ -21,26 +21,26 @@ export interface GenreFilterProps {
 export function GenreFilter({
   type,
   className,
-  label = 'Genre',
+  label = "Genre",
 }: GenreFilterProps) {
   //  Pass DISCOVER_OPTIONS so shallow: false triggers server re-render
   const [{ withGenres }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   const genres = getGenresFor(type);
-  const currentValue = withGenres || 'all';
+  const currentValue = withGenres || "all";
 
   const handleChange = (value: string) => {
     setFilters({
-      withGenres: value === 'all' ? null : value,
+      withGenres: value === "all" ? null : value,
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor={`genre-filter-${type}`}
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

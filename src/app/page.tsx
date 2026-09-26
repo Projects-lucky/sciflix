@@ -2,22 +2,21 @@
  * Home Page - Server Component
  * Orchestrates data fetching from genres + discover services
  */
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-import { HomePage } from '@/components/pages/home-page';
+import { HomePage } from "@/components/pages/home-page";
 import {
+  discoverTV,
   getHeroTrending,
-  getTrendingPeople,
   getHomeGenres,
   getMoviesByGenre,
-  discoverTV,
-} from '@/lib/services/tmdb';
-import type { TrendingItem } from '@/types/trending.types';
-import type { TMDBGenre } from '@/types/tmdb.types';
-import type { TMDBPerson } from '@/types/person.types';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
-
+  getTrendingPeople,
+} from "@/lib/services/tmdb";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBPerson } from "@/types/person.types";
+import type { TMDBGenre } from "@/types/tmdb.types";
+import type { TrendingItem } from "@/types/trending.types";
+import type { TMDBTV } from "@/types/tv.types";
 
 // ============================================
 // TYPES
@@ -83,36 +82,39 @@ async function getHomePageData(): Promise<HomePageData> {
   const [heroResult, peopleResult, movieGenresResult, tvGenresResult] =
     await Promise.allSettled([
       getHeroTrending(10),
-      getTrendingPeople('day', 20),
-      getHomeGenres(GENRE_COUNT, 'movie'),
-      getHomeGenres(GENRE_COUNT, 'tv'),
+      getTrendingPeople("day", 20),
+      getHomeGenres(GENRE_COUNT, "movie"),
+      getHomeGenres(GENRE_COUNT, "tv"),
     ]);
 
   const heroItems =
-    heroResult.status === 'fulfilled' && heroResult.value ? heroResult.value : [];
+    heroResult.status === "fulfilled" && heroResult.value
+      ? heroResult.value
+      : [];
   const heroSuccess =
-    heroResult.status === 'fulfilled' && heroResult.value !== null;
+    heroResult.status === "fulfilled" && heroResult.value !== null;
 
   const peopleItems =
-    peopleResult.status === 'fulfilled' && peopleResult.value
+    peopleResult.status === "fulfilled" && peopleResult.value
       ? peopleResult.value
       : [];
   const peopleSuccess =
-    peopleResult.status === 'fulfilled' && peopleResult.value !== null;
+    peopleResult.status === "fulfilled" && peopleResult.value !== null;
 
   const movieGenreItems =
-    movieGenresResult.status === 'fulfilled' && movieGenresResult.value
+    movieGenresResult.status === "fulfilled" && movieGenresResult.value
       ? movieGenresResult.value
       : [];
   const movieGenresSuccess =
-    movieGenresResult.status === 'fulfilled' && movieGenresResult.value !== null;
+    movieGenresResult.status === "fulfilled" &&
+    movieGenresResult.value !== null;
 
   const tvGenreItems =
-    tvGenresResult.status === 'fulfilled' && tvGenresResult.value
+    tvGenresResult.status === "fulfilled" && tvGenresResult.value
       ? tvGenresResult.value
       : [];
   const tvGenresSuccess =
-    tvGenresResult.status === 'fulfilled' && tvGenresResult.value !== null;
+    tvGenresResult.status === "fulfilled" && tvGenresResult.value !== null;
 
   // ─────────────────────────────────────────
   // 2. Fetch movies for each movie genre
@@ -126,7 +128,7 @@ async function getHomePageData(): Promise<HomePageData> {
         movies: movies || [],
         success: movies !== null && movies.length > 0,
       };
-    })
+    }),
   );
 
   // ─────────────────────────────────────────
@@ -136,7 +138,7 @@ async function getHomePageData(): Promise<HomePageData> {
     tvGenreItems.map(async (genre) => {
       const shows = await discoverTV(
         { with_genres: String(genre.id) },
-        { limit: ITEMS_PER_GENRE }
+        { limit: ITEMS_PER_GENRE },
       );
       return {
         genreId: genre.id,
@@ -144,7 +146,7 @@ async function getHomePageData(): Promise<HomePageData> {
         shows: shows || [],
         success: shows !== null && shows.length > 0,
       };
-    })
+    }),
   );
 
   // ─────────────────────────────────────────

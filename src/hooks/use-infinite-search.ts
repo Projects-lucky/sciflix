@@ -11,22 +11,22 @@
  * No fetch logic leaks into UI.
  */
 
-'use client';
+"use client";
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import type { InfinitePage } from '@/components/shared/infinite-scroll';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
-import type { TMDBPerson } from '@/types/person.types';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import type { InfinitePage } from "@/components/shared/infinite-scroll";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBPerson } from "@/types/person.types";
+import type { TMDBTV } from "@/types/tv.types";
 
 // ============================================
 // TYPES
 // ============================================
 
-export type SearchType = 'multi' | 'movie' | 'tv' | 'person';
+export type SearchType = "multi" | "movie" | "tv" | "person";
 
 export type SearchResultItem = (TMDBMovie | TMDBTV | TMDBPerson) & {
-  media_type?: 'movie' | 'tv' | 'person';
+  media_type?: "movie" | "tv" | "person";
 };
 
 // ============================================
@@ -42,7 +42,7 @@ async function fetchSearchPage(
   type: SearchType,
   language: string,
   adult: boolean,
-  page: number
+  page: number,
 ): Promise<InfinitePage<SearchResultItem>> {
   const params = new URLSearchParams({
     query,
@@ -54,7 +54,7 @@ async function fetchSearchPage(
   const url = `/api/tmdb/search/${type}?${params.toString()}`;
 
   const response = await fetch(url, {
-    headers: { Accept: 'application/json' },
+    headers: { Accept: "application/json" },
   });
 
   if (!response.ok) {
@@ -96,7 +96,7 @@ export function useInfiniteSearch({
   enabled = true,
 }: UseInfiniteSearchParams) {
   return useInfiniteQuery({
-    queryKey: ['search', query, type, language, adult],
+    queryKey: ["search", query, type, language, adult],
 
     queryFn: ({ pageParam }) =>
       fetchSearchPage(query, type, language, adult, pageParam as number),

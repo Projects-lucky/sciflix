@@ -5,25 +5,25 @@
  * Includes UserMenu at the bottom
  */
 
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Show } from '@clerk/nextjs';
-import { Menu } from 'lucide-react';
+import { Show } from "@clerk/nextjs";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { NAV_LINKS, type NavLink, APP_META } from '@/lib/config/nav.config';
-import { UserMenu } from './user-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/sheet";
+import { APP_META, NAV_LINKS, type NavLink } from "@/lib/config/nav.config";
+import { cn } from "@/lib/utils";
+import { UserMenu } from "./user-menu";
 
 // ============================================
 // TYPES
@@ -46,7 +46,7 @@ export function MobileMenu({ className }: MobileMenuProps) {
         <Button
           variant="ghost"
           size="icon"
-          className={cn('md:hidden', className)}
+          className={cn("md:hidden", className)}
           aria-label="Open menu"
         >
           <Menu className="w-5 h-5" />
@@ -102,8 +102,8 @@ function MobileNavItem({ link, onNavigate }: MobileNavItemProps) {
   const Icon = link.icon;
 
   const isActive =
-    link.href === '/'
-      ? pathname === '/'
+    link.href === "/"
+      ? pathname === "/"
       : pathname === link.href || pathname.startsWith(`${link.href}/`);
 
   const content = (
@@ -111,11 +111,9 @@ function MobileNavItem({ link, onNavigate }: MobileNavItemProps) {
       href={link.href}
       onClick={onNavigate}
       className={cn(
-        'flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors',
-        'hover:bg-accent hover:text-accent-foreground',
-        isActive
-          ? 'bg-accent text-accent-foreground'
-          : 'text-muted-foreground'
+        "flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors",
+        "hover:bg-accent hover:text-accent-foreground",
+        isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground",
       )}
     >
       <Icon className="w-5 h-5" aria-hidden="true" />

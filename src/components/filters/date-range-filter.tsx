@@ -7,16 +7,13 @@
  * Uses native <input type="date"> — zero dependencies
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { Input } from '@/components/ui/input';
-import { type MediaType } from '@/lib/config/filters.config';
-import { cn } from '@/lib/utils';
+import { useQueryStates } from "nuqs";
+import { Input } from "@/components/ui/input";
+import type { MediaType } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -35,21 +32,19 @@ export interface DateRangeFilterProps {
 export function DateRangeFilter({
   type,
   className,
-  label = 'Date',
+  label = "Date",
 }: DateRangeFilterProps) {
   const [filters, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   // Pick the right param names by media type
-  const fromKey =
-    type === 'movie' ? 'releaseDateGte' : 'firstAirDateGte';
-  const toKey =
-    type === 'movie' ? 'releaseDateLte' : 'firstAirDateLte';
+  const fromKey = type === "movie" ? "releaseDateGte" : "firstAirDateGte";
+  const toKey = type === "movie" ? "releaseDateLte" : "firstAirDateLte";
 
-  const fromValue = filters[fromKey] ?? '';
-  const toValue = filters[toKey] ?? '';
+  const fromValue = filters[fromKey] ?? "";
+  const toValue = filters[toKey] ?? "";
 
   const handleFromChange = (value: string) => {
     setFilters({
@@ -66,12 +61,10 @@ export function DateRangeFilter({
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      <label
-        className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"
-      >
+    <div className={cn("flex items-center gap-2", className)}>
+      <span className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap">
         {label}
-      </label>
+      </span>
 
       <div className="flex items-center gap-1.5">
         <Input

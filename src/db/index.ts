@@ -7,10 +7,10 @@
  *
  * For migrations, drizzle-kit uses DATABASE_URL_UNPOOLED (see drizzle.config.ts).
  */
-import 'dotenv/config';
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
-import * as schema from './schema';
+import "dotenv/config";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "./schema";
 
 // ============================================
 // VALIDATION
@@ -18,7 +18,7 @@ import * as schema from './schema';
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
-    'DATABASE_URL is not set. Add it to .env.local (pooled Neon connection)'
+    "DATABASE_URL is not set. Add it to .env.local (pooled Neon connection)",
   );
 }
 
@@ -46,4 +46,4 @@ const sql = neon(process.env.DATABASE_URL);
 export const db = drizzle(sql, { schema });
 
 // Re-export schema for convenience
-export * from './schema';
+export * from "./schema";

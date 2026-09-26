@@ -4,14 +4,14 @@
  * Uses nuqs built-in debounce (no custom hooks)
  */
 
-'use client';
+"use client";
 
-import { useQueryState, parseAsString, debounce } from 'nuqs';
-import { useTransition, useEffect, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Search, X } from 'lucide-react';
-import { SEARCH_BAR_OPTIONS } from '@/lib/search/nuqs-parsers';
-import { useSearchStore } from '@/stores/search-store';
+import { Search, X } from "lucide-react";
+import { debounce, parseAsString, useQueryState } from "nuqs";
+import { useEffect, useState, useTransition } from "react";
+import { Input } from "@/components/ui/input";
+import { SEARCH_BAR_OPTIONS } from "@/lib/search/nuqs-parsers";
+import { useSearchStore } from "@/stores/search-store";
 
 // ============================================
 // COMPONENT
@@ -22,14 +22,12 @@ export function SearchBar() {
   const { addRecentSearch } = useSearchStore();
 
   const [query, setQuery] = useQueryState(
-    'q',
-    parseAsString
-      .withDefault('')
-      .withOptions({
-        ...SEARCH_BAR_OPTIONS,
-        startTransition,
-        limitUrlUpdates: debounce(300),
-      })
+    "q",
+    parseAsString.withDefault("").withOptions({
+      ...SEARCH_BAR_OPTIONS,
+      startTransition: (fn) => startTransition(fn),
+      limitUrlUpdates: debounce(300),
+    }),
   );
 
   // Local input value for immediate typing feedback
@@ -42,12 +40,15 @@ export function SearchBar() {
 
   // Track recent searches when query stabilizes
   useEffect(() => {
-    if (query && query.trim().length >= 2) {
-      const timer = setTimeout(() => {
-        addRecentSearch(query);
-      }, 1000);
-      return () => clearTimeout(timer);
+    if (!query || query.trim().length < 2) {
+      return;
     }
+
+    const timer = setTimeout(() => {
+      addRecentSearch(query);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [query, addRecentSearch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,16 +56,16 @@ export function SearchBar() {
     setInputValue(value);
 
     // Empty = immediate clear (no debounce)
-    if (value === '') {
-      setQuery('', { limitUrlUpdates: undefined });
+    if (value === "") {
+      setQuery("", { limitUrlUpdates: undefined });
     } else {
       setQuery(value);
     }
   };
 
   const handleClear = () => {
-    setInputValue('');
-    setQuery('', { limitUrlUpdates: undefined });
+    setInputValue("");
+    setQuery("", { limitUrlUpdates: undefined });
   };
 
   return (
@@ -84,16 +85,13 @@ export function SearchBar() {
           onChange={handleChange}
           autoComplete="off"
           spellCheck={false}
-          className="pl-10 pr-10 h-11 max-w-xl bg-neutral-800 border-neutral-700 text-white placeholder:text-gray-500 focus-visible:ring-blue-600"
+          className="pl-10 pr-10 h-11 max-w-xl bg-neutral-800 border-neutral-700 text-white placeholder:text-gray-500 focus-visible:ring-amber-600"
         />
 
         {/* Pending Spinner OR Clear Button */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2">
           {isPending ? (
-            <div
-              className="w-4 h-4 border-2 border-gray-500 border-t-white rounded-full animate-spin"
-              aria-label="Loading"
-            />
+            <div className="w-4 h-4 border-2 border-gray-500 border-t-white rounded-full animate-spin" />
           ) : inputValue ? (
             <button
               type="button"
@@ -101,7 +99,7 @@ export function SearchBar() {
               className="text-gray-500 hover:text-white transition-colors"
               aria-label="Clear search"
             >
-              <X className="w-4 h-4" />
+              <X className="size-4" />
             </button>
           ) : null}
         </div>

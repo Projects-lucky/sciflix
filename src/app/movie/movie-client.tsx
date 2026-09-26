@@ -5,16 +5,16 @@
  * - Infinite scroll grid of MovieCard
  */
 
-'use client';
+"use client";
 
-import { FilterBar } from '@/components/filters/filter-bar';
+import { FilterBar } from "@/components/filters/filter-bar";
+import { MovieCard } from "@/components/movie/movie-card";
+import { SearchEmpty } from "@/components/search/search-empty";
 import {
-  InfiniteScroll,
   type InfinitePage,
-} from '@/components/shared/infinite-scroll';
-import { MovieCard } from '@/components/movie/movie-card';
-import { SearchEmpty } from '@/components/search/search-empty';
-import type { TMDBMovie } from '@/types/movie.types';
+  InfiniteScroll,
+} from "@/components/shared/infinite-scroll";
+import type { TMDBMovie } from "@/types/movie.types";
 
 // ============================================
 // TYPES
@@ -48,64 +48,63 @@ export interface MovieClientProps {
 
 async function fetchDiscoverMovies(
   params: MovieClientParams,
-  page: number
+  page: number,
 ): Promise<InfinitePage<TMDBMovie>> {
   const query = new URLSearchParams();
 
   // Core filters
-  if (params.withGenres) query.set('with_genres', params.withGenres);
-  if (params.sortBy) query.set('sort_by', params.sortBy);
+  if (params.withGenres) query.set("with_genres", params.withGenres);
+  if (params.sortBy) query.set("sort_by", params.sortBy);
   if (params.minVoteCount && params.minVoteCount > 0) {
-    query.set('vote_count.gte', String(params.minVoteCount));
+    query.set("vote_count.gte", String(params.minVoteCount));
   }
-  if (params.runtime) query.set('with_runtime', params.runtime);
+  if (params.runtime) query.set("with_runtime", params.runtime);
 
   // Common
-  if (params.language) query.set('language', params.language);
-  if (typeof params.adult === 'boolean') {
-    query.set('include_adult', String(params.adult));
+  if (params.language) query.set("language", params.language);
+  if (typeof params.adult === "boolean") {
+    query.set("include_adult", String(params.adult));
   }
 
   // New: Country + Original Language
   if (params.withOriginCountry) {
-    query.set('with_origin_country', params.withOriginCountry);
+    query.set("with_origin_country", params.withOriginCountry);
   }
   if (params.withOriginalLanguage) {
-    query.set('with_original_language', params.withOriginalLanguage);
+    query.set("with_original_language", params.withOriginalLanguage);
   }
 
   // New: Release date range (dot notation)
   if (params.releaseDateGte) {
-    query.set('release_date.gte', params.releaseDateGte);
+    query.set("release_date.gte", params.releaseDateGte);
   }
   if (params.releaseDateLte) {
-    query.set('release_date.lte', params.releaseDateLte);
+    query.set("release_date.lte", params.releaseDateLte);
   }
 
   // Legacy: single year
-  if (params.year) query.set('primary_release_year', String(params.year));
+  if (params.year) query.set("primary_release_year", String(params.year));
 
   // New: Vote average range (dot notation)
-  if (typeof params.voteAverageGte === 'number') {
-    query.set('vote_average.gte', String(params.voteAverageGte));
+  if (typeof params.voteAverageGte === "number") {
+    query.set("vote_average.gte", String(params.voteAverageGte));
   }
-  if (typeof params.voteAverageLte === 'number') {
-    query.set('vote_average.lte', String(params.voteAverageLte));
+  if (typeof params.voteAverageLte === "number") {
+    query.set("vote_average.lte", String(params.voteAverageLte));
   }
 
   // New: Certification (requires country)
   if (params.certification) {
-    query.set('certification', params.certification);
-    query.set('certification_country', 'US');
+    query.set("certification", params.certification);
+    query.set("certification_country", "US");
   }
 
   // Pagination
-  query.set('page', String(page));
+  query.set("page", String(page));
 
-  const response = await fetch(
-    `/api/tmdb/discover/movie?${query.toString()}`,
-    { headers: { Accept: 'application/json' } }
-  );
+  const response = await fetch(`/api/tmdb/discover/movie?${query.toString()}`, {
+    headers: { Accept: "application/json" },
+  });
 
   if (!response.ok) {
     throw new Error(`Discover failed: ${response.status}`);
@@ -139,11 +138,14 @@ export function MovieClient({ params }: MovieClientProps) {
       {/* Infinite Grid */}
       <div className="mt-6">
         <InfiniteScroll<TMDBMovie>
-          queryKey={['discover-movie', params]}
+          queryKey={["discover-movie", params]}
           fetchFn={(page) => fetchDiscoverMovies(params, page)}
           getItemKey={(movie) => `movie-${movie.id}`}
           renderItem={(movie) => (
-            <MovieCard item={movie} className='min-w-0 min-h-0 items-stretch justify-items-stretch' />
+            <MovieCard
+              item={movie}
+              className="min-w-0 min-h-0 items-stretch justify-items-stretch"
+            />
           )}
           emptyState={
             <SearchEmpty variant="no-results" query="these filters" />

@@ -7,19 +7,19 @@
  * - Active theme highlighted with a check mark
  */
 
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Moon, Sun, Monitor, Check } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { Button } from '@/components/ui/button';
+import { Check, Monitor, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -30,7 +30,7 @@ export interface ThemeToggleProps {
 }
 
 interface ThemeOption {
-  value: 'light' | 'dark' | 'system';
+  value: "light" | "dark" | "system";
   label: string;
   icon: React.ComponentType<{ className?: string }>;
 }
@@ -40,9 +40,9 @@ interface ThemeOption {
 // ============================================
 
 const THEME_OPTIONS: ThemeOption[] = [
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'dark', label: 'Dark', icon: Moon },
-  { value: 'system', label: 'System', icon: Monitor },
+  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Dark", icon: Moon },
+  { value: "system", label: "System", icon: Monitor },
 ];
 
 // ============================================
@@ -59,11 +59,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   }, []);
 
   // Determine which icon to show on the trigger
-  const currentIcon = !mounted
-    ? Sun
-    : resolvedTheme === 'dark'
-      ? Moon
-      : Sun;
+  const currentIcon = !mounted ? Sun : resolvedTheme === "dark" ? Moon : Sun;
 
   const Icon = currentIcon;
 
@@ -73,7 +69,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         <Button
           variant="ghost"
           size="icon"
-          className={cn('h-9 w-9', className)}
+          className={cn("h-9 w-9", className)}
           aria-label="Toggle theme"
         >
           {/*

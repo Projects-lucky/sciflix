@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { ErrorState } from '@/components/shared/error-state';
+import { useEffect } from "react";
+import { ErrorState } from "@/components/shared/error-state";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -10,7 +10,7 @@ interface ErrorPageProps {
 
 export default function TVError({ error, reset }: ErrorPageProps) {
   useEffect(() => {
-    console.error('[TV Browse Error]', error);
+    console.error("[TV Browse Error]", error);
   }, [error]);
 
   return (

@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { CarouselWrapper } from "@/components/shared/carousel-wrapper";
-import { HeroCard } from "./hero-card";
+import { cn } from "@/lib/utils";
 import type { TrendingItem } from "@/types/trending.types";
+import { HeroCard } from "./hero-card";
 
 export interface HeroCarouselProps {
   items: TrendingItem[];

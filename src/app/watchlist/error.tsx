@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { ErrorState } from '@/components/shared/error-state';
+import { useEffect } from "react";
+import { ErrorState } from "@/components/shared/error-state";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -10,7 +10,7 @@ interface ErrorPageProps {
 
 export default function WatchlistError({ error, reset }: ErrorPageProps) {
   useEffect(() => {
-    console.error('[Watchlist Error]', error);
+    console.error("[Watchlist Error]", error);
   }, [error]);
 
   return (

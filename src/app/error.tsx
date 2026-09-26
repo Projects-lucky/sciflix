@@ -4,10 +4,10 @@
  * Renders <ErrorState /> with a generic message.
  */
 
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { ErrorState } from '@/components/shared/error-state';
+import { useEffect } from "react";
+import { ErrorState } from "@/components/shared/error-state";
 
 // ============================================
 // TYPES
@@ -25,7 +25,7 @@ interface ErrorPageProps {
 export default function Error({ error, reset }: ErrorPageProps) {
   useEffect(() => {
     // Log for monitoring (Sentry, Vercel, etc. can hook here later)
-    console.error('[Global Error]', error);
+    console.error("[Global Error]", error);
   }, [error]);
 
   return (

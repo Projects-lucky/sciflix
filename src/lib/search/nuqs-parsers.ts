@@ -4,15 +4,15 @@
  */
 
 import {
-  parseAsString,
-  parseAsBoolean,
-  parseAsInteger,
-  parseAsStringLiteral,
   createSearchParamsCache,
   type inferParserType,
-} from 'nuqs/server';
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
+} from "nuqs/server";
 
-import { FILTER_DEFAULTS, FILTER_LIMITS } from '@/lib/config/filters.config';
+import { FILTER_DEFAULTS, FILTER_LIMITS } from "@/lib/config/filters.config";
 
 // ============================================
 // SEARCH PARSERS
@@ -22,10 +22,10 @@ export const searchParsers = {
   q: parseAsString.withDefault(FILTER_DEFAULTS.q),
 
   type: parseAsStringLiteral([
-    'multi',
-    'movie',
-    'tv',
-    'person',
+    "multi",
+    "movie",
+    "tv",
+    "person",
   ] as const).withDefault(FILTER_DEFAULTS.searchType),
 
   language: parseAsString.withDefault(FILTER_DEFAULTS.language),
@@ -51,7 +51,7 @@ export const discoverParsers = {
   withGenres: parseAsString,
 
   /** Sort order (e.g., 'popularity.desc') */
-  sortBy: parseAsString.withDefault('popularity.desc'),
+  sortBy: parseAsString.withDefault("popularity.desc"),
 
   /** Minimum vote count threshold */
   minVoteCount: parseAsInteger.withDefault(0),
@@ -63,7 +63,7 @@ export const discoverParsers = {
   page: parseAsInteger.withDefault(1),
 
   /** UI language for results (e.g., 'en-US') */
-  language: parseAsString.withDefault('en-US'),
+  language: parseAsString.withDefault("en-US"),
 
   /** Include adult content */
   adult: parseAsBoolean.withDefault(false),

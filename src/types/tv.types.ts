@@ -4,12 +4,12 @@
  */
 
 import type {
-  TMDBGenre,
   TMDBCredits,
+  TMDBGenre,
   TMDBProductionCompany,
   TMDBProductionCountry,
   TMDBSpokenLanguage,
-} from './tmdb.types';
+} from "./tmdb.types";
 
 // ============================================
 // TV (CORE)

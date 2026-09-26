@@ -6,17 +6,17 @@
  * - error: API failed
  */
 
-'use client';
+"use client";
 
-import { Search, Film, AlertCircle } from 'lucide-react';
-import { SearchRecent } from './search-recent';
+import { AlertCircle, Film, Search } from "lucide-react";
+import { SearchRecent } from "./search-recent";
 
 // ============================================
 // TYPES
 // ============================================
 
 interface SearchEmptyProps {
-  variant: 'no-query' | 'no-results' | 'error';
+  variant: "no-query" | "no-results" | "error";
   query?: string;
 }
 
@@ -28,7 +28,7 @@ export function SearchEmpty({ variant, query }: SearchEmptyProps) {
   // ─────────────────────────────────────
   // No query — show recent searches
   // ─────────────────────────────────────
-  if (variant === 'no-query') {
+  if (variant === "no-query") {
     return (
       <div className="mt-8">
         <div className="text-center py-8">
@@ -49,7 +49,7 @@ export function SearchEmpty({ variant, query }: SearchEmptyProps) {
   // ─────────────────────────────────────
   // No results
   // ─────────────────────────────────────
-  if (variant === 'no-results') {
+  if (variant === "no-results") {
     return (
       <div className="text-center py-16">
         <Film className="w-12 h-12 mx-auto text-gray-600 mb-4" />
@@ -59,7 +59,7 @@ export function SearchEmpty({ variant, query }: SearchEmptyProps) {
         <p className="text-sm text-gray-400">
           {query
             ? `Nothing matched "${query}". Try different keywords.`
-            : 'Try a different search.'}
+            : "Try a different search."}
         </p>
       </div>
     );

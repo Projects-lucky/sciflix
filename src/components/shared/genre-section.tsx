@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { CarouselWrapper } from '@/components/shared/carousel-wrapper';
-import { MovieCard } from '../movie/movie-card';
-import { getGenreNameById } from '@/lib/services/tmdb/routes/genres';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
+import { CarouselWrapper } from "@/components/shared/carousel-wrapper";
+import { getGenreNameById } from "@/lib/services/tmdb/routes/genres";
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { MovieCard } from "../movie/movie-card";
 
 export interface GenreSectionProps {
   genreId: number;
   genreName?: string;
-  mediaType: 'movie' | 'tv';
+  mediaType: "movie" | "tv";
   items: TMDBMovie[] | TMDBTV[];
   className?: string;
 }
@@ -36,8 +36,7 @@ export function GenreSection({
           item={item as TMDBMovie}
           variant="default"
           priority={index < 5}
-          className='max-w-96 w-58 h-98'
-          
+          className="max-w-96 w-58 h-98"
         />
       )}
       showArrows={items.length > 5}
@@ -46,8 +45,8 @@ export function GenreSection({
       className={className}
       title={genreName}
       showTitleBar={true}
-      contentClassName='flex flex-row items-center gap-x-2.5'
-      itemClassName='w-auto h-auto flex'
+      contentClassName="flex flex-row items-center gap-x-2.5"
+      itemClassName="w-auto h-auto flex"
     />
   );
 }

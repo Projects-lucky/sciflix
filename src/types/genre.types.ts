@@ -3,7 +3,7 @@
  * /genre/movie/list, /genre/tv/list
  */
 
-import type { TMDBGenre } from './tmdb.types';
+import type { TMDBGenre } from "./tmdb.types";
 
 // ============================================
 // GENRE LIST RESPONSE

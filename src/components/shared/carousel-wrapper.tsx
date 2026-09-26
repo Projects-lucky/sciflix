@@ -4,18 +4,18 @@
  * Uses shadcn Carousel internally
  */
 
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
+import Autoplay from "embla-carousel-autoplay";
+import type { ReactNode } from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -82,7 +82,7 @@ export function CarouselWrapper<T>({
   title,
   subtitle,
   showTitleBar = false,
-  emptyMessage = 'No items available.',
+  emptyMessage = "No items available.",
 }: CarouselWrapperProps<T>) {
   // Empty state
   if (!items || items.length === 0) {
@@ -104,7 +104,7 @@ export function CarouselWrapper<T>({
     : [];
 
   return (
-    <div className={cn('w-auto flex flex-col gap-y-4 px-4 py-6', className)}>
+    <div className={cn("w-auto flex flex-col gap-y-4 px-4 py-6", className)}>
       {/* Title */}
       {showTitleBar && (title || subtitle) && (
         <span className="flex flex-col gap-y-1 w-auto">
@@ -113,28 +113,26 @@ export function CarouselWrapper<T>({
               {title}
             </h2>
           )}
-          {subtitle && (
-            <p className="text-sm text-gray-400">{subtitle}</p>
-          )}
+          {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
         </span>
       )}
 
       {/* Carousel */}
       <Carousel
         opts={{
-          align: 'start',
+          align: "start",
           loop,
           dragFree,
-          containScroll: 'trimSnaps',
+          containScroll: "trimSnaps",
         }}
         plugins={plugins}
         className="w-full relative"
       >
-        <CarouselContent className={cn('-ml-4', contentClassName)}>
+        <CarouselContent className={cn("-ml-4", contentClassName)}>
           {items.map((item, index) => (
             <CarouselItem
               key={renderKey(item, index)}
-              className={cn('pl-4', itemClassName)}
+              className={cn("pl-4", itemClassName)}
             >
               {renderItem(item, index)}
             </CarouselItem>
@@ -156,8 +154,8 @@ export function CarouselWrapper<T>({
             <div
               key={i}
               className={cn(
-                'w-2 h-2 rounded-full transition-all',
-                i === 0 ? 'w-6 bg-white' : 'bg-white/30'
+                "w-2 h-2 rounded-full transition-all",
+                i === 0 ? "w-6 bg-white" : "bg-white/30",
               )}
             />
           ))}

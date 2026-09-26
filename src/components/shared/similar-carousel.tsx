@@ -5,12 +5,12 @@
  * Works for both movies and TV shows
  */
 
-'use client';
+"use client";
 
-import { CarouselWrapper } from './carousel-wrapper';
-import { MovieCard } from '../movie/movie-card';
-import type { TMDBMovie } from '@/types/movie.types';
-import type { TMDBTV } from '@/types/tv.types';
+import type { TMDBMovie } from "@/types/movie.types";
+import type { TMDBTV } from "@/types/tv.types";
+import { MovieCard } from "../movie/movie-card";
+import { CarouselWrapper } from "./carousel-wrapper";
 
 // ============================================
 // TYPES
@@ -18,7 +18,7 @@ import type { TMDBTV } from '@/types/tv.types';
 
 export interface SimilarCarouselProps {
   items: (TMDBMovie | TMDBTV)[];
-  mediaType: 'movie' | 'tv';
+  mediaType: "movie" | "tv";
   title?: string;
   limit?: number;
   className?: string;
@@ -31,7 +31,7 @@ export interface SimilarCarouselProps {
 export function SimilarCarousel({
   items,
   mediaType,
-  title = 'Similar',
+  title = "Similar",
   limit = 12,
   className,
 }: SimilarCarouselProps) {
@@ -43,10 +43,7 @@ export function SimilarCarousel({
     <CarouselWrapper
       items={limited}
       renderItem={(item) => (
-        <MovieCard
-          item={item}
-          className='max-w-96 w-48 h-82'
-        />
+        <MovieCard item={item} className="max-w-96 w-48 h-82" />
       )}
       renderKey={(item) => item.id}
       title={title}

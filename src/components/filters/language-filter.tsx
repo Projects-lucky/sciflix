@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  searchParsers,
-  discoverParsers,
-  NUQS_OPTIONS,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { LANGUAGE_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { LANGUAGE_OPTIONS } from "@/lib/config/filters.config";
+import {
+  DISCOVER_OPTIONS,
+  discoverParsers,
+  NUQS_OPTIONS,
+  searchParsers,
+} from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
-export type LanguageFilterVariant = 'search' | 'discover';
+export type LanguageFilterVariant = "search" | "discover";
 
 export interface LanguageFilterProps {
   variant?: LanguageFilterVariant;
@@ -26,11 +26,11 @@ export interface LanguageFilterProps {
 }
 
 export function LanguageFilter({
-  variant = 'search',
+  variant = "search",
   className,
-  label = 'Language',
+  label = "Language",
 }: LanguageFilterProps) {
-  return variant === 'discover' ? (
+  return variant === "discover" ? (
     <DiscoverLanguage className={className} label={label} />
   ) : (
     <SearchLanguage className={className} label={label} />
@@ -50,7 +50,7 @@ function SearchLanguage({
 }) {
   const [{ language }, setFilters] = useQueryStates(
     searchParsers,
-    NUQS_OPTIONS
+    NUQS_OPTIONS,
   );
 
   return (
@@ -77,7 +77,7 @@ function DiscoverLanguage({
 }) {
   const [{ language }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   return (
@@ -111,7 +111,7 @@ function LanguageSelect({
   onChange,
 }: LanguageSelectProps) {
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor={id}
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

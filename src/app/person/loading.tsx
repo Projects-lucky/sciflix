@@ -4,6 +4,10 @@
  */
 
 export default function Loading() {
+  const skeletons = Array.from({ length: 18 }, (_, i) => ({
+    id: `search-skeleton-item-${i}`,
+  }));
+
   return (
     <div className="min-h-screen bg-black pt-24 pb-16 animate-pulse">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -18,8 +22,8 @@ export default function Loading() {
 
         {/* Grid skeleton */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-          {Array.from({ length: 18 }).map((_, i) => (
-            <div key={i} className="flex flex-col items-center gap-2">
+          {skeletons.map((item) => (
+            <div key={item.id} className="flex flex-col items-center gap-2">
               {/* Circular avatar */}
               <div className="w-full aspect-square rounded-full bg-neutral-800" />
               {/* Name */}

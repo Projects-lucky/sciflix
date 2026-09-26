@@ -11,10 +11,10 @@
  * because pagination requires client state.
  */
 
-import { discoverParamsCache } from '@/lib/search/nuqs-parsers';
-import { validateDiscoverParams } from '@/lib/search/validate-search-params';
-import { MovieClient } from './movie-client';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import { discoverParamsCache } from "@/lib/search/nuqs-parsers";
+import { validateDiscoverParams } from "@/lib/search/validate-search-params";
+import { MovieClient } from "./movie-client";
 
 // ============================================
 // TYPES
@@ -29,8 +29,8 @@ interface PageProps {
 // ============================================
 
 export const metadata: Metadata = {
-  title: 'Movies',
-  description: 'Browse movies by genre, sort, and filters',
+  title: "Movies",
+  description: "Browse movies by genre, sort, and filters",
 };
 
 // ============================================
@@ -42,7 +42,7 @@ export default async function MoviesPage({ searchParams }: PageProps) {
   const raw = discoverParamsCache.parse(await searchParams);
 
   // Validate + apply safe fallbacks
-  const params = validateDiscoverParams(raw, 'movie');
+  const params = validateDiscoverParams(raw, "movie");
 
   return (
     <div className="min-h-screen w-full pt-3.5 pb-16">

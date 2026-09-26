@@ -7,14 +7,14 @@
  *   - input is a valid 4-digit year (1900–2100)
  */
 
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useQueryStates } from 'nuqs';
-import { discoverParsers, DISCOVER_OPTIONS } from '@/lib/search/nuqs-parsers';
-import { Input } from '@/components/ui/input';
-import type { MediaType } from '@/lib/config/filters.config';
-import { cn } from '@/lib/utils';
+import { useQueryStates } from "nuqs";
+import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import type { MediaType } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -33,17 +33,16 @@ export interface YearFilterProps {
 export function YearFilter({
   type,
   className,
-  label = 'Year',
+  label = "Year",
 }: YearFilterProps) {
   const [filters, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
-  const key = type === 'movie' ? 'year' : 'firstAirDateYear';
+  const key = type === "movie" ? "year" : "firstAirDateYear";
   const urlValue = filters[key];
-  const urlValueString =
-    typeof urlValue === 'number' ? String(urlValue) : '';
+  const urlValueString = typeof urlValue === "number" ? String(urlValue) : "";
 
   // Local input mirrors typing — not synced to URL until valid
   const [input, setInput] = useState(urlValueString);
@@ -55,11 +54,11 @@ export function YearFilter({
 
   const handleChange = (value: string) => {
     // Keep only digits, cap at 4 chars
-    const cleaned = value.replace(/\D/g, '').slice(0, 4);
+    const cleaned = value.replace(/\D/g, "").slice(0, 4);
     setInput(cleaned);
 
     // Commit only when valid
-    if (cleaned === '') {
+    if (cleaned === "") {
       setFilters({ [key]: null, page: 1 });
       return;
     }
@@ -76,8 +75,8 @@ export function YearFilter({
   return (
     <div
       className={cn(
-        'flex flex-col gap-1.5 md:flex-row md:items-center md:gap-2',
-        className
+        "flex flex-col gap-1.5 md:flex-row md:items-center md:gap-2",
+        className,
       )}
     >
       <label

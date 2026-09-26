@@ -3,10 +3,10 @@
  * Shown when a route doesn't match or notFound() is called.
  */
 
-import Link from 'next/link';
-import { Film, Home, Search, Tv } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { APP_META } from '@/lib/config/nav.config';
+import { Film, Home, Search, Tv } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { APP_META } from "@/lib/config/nav.config";
 
 export default function NotFound() {
   return (

@@ -17,20 +17,20 @@
  * - 'full'    → full-width button, for drawers
  */
 
-'use client';
+"use client";
 
-import { useState, useTransition, useEffect } from 'react';
-import { Bookmark, BookmarkCheck, Loader2 } from 'lucide-react';
-import { useAuth, useClerk } from '@clerk/nextjs';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
+import { useAuth, useClerk } from "@clerk/nextjs";
+import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
 import {
   addToWatchlistAction,
-  removeFromWatchlistAction,
   isInWatchlistAction,
-} from '@/app/actions/watchlist';
-import type { MediaType } from '@/db/schema';
-import { cn } from '@/lib/utils';
+  removeFromWatchlistAction,
+} from "@/app/actions/watchlist";
+import { Button } from "@/components/ui/button";
+import type { MediaType } from "@/db/schema";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -42,7 +42,7 @@ export interface WatchlistButtonProps {
   title: string;
   posterPath?: string | null;
   releaseYear?: string | null;
-  variant?: 'default' | 'icon' | 'full';
+  variant?: "default" | "icon" | "full";
   className?: string;
   iconClassName?: string; // ← NEW: Control icon size/styles externally
   textClassName?: string; // ← NEW: Control text styles externally
@@ -58,7 +58,7 @@ export function WatchlistButton({
   title,
   posterPath,
   releaseYear,
-  variant = 'default',
+  variant = "default",
   className,
   iconClassName, // ← Destructure here
   textClassName, // ← Destructure here
@@ -99,10 +99,10 @@ export function WatchlistButton({
   // Signed out → show toast prompting sign-in
   // ─────────────────────────────────────
   const promptSignIn = () => {
-    toast('Sign in to save items', {
-      description: 'Create a free account to build your watchlist.',
+    toast("Sign in to save items", {
+      description: "Create a free account to build your watchlist.",
       action: {
-        label: 'Sign In',
+        label: "Sign In",
         onClick: () => clerk.openSignIn(),
       },
       duration: 5000,
@@ -124,9 +124,9 @@ export function WatchlistButton({
         const result = await removeFromWatchlistAction(tmdbId, mediaType);
         if (result.success) {
           setInWatchlist(false);
-          toast.success('Removed from watchlist');
+          toast.success("Removed from watchlist");
         } else {
-          toast.error(result.error || 'Failed to remove');
+          toast.error(result.error || "Failed to remove");
         }
       } else {
         // Add
@@ -139,9 +139,9 @@ export function WatchlistButton({
         });
         if (result.success) {
           setInWatchlist(true);
-          toast.success('Added to watchlist');
+          toast.success("Added to watchlist");
         } else {
-          toast.error(result.error || 'Failed to add');
+          toast.error(result.error || "Failed to add");
         }
       }
     });
@@ -150,11 +150,11 @@ export function WatchlistButton({
   // ─────────────────────────────────────
   // Visual state
   // ─────────────────────────────────────
-  const isIconOnly = variant === 'icon';
-  const isFullWidth = variant === 'full';
+  const isIconOnly = variant === "icon";
+  const isFullWidth = variant === "full";
 
   const Icon = inWatchlist ? BookmarkCheck : Bookmark;
-  const label = inWatchlist ? 'In Watchlist' : 'Add to Watchlist';
+  const label = inWatchlist ? "In Watchlist" : "Add to Watchlist";
 
   // Loading state until we know auth + watchlist status
   const isLoading = !isLoaded || (isSignedIn && !checkedAuth);
@@ -162,23 +162,21 @@ export function WatchlistButton({
   return (
     <Button
       type="button"
-      variant={inWatchlist ? 'default' : 'outline'}
-      size={isIconOnly ? 'icon' : 'default'}
+      variant={inWatchlist ? "default" : "outline"}
+      size={isIconOnly ? "icon" : "default"}
       onClick={handleClick}
       disabled={isPending || isLoading}
       aria-pressed={inWatchlist}
       aria-label={label}
       title={label}
       className={cn(
-        'transition-all',
-        isFullWidth && 'w-full',
+        "transition-all",
+        isFullWidth && "w-full",
         // Saved state: green
-        inWatchlist &&
-          '',
+        inWatchlist && "",
         // Not saved: neutral outline
-        !inWatchlist &&
-          '',
-        className
+        !inWatchlist && "",
+        className,
       )}
     >
       {isPending || isLoading ? (
@@ -188,7 +186,7 @@ export function WatchlistButton({
       )}
       {!isIconOnly && (
         <span className={cn("ml-2", textClassName)}>
-          {isPending ? 'Saving...' : label}
+          {isPending ? "Saving..." : label}
         </span>
       )}
     </Button>

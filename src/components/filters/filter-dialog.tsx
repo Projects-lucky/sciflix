@@ -1,5 +1,6 @@
-'use client';
+"use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,24 +8,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-
-import { GenreFilter } from './genre-filter';
-import { SortFilter } from './sort-filter';
-import { LanguageFilter } from './language-filter';
-import { AdultFilter } from './adult-filter';
-import { OriginCountryFilter } from './origin-country-filter';
-import { OriginalLanguageFilter } from './original-language-filter';
-import { DateRangeFilter } from './date-range-filter';
-import { YearFilter } from './year-filter';
-import { VoteAverageFilter } from './vote-average-filter';
-import { NetworkFilter } from './network-filter';
-import { CertificationFilter } from './certification-filter';
-import { ResetFiltersButton } from './reset-filters-button';
-
-import type { MediaType } from '@/lib/config/filters.config';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import type { MediaType } from "@/lib/config/filters.config";
+import { AdultFilter } from "./adult-filter";
+import { CertificationFilter } from "./certification-filter";
+import { DateRangeFilter } from "./date-range-filter";
+import { GenreFilter } from "./genre-filter";
+import { LanguageFilter } from "./language-filter";
+import { NetworkFilter } from "./network-filter";
+import { OriginCountryFilter } from "./origin-country-filter";
+import { OriginalLanguageFilter } from "./original-language-filter";
+import { ResetFiltersButton } from "./reset-filters-button";
+import { SortFilter } from "./sort-filter";
+import { VoteAverageFilter } from "./vote-average-filter";
+import { YearFilter } from "./year-filter";
 
 // ============================================
 // TYPES
@@ -41,8 +39,8 @@ export interface FilterDialogProps {
 // ============================================
 
 export function FilterDialog({ type, open, onOpenChange }: FilterDialogProps) {
-  const isMovie = type === 'movie';
-  const isTV = type === 'tv';
+  const isMovie = type === "movie";
+  const isTV = type === "tv";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -105,7 +103,7 @@ export function FilterDialog({ type, open, onOpenChange }: FilterDialogProps) {
             <FilterField>
               <DateRangeFilter
                 type={type}
-                label={isMovie ? 'Release Range' : 'Air Date Range'}
+                label={isMovie ? "Release Range" : "Air Date Range"}
               />
             </FilterField>
 

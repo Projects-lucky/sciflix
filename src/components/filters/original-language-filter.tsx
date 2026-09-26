@@ -6,22 +6,19 @@
  * Distinct from LanguageFilter (which sets UI language)
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { ORIGINAL_LANGUAGE_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { ORIGINAL_LANGUAGE_OPTIONS } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -38,24 +35,24 @@ export interface OriginalLanguageFilterProps {
 
 export function OriginalLanguageFilter({
   className,
-  label = 'Original Lang',
+  label = "Original Lang",
 }: OriginalLanguageFilterProps) {
   const [{ withOriginalLanguage }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
-  const currentValue = withOriginalLanguage || 'all';
+  const currentValue = withOriginalLanguage || "all";
 
   const handleChange = (value: string) => {
     setFilters({
-      withOriginalLanguage: value === 'all' ? null : value,
+      withOriginalLanguage: value === "all" ? null : value,
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor="original-language-filter"
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

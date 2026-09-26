@@ -4,7 +4,7 @@
  * Client: Goes through /api/tmdb proxy (token injected server-side)
  */
 
-import { ENV, RETRY_CONFIG, TMDB_CONFIG } from '@/lib/config/app.config';
+import { ENV, RETRY_CONFIG, TMDB_CONFIG } from "@/lib/config/app.config";
 
 // ============================================
 // TYPES
@@ -30,10 +30,10 @@ export class TMDBServiceError extends Error {
     message: string,
     status?: number,
     statusText?: string,
-    data?: unknown
+    data?: unknown,
   ) {
     super(message);
-    this.name = 'TMDBServiceError';
+    this.name = "TMDBServiceError";
     this.status = status;
     this.statusText = statusText;
     this.data = data;
@@ -53,14 +53,12 @@ const sleep = (ms: number): Promise<void> =>
 
 function buildUrl(
   endpoint: string,
-  params: Record<string, string | number | boolean | undefined>
+  params: Record<string, string | number | boolean | undefined>,
 ): string {
-  const isServer = typeof window === 'undefined';
+  const isServer = typeof window === "undefined";
 
   // Server: direct to TMDB | Client: through our proxy
-  const baseUrl = isServer
-    ? TMDB_CONFIG.baseUrl
-    : '/api/tmdb';
+  const baseUrl = isServer ? TMDB_CONFIG.baseUrl : "/api/tmdb";
 
   // Client uses relative URL resolved against window.location
   const url = isServer
@@ -69,12 +67,12 @@ function buildUrl(
 
   // Language default
   if (!params.language) {
-    url.searchParams.set('language', TMDB_CONFIG.defaultLanguage);
+    url.searchParams.set("language", TMDB_CONFIG.defaultLanguage);
   }
 
   // Append params (skip undefined/null/empty)
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
+    if (value !== undefined && value !== null && value !== "") {
       url.searchParams.set(key, String(value));
     }
   });
@@ -90,7 +88,7 @@ export const tmdbClient = {
   async fetch<T>(
     endpoint: string,
     params: Record<string, string | number | boolean | undefined> = {},
-    options: TMDBClientOptions = {}
+    options: TMDBClientOptions = {},
   ): Promise<T> {
     const url = buildUrl(endpoint, params);
     const maxAttempts = options.retryAttempts ?? RETRY_CONFIG.maxAttempts;
@@ -111,9 +109,9 @@ export const tmdbClient = {
 
         const delay = this._calculateBackoff(attempt);
 
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === "development") {
           console.warn(
-            `[TMDB Client] Retry ${attempt}/${maxAttempts} for ${endpoint} after ${delay}ms`
+            `[TMDB Client] Retry ${attempt}/${maxAttempts} for ${endpoint} after ${delay}ms`,
           );
         }
 
@@ -121,35 +119,32 @@ export const tmdbClient = {
       }
     }
 
-    throw lastError || new Error('TMDB Client: All retry attempts failed');
+    throw lastError || new Error("TMDB Client: All retry attempts failed");
   },
 
-  async _executeFetch<T>(
-    url: string,
-    options: TMDBClientOptions
-  ): Promise<T> {
+  async _executeFetch<T>(url: string, options: TMDBClientOptions): Promise<T> {
     const timeout = options.timeout ?? RETRY_CONFIG.timeout;
-    const isServer = typeof window === 'undefined';
+    const isServer = typeof window === "undefined";
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
       const headers: HeadersInit = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       };
 
       // Only attach token on the server — client relies on proxy
       if (isServer) {
-        headers['Authorization'] = `Bearer ${ENV.tmdbAccessToken}`;
+        headers["Authorization"] = `Bearer ${ENV.tmdbAccessToken}`;
       }
 
       const fetchOptions: RequestInit = {
-        method: 'GET',
+        method: "GET",
         headers,
         signal: controller.signal,
-        cache: options.cache ?? 'force-cache',
+        cache: options.cache ?? "force-cache",
         next: options.next,
       };
 
@@ -167,7 +162,7 @@ export const tmdbClient = {
           `TMDB API Error: ${response.status} ${response.statusText}`,
           response.status,
           response.statusText,
-          errorData
+          errorData,
         );
       }
 
@@ -175,17 +170,17 @@ export const tmdbClient = {
     } catch (error) {
       if (error instanceof TMDBServiceError) throw error;
 
-      if (error instanceof DOMException && error.name === 'AbortError') {
+      if (error instanceof DOMException && error.name === "AbortError") {
         throw new TMDBServiceError(
           `Request timeout after ${timeout}ms`,
           408,
-          'Timeout'
+          "Timeout",
         );
       }
 
       throw new TMDBServiceError(
-        error instanceof Error ? error.message : 'Unknown fetch error',
-        500
+        error instanceof Error ? error.message : "Unknown fetch error",
+        500,
       );
     } finally {
       clearTimeout(timeoutId);
@@ -198,7 +193,7 @@ export const tmdbClient = {
 
     if (error instanceof TMDBServiceError && error.status) {
       return RETRY_CONFIG.retryableStatusCodes.includes(
-        error.status as 408 | 429 | 500 | 502 | 503 | 504
+        error.status as 408 | 429 | 500 | 502 | 503 | 504,
       );
     }
 
@@ -207,7 +202,7 @@ export const tmdbClient = {
 
   _calculateBackoff(attempt: number): number {
     const { initialDelay, maxDelay, backoffMultiplier } = RETRY_CONFIG;
-    let delay = initialDelay * Math.pow(backoffMultiplier, attempt - 1);
+    let delay = initialDelay * backoffMultiplier ** (attempt - 1);
     delay = Math.min(delay, maxDelay);
     const jitter = 1 + Math.random() * 0.2;
     return Math.floor(delay * jitter);

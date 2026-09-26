@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 // ============================================
 // SECURITY HEADERS
@@ -7,30 +7,30 @@ import type { NextConfig } from 'next';
 
 const securityHeaders = [
   // Prevent clickjacking — no iframing our site
-  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: "X-Frame-Options", value: "DENY" },
 
   // Prevent MIME sniffing — browser won't guess content types
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: "X-Content-Type-Options", value: "nosniff" },
 
   // Control referrer info sent to third parties
   {
-    key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin',
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
   },
 
   // Block access to sensitive browser APIs we don't use
   {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
   },
 
   // Disable the legacy XSS filter (harmful in modern browsers)
-  { key: 'X-XSS-Protection', value: '0' },
+  { key: "X-XSS-Protection", value: "0" },
 
   // Force HTTPS on production domains (ignored on localhost)
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains; preload',
+    key: "Strict-Transport-Security",
+    value: "max-age=31536000; includeSubDomains; preload",
   },
 ];
 
@@ -46,9 +46,9 @@ const nextConfig: NextConfig = {
     qualities: [75, 90],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'image.tmdb.org',
-        pathname: '/t/p/**',
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/t/p/**",
       },
     ],
   },
@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: securityHeaders,
       },
     ];

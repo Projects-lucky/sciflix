@@ -5,16 +5,15 @@
  * Mobile:  logo + theme toggle + hamburger
  */
 
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Film } from 'lucide-react';
-import { NavLinks } from './nav-links';
-import { MobileMenu } from './mobile-menu';
-import { UserMenu } from './user-menu';
-import { ThemeToggle } from './theme-toggle';
-import { APP_META } from '@/lib/config/nav.config';
-import { cn } from '@/lib/utils';
+import Link from "next/link";
+import { APP_META } from "@/lib/config/nav.config";
+import { cn } from "@/lib/utils";
+import { MobileMenu } from "./mobile-menu";
+import { NavLinks } from "./nav-links";
+import { ThemeToggle } from "./theme-toggle";
+import { UserMenu } from "./user-menu";
 
 // ============================================
 // TYPES
@@ -32,11 +31,11 @@ export function Header({ className }: HeaderProps) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full',
-        'border-b border-border',
-        'bg-background/0 backdrop-blur-xs',
-        'supports-backdrop-filter:bg-background/0',
-        className
+        "sticky top-0 z-50 w-full",
+        "border-b border-border",
+        "bg-background/0 backdrop-blur-xs",
+        "supports-backdrop-filter:bg-background/0",
+        className,
       )}
     >
       <div className="container mx-auto px-4">

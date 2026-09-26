@@ -14,16 +14,16 @@
  *   - https://clerk.com/docs/nextjs/getting-started/quickstart
  */
 
-import { clerkMiddleware } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { clerkMiddleware } from "@clerk/nextjs/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 // ============================================
 // CONSTANTS
 // ============================================
 
-const TMDB_BASE = 'https://api.themoviedb.org/3';
-const TMDB_PREFIX = '/api/tmdb';
+const TMDB_BASE = "https://api.themoviedb.org/3";
+const TMDB_PREFIX = "/api/tmdb";
 
 // ============================================
 // TMDB PROXY HANDLER
@@ -45,17 +45,17 @@ function handleTmdbProxy(request: NextRequest): NextResponse | null {
   // Verify token exists
   const token = process.env.TMDB_ACCESS_TOKEN;
   if (!token) {
-    console.error('[proxy] TMDB_ACCESS_TOKEN is not set');
+    console.error("[proxy] TMDB_ACCESS_TOKEN is not set");
     return NextResponse.json(
-      { error: 'Server misconfigured' },
-      { status: 500 }
+      { error: "Server misconfigured" },
+      { status: 500 },
     );
   }
 
   // Clone headers and inject Authorization
   const headers = new Headers(request.headers);
-  headers.set('Authorization', `Bearer ${token}`);
-  headers.delete('host'); // Prevent host header mismatch on rewrite
+  headers.set("Authorization", `Bearer ${token}`);
+  headers.delete("host"); // Prevent host header mismatch on rewrite
 
   // Rewrite to TMDB (headers propagate upstream)
   return NextResponse.rewrite(new URL(tmdbUrl), {
@@ -91,8 +91,8 @@ export default clerkMiddleware(async (_auth, request) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/(api|trpc)(.*)",
   ],
 };

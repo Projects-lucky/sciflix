@@ -3,24 +3,24 @@
  * Full movie detail presentation: hero, metadata, overview
  */
 
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { TMDB_CONFIG } from '@/lib/config/app.config';
-import { CastCarousel } from '../shared/cast-carousel';
-import { SimilarCarousel } from '../shared/similar-carousel';
-import { WatchlistButton } from '@/components/watchlist/watchlist-button';
-import type { TMDBCredits, TMDBVideosResponse } from '@/types/tmdb.types';
-import type { TMDBMovieDetail, TMDBMovie } from '@/types/movie.types';
-import { Play, Star } from 'lucide-react';
-import { useTrailer, usePlayTrailer } from '@/lib/video/context';
+import { Play, Star } from "lucide-react";
+import Image from "next/image";
+import { WatchlistButton } from "@/components/watchlist/watchlist-button";
+import { TMDB_CONFIG } from "@/lib/config/app.config";
+import { cn } from "@/lib/utils";
+import { usePlayTrailer, useTrailer } from "@/lib/video/context";
+import type { TMDBMovie, TMDBMovieDetail } from "@/types/movie.types";
+import type { TMDBCredits, TMDBVideosResponse } from "@/types/tmdb.types";
+import { CastCarousel } from "../shared/cast-carousel";
+import { SimilarCarousel } from "../shared/similar-carousel";
 
 // ============================================
 // TYPES
 // ============================================
 
-type MovieDetailWithExtras = Omit<TMDBMovieDetail, 'credits'> & {
+type MovieDetailWithExtras = Omit<TMDBMovieDetail, "credits"> & {
   credits?: TMDBCredits;
   videos?: TMDBVideosResponse;
   similar?: {
@@ -49,32 +49,33 @@ function formatRuntime(minutes: number | null): string | null {
 
 function formatCurrency(amount: number): string | null {
   if (!amount || amount <= 0) return null;
-  if (amount >= 1_000_000_000) return `$${(amount / 1_000_000_000).toFixed(1)}B`;
+  if (amount >= 1_000_000_000)
+    return `$${(amount / 1_000_000_000).toFixed(1)}B`;
   if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(1)}M`;
   if (amount >= 1_000) return `$${(amount / 1_000).toFixed(1)}K`;
   return `$${amount}`;
 }
 
 function getDirector(
-  crew?: Array<{ name: string; job: string }>
+  crew?: Array<{ name: string; job: string }>,
 ): string | null {
   if (!crew) return null;
-  const director = crew.find((c) => c.job === 'Director');
+  const director = crew.find((c) => c.job === "Director");
   return director?.name || null;
 }
 
-function getTrailerKey(videos?: TMDBVideosResponse): string | null {
-  if (!videos?.results) return null;
+// function getTrailerKey(videos?: TMDBVideosResponse): string | null {
+//   if (!videos?.results) return null;
 
-  const trailer =
-    videos.results.find(
-      (v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official
-    ) ||
-    videos.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ||
-    videos.results.find((v) => v.site === 'YouTube');
+//   const trailer =
+//     videos.results.find(
+//       (v) => v.site === "YouTube" && v.type === "Trailer" && v.official,
+//     ) ||
+//     videos.results.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
+//     videos.results.find((v) => v.site === "YouTube");
 
-  return trailer?.key || null;
-}
+//   return trailer?.key || null;
+// }
 
 // ============================================
 // COMPONENT
@@ -82,7 +83,7 @@ function getTrailerKey(videos?: TMDBVideosResponse): string | null {
 
 export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
   const title = movie.title;
-  const year = movie.release_date?.split('-')[0] || null;
+  const year = movie.release_date?.split("-")[0] || null;
   const runtime = formatRuntime(movie.runtime);
   const rating = movie.vote_average;
   const voteCount = movie.vote_count;
@@ -99,10 +100,10 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
 
   const ratingColor =
     rating >= 7
-      ? 'text-green-400'
+      ? "text-green-400"
       : rating >= 5
-        ? 'text-yellow-400'
-        : 'text-red-400';
+        ? "text-yellow-400"
+        : "text-red-400";
 
   const mediaType = "movie";
   const { videoKey } = useTrailer(Number(movieID), mediaType);
@@ -117,7 +118,7 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
   };
 
   return (
-    <div className={cn('min-h-screen', className)}>
+    <div className={cn("min-h-screen", className)}>
       {/* ============================================
           HERO SECTION
           ============================================ */}
@@ -136,7 +137,6 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
             />
           </div>
         )}
-
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 pt-32 md:pt-40 pb-12">
           <div className="flex flex-col md:flex-row gap-6 md:gap-10">
@@ -177,8 +177,14 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
                   </>
                 )}
                 <span className="text-gray-500">·</span>
-                <span className={cn('flex items-center gap-1 font-medium', ratingColor)}>
-                  <Star className="text-yellow-400 size-2.5" /> {rating.toFixed(1)}
+                <span
+                  className={cn(
+                    "flex items-center gap-1 font-medium",
+                    ratingColor,
+                  )}
+                >
+                  <Star className="text-yellow-400 size-2.5" />{" "}
+                  {rating.toFixed(1)}
                 </span>
                 {voteCount > 0 && (
                   <span className="text-gray-500 text-sm">
@@ -208,7 +214,7 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
 
               {director && (
                 <p className="text-sm text-gray-400">
-                  <span className="text-gray-500">Director:</span>{' '}
+                  <span className="text-gray-500">Director:</span>{" "}
                   <span className="text-white">{director}</span>
                 </p>
               )}
@@ -222,7 +228,7 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
                     onClick={handlePlayClick}
                     className="inline-flex text-2xl font-poppins capitalize items-center gap-2 px-6 py-3 font-medium bg-transparent backdrop-blur-sm rounded-lg transition-colors"
                   >
-                    <Play className='size-9'/>
+                    <Play className="size-9" />
                     Play Trailer
                   </button>
                 )}
@@ -233,8 +239,8 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
                   title={movie.title}
                   posterPath={movie.poster_path}
                   releaseYear={year}
-                  iconClassName='size-8'
-                  className='text-2xl font-poppins px-6 py-3 h-full capitalize flex flex-row items-center bg-transparent backdrop-blur-sm'
+                  iconClassName="size-8"
+                  className="text-2xl font-poppins px-6 py-3 h-full capitalize flex flex-row items-center bg-transparent backdrop-blur-sm"
                 />
               </div>
             </div>
@@ -262,11 +268,13 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
           <DetailItem label="Revenue" value={formatCurrency(movie.revenue)} />
           <DetailItem
             label="Production Countries"
-            value={movie.production_countries?.map((c) => c.name).join(', ')}
+            value={movie.production_countries?.map((c) => c.name).join(", ")}
           />
           <DetailItem
             label="Spoken Languages"
-            value={movie.spoken_languages?.map((l) => l.english_name).join(', ')}
+            value={movie.spoken_languages
+              ?.map((l) => l.english_name)
+              .join(", ")}
           />
         </div>
       </div>
@@ -298,7 +306,13 @@ export function MovieDetail({ movie, movieID, className }: MovieDetailProps) {
 // DETAIL ITEM SUB-COMPONENT
 // ============================================
 
-function DetailItem({ label, value }: { label: string; value?: string | null }) {
+function DetailItem({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | null;
+}) {
   if (!value) return null;
 
   return (

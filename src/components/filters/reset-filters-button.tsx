@@ -10,24 +10,24 @@
  * Use forceShow to always render (e.g., inside a dialog footer).
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
+import { RotateCcw } from "lucide-react";
+import { useQueryStates } from "nuqs";
+import { Button } from "@/components/ui/button";
 import {
-  searchParsers,
+  DISCOVER_OPTIONS,
   discoverParsers,
   NUQS_OPTIONS,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { RotateCcw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+  searchParsers,
+} from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
 // ============================================
 
-export type ResetVariant = 'search' | 'discover';
+export type ResetVariant = "search" | "discover";
 
 export interface ResetFiltersButtonProps {
   variant?: ResetVariant;
@@ -42,12 +42,12 @@ export interface ResetFiltersButtonProps {
 // ============================================
 
 export function ResetFiltersButton({
-  variant = 'search',
+  variant = "search",
   forceShow = false,
   className,
-  label = 'Reset',
+  label = "Reset",
 }: ResetFiltersButtonProps) {
-  return variant === 'discover' ? (
+  return variant === "discover" ? (
     <DiscoverReset className={className} label={label} forceShow={forceShow} />
   ) : (
     <SearchReset className={className} label={label} forceShow={forceShow} />
@@ -70,9 +70,9 @@ function SearchReset({
   const [filters, setFilters] = useQueryStates(searchParsers, NUQS_OPTIONS);
 
   const hasActiveFilters =
-    filters.q !== '' ||
-    filters.type !== 'multi' ||
-    filters.language !== 'en-US' ||
+    filters.q !== "" ||
+    filters.type !== "multi" ||
+    filters.language !== "en-US" ||
     filters.adult !== false ||
     filters.page !== 1;
 
@@ -86,8 +86,8 @@ function SearchReset({
       onClick={() => setFilters(null)}
       disabled={!hasActiveFilters}
       className={cn(
-        'text-gray-400  hover:text-white hover:bg-neutral-800 gap-2',
-        className
+        "text-gray-400  hover:text-white hover:bg-neutral-800 gap-2",
+        className,
       )}
     >
       <RotateCcw className="w-3.5 h-3.5" />
@@ -111,17 +111,17 @@ function DiscoverReset({
 }) {
   const [filters, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
   const hasActiveFilters =
     // Core
     Boolean(filters.withGenres) ||
-    (filters.sortBy !== undefined && filters.sortBy !== 'popularity.desc') ||
-    (filters.language !== undefined && filters.language !== 'en-US') ||
+    (filters.sortBy !== undefined && filters.sortBy !== "popularity.desc") ||
+    (filters.language !== undefined && filters.language !== "en-US") ||
     filters.adult === true ||
     (filters.page !== undefined && filters.page !== 1) ||
-    (typeof filters.minVoteCount === 'number' && filters.minVoteCount > 0) ||
+    (typeof filters.minVoteCount === "number" && filters.minVoteCount > 0) ||
     Boolean(filters.runtime) ||
     // Country + Original Language
     Boolean(filters.withOriginCountry) ||
@@ -131,13 +131,13 @@ function DiscoverReset({
     Boolean(filters.releaseDateLte) ||
     Boolean(filters.firstAirDateGte) ||
     Boolean(filters.firstAirDateLte) ||
-    typeof filters.year === 'number' ||
-    typeof filters.firstAirDateYear === 'number' ||
+    typeof filters.year === "number" ||
+    typeof filters.firstAirDateYear === "number" ||
     // Vote average
-    typeof filters.voteAverageGte === 'number' ||
-    typeof filters.voteAverageLte === 'number' ||
+    typeof filters.voteAverageGte === "number" ||
+    typeof filters.voteAverageLte === "number" ||
     // Network
-    typeof filters.withNetworks === 'number' ||
+    typeof filters.withNetworks === "number" ||
     // Certification
     Boolean(filters.certification);
 
@@ -151,8 +151,8 @@ function DiscoverReset({
       onClick={() => setFilters(null)}
       disabled={!hasActiveFilters}
       className={cn(
-        'text-gray-400 hover:text-white hover:bg-neutral-800 gap-2',
-        className
+        "text-gray-400 hover:text-white hover:bg-neutral-800 gap-2",
+        className,
       )}
     >
       <RotateCcw className="w-3.5 h-3.5" />

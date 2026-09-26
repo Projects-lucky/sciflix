@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { type ReactNode, useEffect, useRef } from "react";
 
 export interface InfinitePage<T> {
   results: T[];
@@ -38,7 +38,7 @@ export function InfiniteScroll<T>({
   className,
   disabled = false,
   manualLoadMore = false,
-  rootMargin = '400px',
+  rootMargin = "400px",
   onItemsChange,
 }: InfiniteScrollProps<T>) {
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -79,7 +79,7 @@ export function InfiniteScroll<T>({
           fetchNextPage();
         }
       },
-      { rootMargin }
+      { rootMargin },
     );
 
     observer.observe(sentinel);
@@ -132,7 +132,7 @@ export function InfiniteScroll<T>({
       <div className="py-16 text-center">
         {errorState ?? (
           <div className="text-red-400 text-sm">
-            {error instanceof Error ? error.message : 'Something went wrong'}
+            {error instanceof Error ? error.message : "Something went wrong"}
           </div>
         )}
       </div>

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import Providers from "@/components/providers";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "@/components/ui/sonner";
-import { VideoProvider } from "@/lib/video/context";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import Providers from "@/components/providers";
+import { ThemeProvider } from "@/components/theme-provider";
 import { GlobalTrailer } from "@/components/trailer/global-trailer";
+import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
+import { VideoProvider } from "@/lib/video/context";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 

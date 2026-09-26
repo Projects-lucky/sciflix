@@ -4,22 +4,19 @@
  * Uses with_origin_country on TMDB discover endpoints
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { ORIGIN_COUNTRY_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { ORIGIN_COUNTRY_OPTIONS } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -36,24 +33,24 @@ export interface OriginCountryFilterProps {
 
 export function OriginCountryFilter({
   className,
-  label = 'Country',
+  label = "Country",
 }: OriginCountryFilterProps) {
   const [{ withOriginCountry }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
-  const currentValue = withOriginCountry || 'all';
+  const currentValue = withOriginCountry || "all";
 
   const handleChange = (value: string) => {
     setFilters({
-      withOriginCountry: value === 'all' ? null : value,
+      withOriginCountry: value === "all" ? null : value,
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor="origin-country-filter"
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"

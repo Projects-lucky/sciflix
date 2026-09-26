@@ -3,55 +3,80 @@
  * Runtime validation for URL search params
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 import {
+  CERTIFICATION_OPTIONS,
+  FILTER_LIMITS,
   LANGUAGE_OPTIONS,
+  NETWORK_OPTIONS,
+  ORIGIN_COUNTRY_OPTIONS,
+  ORIGINAL_LANGUAGE_OPTIONS,
+  RUNTIME_OPTIONS,
   SEARCH_TYPE_OPTIONS,
   SORT_OPTIONS,
   TV_SORT_OPTIONS,
-  VOTE_COUNT_OPTIONS,
-  RUNTIME_OPTIONS,
-  ORIGIN_COUNTRY_OPTIONS,
-  ORIGINAL_LANGUAGE_OPTIONS,
-  NETWORK_OPTIONS,
-  CERTIFICATION_OPTIONS,
-  VOTE_AVERAGE_MIN_OPTIONS,
   VOTE_AVERAGE_MAX_OPTIONS,
-  FILTER_LIMITS,
-} from '@/lib/config/filters.config';
+  VOTE_AVERAGE_MIN_OPTIONS,
+  VOTE_COUNT_OPTIONS,
+} from "@/lib/config/filters.config";
 
 // ============================================
 // EXTRACT VALID VALUES FROM CONFIG
 // ============================================
 
-const VALID_LANGUAGES = LANGUAGE_OPTIONS.map((l) => l.value) as [string, ...string[]];
-const VALID_SEARCH_TYPES = SEARCH_TYPE_OPTIONS.map((t) => t.value) as [string, ...string[]];
+const VALID_LANGUAGES = LANGUAGE_OPTIONS.map((l) => l.value) as [
+  string,
+  ...string[],
+];
+const VALID_SEARCH_TYPES = SEARCH_TYPE_OPTIONS.map((t) => t.value) as [
+  string,
+  ...string[],
+];
 const VALID_SORT_OPTIONS = Array.from(
-  new Set([...SORT_OPTIONS.map((s) => s.value), ...TV_SORT_OPTIONS.map((s) => s.value)])
+  new Set([
+    ...SORT_OPTIONS.map((s) => s.value),
+    ...TV_SORT_OPTIONS.map((s) => s.value),
+  ]),
 ) as [string, ...string[]];
-const VALID_VOTE_COUNTS = VOTE_COUNT_OPTIONS.map((v) => v.value) as [number, ...number[]];
-const VALID_RUNTIMES = RUNTIME_OPTIONS.map((r) => r.value) as [string, ...string[]];
-const VALID_COUNTRIES = ORIGIN_COUNTRY_OPTIONS.map((c) => c.value) as [string, ...string[]];
-const VALID_ORIGINAL_LANGUAGES = ORIGINAL_LANGUAGE_OPTIONS.map((l) => l.value) as [string, ...string[]];
-const VALID_NETWORK_IDS = NETWORK_OPTIONS.map((n) => n.value) as [number, ...number[]];
-const VALID_CERTIFICATIONS = CERTIFICATION_OPTIONS.map((c) => c.value) as [string, ...string[]];
-const VALID_VOTE_AVG_MIN = VOTE_AVERAGE_MIN_OPTIONS.map((v) => v.value) as [number, ...number[]];
-const VALID_VOTE_AVG_MAX = VOTE_AVERAGE_MAX_OPTIONS.map((v) => v.value) as [number, ...number[]];
+const VALID_VOTE_COUNTS = VOTE_COUNT_OPTIONS.map((v) => v.value) as [
+  number,
+  ...number[],
+];
+const VALID_RUNTIMES = RUNTIME_OPTIONS.map((r) => r.value) as [
+  string,
+  ...string[],
+];
+const VALID_COUNTRIES = ORIGIN_COUNTRY_OPTIONS.map((c) => c.value) as [
+  string,
+  ...string[],
+];
+const VALID_ORIGINAL_LANGUAGES = ORIGINAL_LANGUAGE_OPTIONS.map(
+  (l) => l.value,
+) as [string, ...string[]];
+const VALID_NETWORK_IDS = NETWORK_OPTIONS.map((n) => n.value) as [
+  number,
+  ...number[],
+];
+const VALID_CERTIFICATIONS = CERTIFICATION_OPTIONS.map((c) => c.value) as [
+  string,
+  ...string[],
+];
+const VALID_VOTE_AVG_MIN = VOTE_AVERAGE_MIN_OPTIONS.map((v) => v.value) as [
+  number,
+  ...number[],
+];
+const VALID_VOTE_AVG_MAX = VOTE_AVERAGE_MAX_OPTIONS.map((v) => v.value) as [
+  number,
+  ...number[],
+];
 
 // ============================================
 // BASE SCHEMAS
 // ============================================
 
-export const querySchema = z
-  .string()
-  .trim()
-  .max(FILTER_LIMITS.maxQueryLength);
+export const querySchema = z.string().trim().max(FILTER_LIMITS.maxQueryLength);
 
-export const pageSchema = z
-  .number()
-  .int()
-  .min(1)
-  .max(FILTER_LIMITS.maxPages);
+export const pageSchema = z.number().int().min(1).max(FILTER_LIMITS.maxPages);
 
 export const languageSchema = z.enum(VALID_LANGUAGES);
 
@@ -79,11 +104,11 @@ export const runtimeSchema = z.enum(VALID_RUNTIMES);
 /** ISO date string (YYYY-MM-DD) */
 export const isoDateSchema = z
   .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be YYYY-MM-DD')
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD")
   .refine((val) => {
     const date = new Date(val);
     return !isNaN(date.getTime());
-  }, 'Invalid date');
+  }, "Invalid date");
 
 /** Origin country code (ISO 3166-1) */
 export const originCountrySchema = z.enum(VALID_COUNTRIES);
@@ -93,7 +118,10 @@ export const originalLanguageSchema = z.enum(VALID_ORIGINAL_LANGUAGES);
 
 /** Network ID */
 export const networkSchema = z.union(
-  VALID_NETWORK_IDS.map((id) => z.literal(id)) as [z.ZodLiteral<number>, ...z.ZodLiteral<number>[]]
+  VALID_NETWORK_IDS.map((id) => z.literal(id)) as [
+    z.ZodLiteral<number>,
+    ...z.ZodLiteral<number>[],
+  ],
 );
 
 /** Certification code */
@@ -107,9 +135,9 @@ export const voteAverageSchema = z.number().int().min(0).max(10);
 // ============================================
 
 export const searchParamsSchema = z.object({
-  q: querySchema.default(''),
-  type: searchTypeSchema.default('multi'),
-  language: languageSchema.default('en-US'),
+  q: querySchema.default(""),
+  type: searchTypeSchema.default("multi"),
+  language: languageSchema.default("en-US"),
   adult: adultSchema.default(false),
   page: pageSchema.default(1),
 });
@@ -123,13 +151,13 @@ export type SearchParamsSchema = z.infer<typeof searchParamsSchema>;
 export const discoverMovieParamsSchema = z.object({
   // Core filters
   withGenres: z.string().optional(),
-  sortBy: sortSchema.default('popularity.desc'),
+  sortBy: sortSchema.default("popularity.desc"),
   minVoteCount: voteCountSchema.default(0),
-  runtime: z.union([runtimeSchema, z.literal('')]).default(''),
+  runtime: z.union([runtimeSchema, z.literal("")]).default(""),
 
   // Pagination + common
   page: pageSchema.default(1),
-  language: languageSchema.default('en-US'),
+  language: languageSchema.default("en-US"),
   adult: adultSchema.default(false),
 
   // NEW: Country + Original Language
@@ -151,7 +179,9 @@ export const discoverMovieParamsSchema = z.object({
   certification: certificationSchema.optional(),
 });
 
-export type DiscoverMovieParamsSchema = z.infer<typeof discoverMovieParamsSchema>;
+export type DiscoverMovieParamsSchema = z.infer<
+  typeof discoverMovieParamsSchema
+>;
 
 // ============================================
 // DISCOVER TV PARAMS SCHEMA
@@ -160,12 +190,12 @@ export type DiscoverMovieParamsSchema = z.infer<typeof discoverMovieParamsSchema
 export const discoverTVParamsSchema = z.object({
   // Core filters
   withGenres: z.string().optional(),
-  sortBy: sortSchema.default('popularity.desc'),
+  sortBy: sortSchema.default("popularity.desc"),
   minVoteCount: voteCountSchema.default(0),
 
   // Pagination + common
   page: pageSchema.default(1),
-  language: languageSchema.default('en-US'),
+  language: languageSchema.default("en-US"),
   adult: adultSchema.default(false),
 
   // NEW: Country + Original Language
@@ -198,9 +228,9 @@ export function validateSearchParams(input: unknown): SearchParamsSchema {
   if (result.success) return result.data;
 
   return {
-    q: '',
-    type: 'multi',
-    language: 'en-US',
+    q: "",
+    type: "multi",
+    language: "en-US",
     adult: false,
     page: 1,
   };

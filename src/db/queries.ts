@@ -6,15 +6,15 @@
  * Server Actions (src/app/actions/watchlist.ts).
  */
 
-import { eq, and, desc, sql } from 'drizzle-orm';
-import { db } from './index';
+import { and, desc, eq, sql } from "drizzle-orm";
+import { db } from "./index";
 import {
-  watchlistItems,
-  type WatchlistItem,
-  type NewWatchlistItem,
-  type WatchlistStatus,
   type MediaType,
-} from './schema';
+  type NewWatchlistItem,
+  type WatchlistItem,
+  type WatchlistStatus,
+  watchlistItems,
+} from "./schema";
 
 // ============================================
 // READ
@@ -36,16 +36,13 @@ export async function getWatchlist(userId: string): Promise<WatchlistItem[]> {
  */
 export async function getWatchlistByStatus(
   userId: string,
-  status: WatchlistStatus
+  status: WatchlistStatus,
 ): Promise<WatchlistItem[]> {
   return db
     .select()
     .from(watchlistItems)
     .where(
-      and(
-        eq(watchlistItems.userId, userId),
-        eq(watchlistItems.status, status)
-      )
+      and(eq(watchlistItems.userId, userId), eq(watchlistItems.status, status)),
     )
     .orderBy(desc(watchlistItems.addedAt));
 }
@@ -57,7 +54,7 @@ export async function getWatchlistByStatus(
 export async function getWatchlistItem(
   userId: string,
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<WatchlistItem | null> {
   const rows = await db
     .select()
@@ -66,8 +63,8 @@ export async function getWatchlistItem(
       and(
         eq(watchlistItems.userId, userId),
         eq(watchlistItems.tmdbId, tmdbId),
-        eq(watchlistItems.mediaType, mediaType)
-      )
+        eq(watchlistItems.mediaType, mediaType),
+      ),
     )
     .limit(1);
 
@@ -81,7 +78,7 @@ export async function getWatchlistItem(
 export async function isInWatchlist(
   userId: string,
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<boolean> {
   const rows = await db
     .select({ id: watchlistItems.id })
@@ -90,8 +87,8 @@ export async function isInWatchlist(
       and(
         eq(watchlistItems.userId, userId),
         eq(watchlistItems.tmdbId, tmdbId),
-        eq(watchlistItems.mediaType, mediaType)
-      )
+        eq(watchlistItems.mediaType, mediaType),
+      ),
     )
     .limit(1);
 
@@ -121,7 +118,7 @@ export async function getWatchlistCount(userId: string): Promise<number> {
  * Returns the created (or existing) item, or null if something went wrong.
  */
 export async function addToWatchlist(
-  data: NewWatchlistItem
+  data: NewWatchlistItem,
 ): Promise<WatchlistItem | null> {
   const inserted = await db
     .insert(watchlistItems)
@@ -150,7 +147,7 @@ export async function addToWatchlist(
 export async function removeFromWatchlist(
   userId: string,
   tmdbId: number,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): Promise<boolean> {
   const deleted = await db
     .delete(watchlistItems)
@@ -158,8 +155,8 @@ export async function removeFromWatchlist(
       and(
         eq(watchlistItems.userId, userId),
         eq(watchlistItems.tmdbId, tmdbId),
-        eq(watchlistItems.mediaType, mediaType)
-      )
+        eq(watchlistItems.mediaType, mediaType),
+      ),
     )
     .returning({ id: watchlistItems.id });
 
@@ -175,19 +172,19 @@ export async function removeFromWatchlist(
 export async function updateWatchlistStatus(
   id: string,
   userId: string,
-  status: WatchlistStatus
+  status: WatchlistStatus,
 ): Promise<WatchlistItem | null> {
   const updated = await db
     .update(watchlistItems)
     .set({
       status,
-      watchedAt: status === 'watched' ? new Date() : null,
+      watchedAt: status === "watched" ? new Date() : null,
     })
     .where(
       and(
         eq(watchlistItems.id, id),
-        eq(watchlistItems.userId, userId) // ensure user owns the row
-      )
+        eq(watchlistItems.userId, userId), // ensure user owns the row
+      ),
     )
     .returning();
 

@@ -5,22 +5,19 @@
  * Movie only — TV has no age certification on TMDB
  */
 
-'use client';
+"use client";
 
-import { useQueryStates } from 'nuqs';
-import {
-  discoverParsers,
-  DISCOVER_OPTIONS,
-} from '@/lib/search/nuqs-parsers';
-import { CERTIFICATION_OPTIONS } from '@/lib/config/filters.config';
+import { useQueryStates } from "nuqs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { CERTIFICATION_OPTIONS } from "@/lib/config/filters.config";
+import { DISCOVER_OPTIONS, discoverParsers } from "@/lib/search/nuqs-parsers";
+import { cn } from "@/lib/utils";
 
 // ============================================
 // TYPES
@@ -37,24 +34,24 @@ export interface CertificationFilterProps {
 
 export function CertificationFilter({
   className,
-  label = 'Rated',
+  label = "Rated",
 }: CertificationFilterProps) {
   const [{ certification }, setFilters] = useQueryStates(
     discoverParsers,
-    DISCOVER_OPTIONS
+    DISCOVER_OPTIONS,
   );
 
-  const currentValue = certification || 'all';
+  const currentValue = certification || "all";
 
   const handleChange = (value: string) => {
     setFilters({
-      certification: value === 'all' ? null : value,
+      certification: value === "all" ? null : value,
       page: 1,
     });
   };
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <label
         htmlFor="certification-filter"
         className="text-xs text-muted-foreground uppercase tracking-wider whitespace-nowrap"
