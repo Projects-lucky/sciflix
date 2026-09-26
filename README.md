@@ -4,7 +4,7 @@ A modern, full-stack movie and TV discovery platform built with Next.js 16, Cler
 
 [![CI](https://github.com/Projects-lucky/sciflix/actions/workflows/ci.yml/badge.svg)](https://github.com/Projects-lucky/sciflix/actions/workflows/ci.yml)
 
-**Live demo:** [your-vercel-url.vercel.app](https://your-vercel-url.vercel.app)
+**Live demo:** (https://sciflix-flame.vercel.app/)
 
 ![Sciflix Hero](./public/screenshots/hero.png)
 
