@@ -29,6 +29,15 @@
         "useKeyWithClickEvents": "off"
       },
       "suspicious": {
+        "noUnknownAtRules": {
+          "level": "on",
+          "options": {
+            "ignore": [
+              "custom-at-rule",
+              "my-custom-rule"
+            ]
+          }
+        },
         "noArrayIndexKey": "warn",
         "noExplicitAny": "off",
         "noShadowRestrictedNames": "warn"
