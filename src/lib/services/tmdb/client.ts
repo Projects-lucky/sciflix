@@ -137,6 +137,7 @@ export const tmdbClient = {
 
       // Only attach token on the server — client relies on proxy
       if (isServer) {
+        // biome-ignore lint/complexity/useLiteralKeys: initial biome migration
         headers["Authorization"] = `Bearer ${ENV.tmdbAccessToken}`;
       }
 

@@ -7,7 +7,9 @@
 "use client";
 
 import type { TMDBCastMember } from "@/types/tmdb.types";
+// biome-ignore lint/correctness/noUnusedImports: initial biome migration
 import { CastCard, PersonGridCard } from "../person/PersonCardPresets";
+// biome-ignore lint/correctness/noUnusedImports: initial biome migration
 import { PersonCard } from "../person/person-card-context";
 import { CarouselWrapper } from "./carousel-wrapper";
 

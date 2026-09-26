@@ -117,6 +117,7 @@ function Carousel({
         canScrollNext,
       }}
     >
+      {/** biome-ignore lint/a11y/useSemanticElements: initial biome migration */}
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
@@ -156,7 +157,8 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   const { orientation } = useCarousel();
 
   return (
-    <div
+    // biome-ignore lint/a11y/useSemanticElements: initial biome migration
+<div
       role="group"
       aria-roledescription="slide"
       data-slot="carousel-item"
@@ -231,11 +233,11 @@ function CarouselNext({
 }
 
 export {
-  type CarouselApi,
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
   CarouselNext,
+  CarouselPrevious,
   useCarousel,
 };

@@ -30,6 +30,7 @@ export interface SimilarCarouselProps {
 
 export function SimilarCarousel({
   items,
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   mediaType,
   title = "Similar",
   limit = 12,

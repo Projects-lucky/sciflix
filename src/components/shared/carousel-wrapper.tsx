@@ -152,6 +152,7 @@ export function CarouselWrapper<T>({
         <div className="flex items-center justify-center gap-2">
           {items.map((_, i) => (
             <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: initial biome migration
               key={i}
               className={cn(
                 "w-2 h-2 rounded-full transition-all",

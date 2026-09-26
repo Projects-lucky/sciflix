@@ -1,6 +1,7 @@
 "use client";
 
 import { CarouselWrapper } from "@/components/shared/carousel-wrapper";
+// biome-ignore lint/correctness/noUnusedImports: initial biome migration
 import { cn } from "@/lib/utils";
 import type { TrendingItem } from "@/types/trending.types";
 import { HeroCard } from "./hero-card";
@@ -14,8 +15,11 @@ export interface HeroCarouselProps {
 
 export function HeroCarousel({
   items,
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   autoPlay = true,
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   autoPlayInterval = 5000,
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   className,
 }: HeroCarouselProps) {
   if (!items || items.length === 0) {

@@ -22,6 +22,7 @@ interface ErrorPageProps {
 // COMPONENT
 // ============================================
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: initial biome migration
 export default function Error({ error, reset }: ErrorPageProps) {
   useEffect(() => {
     // Log for monitoring (Sentry, Vercel, etc. can hook here later)

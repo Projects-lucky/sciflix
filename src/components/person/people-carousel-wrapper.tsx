@@ -19,6 +19,7 @@ export function PeopleCarousel({
   items,
   title = "Trending People",
   subtitle = "Popular actors and creators this week",
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   variant = "default",
   className,
 }: PeopleCarouselProps) {
@@ -29,6 +30,7 @@ export function PeopleCarousel({
   return (
     <CarouselWrapper
       items={items}
+      // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
       renderItem={(person, index) => (
         <PersonMiniAvatar key={person.id} person={person} />
       )}

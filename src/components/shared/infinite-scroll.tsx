@@ -167,6 +167,7 @@ export function InfiniteScroll<T>({
 
       {manualLoadMore && hasNextPage && !isFetchingNextPage && (
         <div className="flex justify-center py-8">
+          {/** biome-ignore lint/a11y/useButtonType: initial biome migration */}
           <button
             onClick={() => fetchNextPage()}
             className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition-colors"
@@ -189,7 +190,8 @@ function DefaultSkeleton() {
   return (
     <div className="m-grid gap-4">
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i}>
+        // biome-ignore lint/suspicious/noArrayIndexKey: initial biome migration
+<div key={i}>
           <div className="aspect-2/3 bg-neutral-800 rounded-lg mb-2 animate-pulse" />
           <div className="h-4 bg-neutral-800 rounded w-3/4 mb-1 animate-pulse" />
           <div className="h-3 bg-neutral-800 rounded w-1/2 animate-pulse" />
@@ -203,7 +205,8 @@ function DefaultNextPageSkeleton() {
   return (
     <div className="m-grid gap-4">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i}>
+        // biome-ignore lint/suspicious/noArrayIndexKey: initial biome migration
+<div key={i}>
           <div className="aspect-2/3 bg-neutral-800 rounded-lg mb-2 animate-pulse" />
           <div className="h-4 bg-neutral-800 rounded w-3/4 mb-1 animate-pulse" />
         </div>

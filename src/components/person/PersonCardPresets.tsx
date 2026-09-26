@@ -56,15 +56,13 @@ export function PersonListRow({
         <PersonCard.ImageWrapper className="w-16 h-16 shrink-0 rounded-full ring-2 ring-transparent group-hover:ring-blue-500 transition-all">
           <PersonCard.Image sizes="64px" className="rounded-full" />
         </PersonCard.ImageWrapper>
-        
+
         <PersonCard.Info className="flex-1 min-w-0">
           <PersonCard.Name className="text-base font-bold text-white" />
           <PersonCard.KnownFor className="text-sm text-neutral-400 mt-0.5" />
         </PersonCard.Info>
-        
-        <ChevronRight
-          className="w-5 h-5 text-neutral-600 shrink-0 group-hover:text-white group-hover:translate-x-1 transition-all"
-        />
+
+        <ChevronRight className="w-5 h-5 text-neutral-600 shrink-0 group-hover:text-white group-hover:translate-x-1 transition-all" />
       </PersonCard.Container>
     </PersonCard>
   );

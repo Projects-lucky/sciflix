@@ -41,6 +41,7 @@ export interface TVDetailProps {
 function formatDate(dateStr: string | null | undefined): string | null {
   if (!dateStr) return null;
   const date = new Date(dateStr);
+  // biome-ignore lint/suspicious/noGlobalIsNan: initial biome migration
   if (isNaN(date.getTime())) return null;
   return date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -54,6 +55,7 @@ function getCreator(tv: TMDBTVDetail): string | null {
   return tv.created_by.map((c) => c.name).join(", ");
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 function getTrailerKey(videos?: TMDBVideosResponse): string | null {
   if (!videos?.results) return null;
 

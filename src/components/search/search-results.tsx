@@ -14,6 +14,7 @@ import type { TMDBPerson } from "@/types/person.types";
 import type { TMDBTV } from "@/types/tv.types";
 import { MovieCard } from "../movie/movie-card";
 import { PersonGridCard } from "../person/PersonCardPresets";
+// biome-ignore lint/correctness/noUnusedImports: initial biome migration
 import { PersonCard } from "../person/person-card-context";
 import { SearchEmpty } from "./search-empty";
 

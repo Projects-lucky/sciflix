@@ -15,6 +15,7 @@ export interface HomePageProps {
 }
 
 export function HomePage({ data, className }: HomePageProps) {
+  // biome-ignore lint/correctness/noUnusedVariables: initial biome migration
   const { hero, people, movieGenreSections, tvGenreSections, metadata } = data;
 
   const hasHero = hero?.items?.length > 0;

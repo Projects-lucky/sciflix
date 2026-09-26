@@ -13,6 +13,7 @@ export default defineConfig({
   schema: "./src/db/schema.ts", // Drizzle uses TypeScript schemas
   dialect: "postgresql",
   dbCredentials: {
+    // biome-ignore lint/style/noNonNullAssertion: initial biome migration
     url: process.env.DATABASE_URL!,
   },
 });

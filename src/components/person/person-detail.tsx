@@ -59,6 +59,7 @@ export interface PersonDetailProps {
 function formatDate(dateStr: string | null): string | null {
   if (!dateStr) return null;
   const date = new Date(dateStr);
+  // biome-ignore lint/suspicious/noGlobalIsNan: initial biome migration
   if (isNaN(date.getTime())) return null;
 
   return date.toLocaleDateString("en-US", {

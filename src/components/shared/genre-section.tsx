@@ -17,6 +17,7 @@ export interface GenreSectionProps {
 export function GenreSection({
   genreId,
   genreName,
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: initial biome migration
   mediaType,
   items = [], // Default to empty array
   className,
@@ -26,6 +27,7 @@ export function GenreSection({
     return null;
   }
 
+  // biome-ignore lint/correctness/noUnusedVariables: initial biome migration
   const displayName = genreName || getGenreNameById(genreId);
 
   return (

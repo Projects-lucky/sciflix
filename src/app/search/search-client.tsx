@@ -41,6 +41,7 @@ function isMovie(item: SearchResultItem): item is TMDBMovie {
   return "title" in item;
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 function isTV(item: SearchResultItem): item is TMDBTV {
   return "name" in item && "first_air_date" in item;
 }
@@ -49,6 +50,7 @@ function isPerson(item: SearchResultItem): item is TMDBPerson {
   return "known_for" in item;
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 function getMediaType(item: SearchResultItem): "movie" | "tv" {
   if (item.media_type === "movie" || item.media_type === "tv") {
     return item.media_type;

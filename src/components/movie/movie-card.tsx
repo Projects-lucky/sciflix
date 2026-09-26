@@ -50,7 +50,6 @@ export interface MovieCardProps {
   showWatchlistButton?: boolean;
   className?: string;
   priority?: boolean;
-  onClick?: () => void;
 }
 
 // ============================================
@@ -154,7 +153,6 @@ export function MovieCard({
   showWatchlistButton = true,
   className,
   priority = false,
-  onClick,
 }: MovieCardProps) {
   const mediaType = getMediaType(item);
 
@@ -205,7 +203,6 @@ export function MovieCard({
         v.gap,
         className,
       )}
-      onClick={onClick}
     >
       {/*
         Poster container:
@@ -298,7 +295,6 @@ export function MovieCard({
               "transition-opacity duration-200",
               "opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100",
             )}
-            onClick={(e) => e.stopPropagation()}
           >
             <WatchlistButton
               tmdbId={item.id}

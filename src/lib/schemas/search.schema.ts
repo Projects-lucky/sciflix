@@ -38,6 +38,7 @@ const VALID_SORT_OPTIONS = Array.from(
     ...TV_SORT_OPTIONS.map((s) => s.value),
   ]),
 ) as [string, ...string[]];
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 const VALID_VOTE_COUNTS = VOTE_COUNT_OPTIONS.map((v) => v.value) as [
   number,
   ...number[],
@@ -61,10 +62,12 @@ const VALID_CERTIFICATIONS = CERTIFICATION_OPTIONS.map((c) => c.value) as [
   string,
   ...string[],
 ];
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 const VALID_VOTE_AVG_MIN = VOTE_AVERAGE_MIN_OPTIONS.map((v) => v.value) as [
   number,
   ...number[],
 ];
+// biome-ignore lint/correctness/noUnusedVariables: initial biome migration
 const VALID_VOTE_AVG_MAX = VOTE_AVERAGE_MAX_OPTIONS.map((v) => v.value) as [
   number,
   ...number[],
@@ -107,6 +110,7 @@ export const isoDateSchema = z
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD")
   .refine((val) => {
     const date = new Date(val);
+    // biome-ignore lint/suspicious/noGlobalIsNan: initial biome migration
     return !isNaN(date.getTime());
   }, "Invalid date");
 
