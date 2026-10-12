@@ -58,19 +58,6 @@ A modern, full-stack movie and TV discovery platform built with Next.js 16, Cler
 | **Data source** | [TMDB API v3](https://developers.themoviedb.org/3) |
 | **Deployment** | [Vercel](https://vercel.com) |
 
----
-
-## 📸 Screenshots
-
-| Home | Movie Detail |
-|------|--------------|
-| ![Home](./public/screenshots/home.png) | ![Detail](./public/screenshots/detail.png) |
-
-| Search | Watchlist |
-|--------|-----------|
-| ![Search](./public/screenshots/search.png) | ![Watchlist](./public/screenshots/watchlist.png) |
-
----
 
 ## 🚀 Getting Started
 
