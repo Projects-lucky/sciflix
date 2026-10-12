@@ -6,7 +6,7 @@ A modern, full-stack movie and TV discovery platform built with Next.js 16, Cler
 
 **Live demo:** (https://sciflix-flame.vercel.app/)
 
-<img width="1905" height="934" alt="image" src="https://github.com/user-attachments/assets/023f047e-e98a-4f86-a7f7-d6d3108adbb4" />
+<img width="1906" height="940" alt="image" src="https://github.com/user-attachments/assets/d02ccbc5-0f19-437b-8fb8-e804f559ae7c" />
 
 
 
